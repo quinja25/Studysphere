@@ -6,7 +6,7 @@ const Sequelize = require('sequelize');
 const process = require('process');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
+const config = require(__dirname + '/../config/config.js')[env];
 const db = {};
 
 let sequelize;
@@ -27,8 +27,11 @@ fs
     );
   })
   .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
+    const modelDef = require(path.join(__dirname, file));
+    if (typeof modelDef === 'function') {
+      const model = modelDef(sequelize, Sequelize.DataTypes);
+      db[model.name] = model;
+    }
   });
 
 Object.keys(db).forEach(modelName => {

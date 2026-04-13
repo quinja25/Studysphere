@@ -1,81 +1,154 @@
-.navbar {
+.main {
+    min-height: 100vh;
+    background-color: #f5f7fa;
     display: flex;
-    height: 60px;
+    flex-direction: column;
+}
+
+.navBar {
     width: 100%;
-
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
-}
-
-.logo {
-    height: 34px;
-    margin-top: 13px;
-    margin-left: 13px;
-}
-
-.button {
-    margin-left: auto;
-    margin-right: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 13px;
-    height: 30px;
-    width: 200px;
-    border: 0.16rem solid;
-    border-radius: 10px;
-    text-align: center;
-
-    font-weight: 700;
-
-    color: black;
-    text-decoration: none;
-
-}
-
-.button:hover {
-    background-color: #d7d6d6;
 }
 
 .loginBox {
-    background-color: #d9d9d9;
-    width: 60vmin;
-    height: 80vmin;
-    margin: auto;
-    margin-top: 6vmin;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 10px 20px 0 rgba(0, 0, 0, 0.19);
+    background-color: white;
+    width: 100%;
+    max-width: 420px;
+    margin: 60px auto;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .biglogo {
-    margin-top: 90px;
-    height: 16vmin;
+    margin-top: 0;
+    margin-bottom: 30px;
+    height: 50px;
+    width: auto;
 }
 
 .logbutton {
+    width: 100%;
     display: flex;
-    margin-top: 100px;
-    align-items: center;
     justify-content: center;
+    margin-top: 0;
 }
 
 .google-login-button {
-    margin-top: 60px;
-    height: 60px;
-    width: 300px;
-    font-size: 20px;
-    font-weight: 550;
-    background-color: #fcfcfc;
-    border: 2px solid black;
-    border-radius: 30px;
+    width: 100%;
+    height: 45px;
+    font-size: 1rem;
+    font-weight: 500;
+    background-color: white;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    color: #3c4043;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
 
 .google-login-button:hover {
-    background-color: white;
-    /* White background on hover */
-    transform: translateY(-5px);
-    /* Green text */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    /* Shadow effect */
+    background-color: #f8f9fa;
+    border-color: #d2e3fc;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    transform: none;
+}
+
+.credential-login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+}
+
+.login-input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.login-input:focus {
+    border-color: #4a90e2;
+    outline: none;
+}
+
+.login-submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.login-submit-btn:hover {
+    background-color: #357ae8;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    margin: 25px 0;
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+.divider span {
+    padding: 0 10px;
+}
+
+.forgot-password-link {
+    margin-top: 8px;
+    text-align: right;
+    font-size: 0.85rem;
+}
+
+.forgot-password-link a {
+    color: #4a90e2;
+    text-decoration: none;
+}
+
+.forgot-password-link a:hover {
+    text-decoration: underline;
+}
+
+.register-link {
+    margin-top: 25px;
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.register-link a {
+    color: #4a90e2;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
 }

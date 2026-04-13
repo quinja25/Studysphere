@@ -13,11 +13,6 @@ const green = '#35c458';
 
 export const Timer = () => {
 
-    const playNotificationSound = () => {
-        const sound = document.getElementById("notificationSound");
-        sound.play();
-    };
-
     const SettingsInfo = useContext(SettingsContext);
 
     const [isPaused, setIsPaused] = useState(true);

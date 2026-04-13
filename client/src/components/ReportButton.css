@@ -1,0 +1,114 @@
+.report-trigger {
+    background: none;
+    border: 1px solid #ddd;
+    color: #888;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.report-trigger:hover {
+    color: #f44336;
+    border-color: #f44336;
+}
+
+.report-trigger-sm {
+    padding: 2px 6px;
+    font-size: 0.9rem;
+    border: none;
+}
+
+.report-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.report-modal {
+    background: white;
+    border-radius: 14px;
+    padding: 24px;
+    max-width: 420px;
+    width: 90%;
+}
+
+.report-modal h3 {
+    margin: 0 0 16px;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.report-form-field {
+    margin-bottom: 14px;
+}
+
+.report-form-field label {
+    display: block;
+    font-size: 0.82rem;
+    color: #888;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.report-form-field select,
+.report-form-field textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.report-form-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.report-cancel-btn {
+    padding: 8px 16px;
+    background: white;
+    color: #555;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.report-submit-btn {
+    padding: 8px 16px;
+    background: #f44336;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.report-submit-btn:hover {
+    background: #d32f2f;
+}
+
+.report-submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.report-success {
+    text-align: center;
+    padding: 20px;
+    color: #4caf50;
+    font-weight: 600;
+}

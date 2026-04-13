@@ -1,0 +1,879 @@
+/* ── AI Assistant Sidebar ── */
+@keyframes ai-slide-in {
+    from { transform: translateX(100%); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
+}
+
+.ai-sidebar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 380px;
+    background: white;
+    border-left: 1px solid #e1e4e8;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.05);
+    z-index: 11;
+    animation: ai-slide-in 0.25s ease;
+}
+
+.ai-sidebar-header {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.ai-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ai-header-left h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.ai-sparkle {
+    font-size: 1.2rem;
+}
+
+/* Header text block (title + subject tag) */
+.ai-header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.ai-subject-tag {
+    font-size: 0.68rem;
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 10px;
+    padding: 1px 8px;
+    opacity: 0.9;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Header action buttons (clear + close) */
+.ai-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.ai-icon-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.ai-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+/* ── Credits bar (below header) ── */
+.ai-credits-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: #f9fafb;
+    border-bottom: 1px solid #eee;
+}
+
+.ai-credits-bar {
+    flex: 1;
+    height: 5px;
+    background: #e5e7eb;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.ai-credits-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease, background 0.5s ease;
+}
+
+.ai-credits-text {
+    font-size: 0.68rem;
+    color: #888;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* ── Messages Area ── */
+.ai-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #f9fafb;
+}
+
+.ai-message {
+    display: flex;
+    flex-direction: column;
+    max-width: 90%;
+    animation: ai-fade-in 0.3s ease;
+}
+
+@keyframes ai-fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.ai-message.user {
+    align-self: flex-end;
+}
+
+.ai-message.assistant {
+    align-self: flex-start;
+}
+
+.ai-message-sender {
+    font-size: 0.7rem;
+    color: #888;
+    margin-bottom: 3px;
+    padding: 0 4px;
+}
+
+.ai-message-bubble {
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    position: relative;
+    word-wrap: break-word;
+}
+
+.ai-message.user .ai-message-bubble {
+    background: #4a90e2;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.ai-message.assistant .ai-message-bubble {
+    background: white;
+    color: #333;
+    border: 1px solid #e1e4e8;
+    border-bottom-left-radius: 4px;
+}
+
+.ai-copy-btn {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: none;
+    border: none;
+    font-size: 0.85rem;
+    cursor: pointer;
+    color: #aaa;
+    opacity: 0;
+    transition: opacity 0.2s, color 0.2s, background 0.2s;
+    padding: 4px 6px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ai-message-bubble:hover .ai-copy-btn {
+    opacity: 1;
+}
+
+.ai-copy-btn:hover {
+    color: #333;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.ai-copy-btn.copied {
+    opacity: 1;
+    color: #27ae60;
+}
+
+/* ── Thinking Animation ── */
+.ai-thinking {
+    align-self: flex-start;
+    display: flex;
+    gap: 4px;
+    padding: 12px 16px;
+    background: white;
+    border: 1px solid #e1e4e8;
+    border-radius: 14px;
+    border-bottom-left-radius: 4px;
+}
+
+.ai-thinking-dot {
+    width: 8px;
+    height: 8px;
+    background: #b0b0b0;
+    border-radius: 50%;
+    animation: ai-bounce 1.4s ease-in-out infinite;
+}
+
+.ai-thinking-dot:nth-child(2) { animation-delay: 0.2s; }
+.ai-thinking-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes ai-bounce {
+    0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+    40% { transform: scale(1); opacity: 1; }
+}
+
+/* ── Input Area ── */
+.ai-input-area {
+    padding: 12px 15px;
+    border-top: 1px solid #eee;
+    background: white;
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+}
+
+.ai-input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    outline: none;
+    resize: none;
+    max-height: 100px;
+    font-family: inherit;
+    line-height: 1.4;
+    transition: border-color 0.2s;
+}
+
+.ai-input:focus {
+    border-color: #667eea;
+}
+
+.ai-input::placeholder {
+    color: #aaa;
+}
+
+.ai-send-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: transform 0.2s, opacity 0.2s;
+    flex-shrink: 0;
+}
+
+.ai-send-btn:hover:not(:disabled) {
+    transform: scale(1.05);
+}
+
+.ai-send-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ── Empty State ── */
+.ai-empty-state {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    gap: 10px;
+    padding: 30px;
+    text-align: center;
+}
+
+.ai-empty-icon {
+    font-size: 2.5rem;
+    opacity: 0.5;
+}
+
+.ai-empty-state p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.ai-empty-state .ai-hint {
+    font-size: 0.8rem;
+    color: #bbb;
+}
+
+/* ── Error Banner ── */
+.ai-error-banner {
+    padding: 8px 14px;
+    background: #fee;
+    color: #c33;
+    font-size: 0.8rem;
+    border-bottom: 1px solid #fcc;
+    text-align: center;
+}
+
+/* ── Toolbar (Quiz Me button, etc.) ── */
+.ai-toolbar {
+    padding: 6px 15px;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 6px;
+}
+
+.ai-toolbar-btn {
+    background: #f0f0f5;
+    border: 1px solid #e1e4e8;
+    padding: 6px 14px;
+    border-radius: 18px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.ai-toolbar-btn:hover {
+    background: #e8e8f0;
+    border-color: #764ba2;
+    color: #764ba2;
+}
+
+/* ── Quiz Container (shared by setup + cards + results) ── */
+.ai-quiz-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    background: #f9fafb;
+}
+
+/* ── Quiz Setup ── */
+.quiz-setup {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e1e4e8;
+}
+
+.quiz-setup h3 {
+    margin: 0 0 16px;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.quiz-label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: #555;
+    margin-bottom: 14px;
+}
+
+.quiz-input {
+    padding: 9px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.quiz-input:focus {
+    border-color: #667eea;
+}
+
+.quiz-diff-pills {
+    display: flex;
+    gap: 6px;
+}
+
+.quiz-pill {
+    flex: 1;
+    padding: 7px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    font-size: 0.85rem;
+    text-transform: capitalize;
+    transition: all 0.2s;
+}
+
+.quiz-pill.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: transparent;
+}
+
+.quiz-setup-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+/* ── Quiz Buttons ── */
+.quiz-btn {
+    padding: 9px 18px;
+    border-radius: 8px;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.quiz-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.quiz-btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    flex: 1;
+}
+
+.quiz-btn-primary:hover:not(:disabled) {
+    transform: scale(1.02);
+}
+
+.quiz-btn-secondary {
+    background: #f0f0f5;
+    color: #333;
+    border: 1px solid #e1e4e8;
+}
+
+.quiz-btn-ghost {
+    background: none;
+    color: #888;
+}
+
+.quiz-btn-ghost:hover {
+    color: #333;
+}
+
+/* ── Quiz Card ── */
+.quiz-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e1e4e8;
+    animation: ai-fade-in 0.3s ease;
+}
+
+.quiz-progress {
+    font-size: 0.78rem;
+    color: #888;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.quiz-difficulty-tag {
+    background: #f0f0f5;
+    padding: 2px 10px;
+    border-radius: 10px;
+    text-transform: capitalize;
+    font-weight: 600;
+}
+
+.quiz-question {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #222;
+    line-height: 1.5;
+    margin: 0 0 16px;
+}
+
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.quiz-option {
+    padding: 11px 14px;
+    border: 2px solid #e1e4e8;
+    border-radius: 10px;
+    background: white;
+    text-align: left;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 1.4;
+}
+
+.quiz-option:hover:not(:disabled) {
+    border-color: #667eea;
+    background: #f8f7ff;
+}
+
+.quiz-option.selected {
+    border-color: #667eea;
+    background: #f0edff;
+}
+
+.quiz-option.correct {
+    border-color: #27ae60;
+    background: #e8f8ef;
+    color: #1a7a42;
+}
+
+.quiz-option.wrong {
+    border-color: #e74c3c;
+    background: #fdf0ef;
+    color: #b33025;
+}
+
+.quiz-explanation {
+    padding: 10px 14px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    font-size: 0.83rem;
+    color: #78590a;
+    line-height: 1.5;
+    margin-bottom: 14px;
+}
+
+.quiz-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* ── Quiz Results ── */
+.quiz-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex: 1;
+    gap: 8px;
+    animation: ai-fade-in 0.4s ease;
+}
+
+.quiz-results-icon {
+    font-size: 3rem;
+}
+
+.quiz-results h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #333;
+}
+
+.quiz-score-ring {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    margin: 6px 0;
+}
+
+.quiz-score-num {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #667eea;
+}
+
+.quiz-score-sep {
+    font-size: 1.5rem;
+    color: #aaa;
+}
+
+.quiz-score-den {
+    font-size: 1.5rem;
+    color: #888;
+}
+
+.quiz-score-label {
+    font-size: 0.95rem;
+    color: #666;
+    margin: 0;
+}
+
+.quiz-results-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+    width: 100%;
+    max-width: 260px;
+}
+
+/* ── Markdown renderer ── */
+.ai-markdown {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+.ai-md-p {
+    margin: 0 0 8px;
+}
+
+.ai-md-p:last-child {
+    margin-bottom: 0;
+}
+
+.ai-md-heading {
+    margin: 10px 0 6px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #222;
+}
+
+.ai-md-list {
+    margin: 6px 0 8px 18px;
+    padding: 0;
+}
+
+.ai-md-list li {
+    margin-bottom: 4px;
+    line-height: 1.5;
+}
+
+.ai-inline-code {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    background: #f0f0f5;
+    color: #764ba2;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 0.85em;
+}
+
+.ai-code-block {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 8px 0;
+    overflow-x: auto;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    white-space: pre;
+}
+
+.ai-code-block code {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    background: none;
+    padding: 0;
+}
+
+/* ── Suggested prompts (empty state) ── */
+.ai-suggested-prompts {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-top: 6px;
+}
+
+.ai-prompt-chip {
+    background: white;
+    border: 1px solid #e1e4e8;
+    border-radius: 10px;
+    padding: 9px 14px;
+    font-size: 0.85rem;
+    color: #555;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+    line-height: 1.4;
+}
+
+.ai-prompt-chip:hover {
+    border-color: #764ba2;
+    background: #f8f4ff;
+    color: #764ba2;
+}
+
+/* ── Document Panel ── */
+.ai-doc-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.ai-doc-panel-header h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+.ai-doc-upload-toggle {
+    width: 100%;
+    padding: 8px 0;
+    border: 1px dashed #bbb;
+    border-radius: 8px;
+    background: none;
+    color: #667eea;
+    font-size: 0.85rem;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: all 0.15s;
+}
+
+.ai-doc-upload-toggle:hover { border-color: #667eea; background: #f8f4ff; }
+
+.ai-doc-upload-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.ai-doc-file-label {
+    padding: 8px 12px;
+    border: 1px dashed #bbb;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    color: #666;
+    cursor: pointer;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: all 0.15s;
+}
+
+.ai-doc-file-label:hover { border-color: #667eea; color: #667eea; }
+
+.ai-doc-upload-error {
+    font-size: 0.78rem;
+    color: #e74c3c;
+    margin: 0;
+}
+
+.ai-doc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.ai-doc-empty {
+    font-size: 0.8rem;
+    color: #aaa;
+    text-align: center;
+    line-height: 1.5;
+    margin: 12px 0;
+}
+
+.ai-doc-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 6px;
+    padding: 8px 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e8e8e8;
+}
+
+.ai-doc-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.ai-doc-type-badge {
+    font-size: 0.64rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #764ba2;
+    background: #f0edff;
+    padding: 1px 6px;
+    border-radius: 6px;
+    align-self: flex-start;
+}
+
+.ai-doc-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 240px;
+}
+
+.ai-doc-subject { font-size: 0.74rem; color: #888; }
+.ai-doc-meta { font-size: 0.68rem; color: #bbb; }
+
+.ai-doc-delete {
+    background: none;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 2px;
+    flex-shrink: 0;
+    transition: color 0.15s;
+}
+
+.ai-doc-delete:hover { color: #e74c3c; }
+
+/* ── Source chips ── */
+.ai-sources {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+    margin-top: 6px;
+    padding: 0 2px;
+}
+
+.ai-sources-label {
+    font-size: 0.68rem;
+    color: #999;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+}
+
+.ai-source-chip {
+    font-size: 0.72rem;
+    background: #f0edff;
+    color: #764ba2;
+    border: 1px solid #d8d0f5;
+    border-radius: 10px;
+    padding: 2px 9px;
+    white-space: nowrap;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: default;
+}

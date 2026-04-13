@@ -1,112 +1,69 @@
-.navbar {
-    background-color: white;
+.main-navbar {
     display: flex;
-    position: fixed;
-    /* Fixed position */
-    top: 0;
-    /* Stick to the top */
-    left: 0;
+    justify-content: space-between;
+    align-items: center;
     height: 60px;
     width: 100%;
-    z-index: 10;
-    opacity: 1;
-
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    box-sizing: border-box;
 }
 
-.logo {
-    height: 34px;
-    margin-top: 13px;
-    margin-left: 13px;
-}
-
-.buttons {
-    margin-left: auto;
-    margin-right: 20px;
-    align-items: center;
-    justify-content: center;
+.navbar-logo-container {
     display: flex;
-    flex-direction: row;
-    font-size: 30px;
-    gap: 10px;
-}
-
-.buttons a {
-    color: black;
+    align-items: center;
     text-decoration: none;
+    color: inherit;
 }
 
-.buttons a :hover {
-
-    color: #FC0;
+.navbar-logo {
+    height: 34px;
 }
 
-.logout-button {
-    background-color: white;
-    width: 90px;
-    height: 30px;
+.navbar-logo-text {
+    font-size: 22px;
+    font-weight: bold;
+    margin-left: 10px;
+    color: #333;
+}
+
+.navbar-links {
     display: flex;
-    justify-content: center;
     align-items: center;
-    border: 2px solid black;
-    border-radius: 15px;
-    font-size: 15px;
-    font-weight: 800;
-    /* margin-right: 5px; */
+    gap: 20px;
 }
 
-.create-button {
-    background-color: white;
-    width: 170px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid black;
-    border-radius: 15px;
-    font-size: 15px;
-    font-weight: 800;
-    margin-right: 5px;
+.navbar-link {
+    text-decoration: none;
+    color: #555;
+    font-weight: 600;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
 }
 
-.logout-button:hover {
-    color: #FC0;
-    border: 2px solid #FC0;
+.navbar-link:hover {
+    background-color: #f0f0f0;
+    color: #333;
 }
 
-.create-button:hover {
-    color: #FC0;
-    border: 2px solid #FC0;
+.navbar-button {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-.logout-button,
-.create-button {
-    background-color: white;
-    width: auto;
-    /* Changed from fixed width to auto */
-    height: 30px;
-    padding: 0 10px;
-    /* Add padding for better spacing */
-    display: inline-flex;
-    /* Use inline-flex instead of flex */
-    justify-content: center;
-    align-items: center;
-    border: 2px solid black;
-    border-radius: 15px;
-    font-size: 15px;
-    font-weight: 800;
-    margin-right: 5px;
-    white-space: nowrap;
-    /* Prevents text wrapping */
-    overflow: hidden;
-    /* Hide overflowing text */
-    text-overflow: ellipsis;
-    /* Add ellipsis if text overflows */
+.navbar-button:hover {
+    background-color: #357ae8;
 }
 
-.logout-button:hover,
-.create-button:hover {
-    color: #FC0;
-    border: 2px solid #FC0;
+.navbar-admin-link {
+    color: #f44336 !important;
+    font-weight: 700 !important;
 }

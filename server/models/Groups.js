@@ -20,6 +20,20 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true,
         },
+        isPublic: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: true
+        },
+        password: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+        maxParticipants: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 10
+        },
         // public: {
         //     type: DataTypes.BOOLEAN,
         //     allowNull: false
@@ -34,11 +48,8 @@ module.exports = (sequelize, DataTypes) => {
         Groups.hasMany(models.Chats, {
             onDelete: 'cascade',
         });
+        Groups.belongsToMany(models.Users, { through: models.UserGroup });
     };
 
-    Groups.associate = (models) => {
-        Groups.hasMany(models.Users, {});
-    };
-    
     return Groups;
 };

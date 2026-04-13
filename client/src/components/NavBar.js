@@ -1,37 +1,59 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { googleLogout } from '@react-oauth/google';
 import Logo from '../Logo1.svg';
 import './NavBar.css';
-import { SlHome } from "react-icons/sl";
-import { SlCompass } from "react-icons/sl";
-import { SlBubbles } from "react-icons/sl";
-import { googleLogout } from '@react-oauth/google';
-import { useNavigate } from 'react-router-dom';
-import { SlPlus } from "react-icons/sl";
 
 export const NavBar = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
-    const logOut = () => {
+
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    useEffect(() => {
+        const userData = localStorage.getItem('userData');
+        setIsLoggedIn(!!userData);
+        if (userData) {
+            try {
+                const parsed = JSON.parse(userData);
+                setIsAdmin(!!parsed.isAdmin);
+            } catch (e) {}
+        }
+    }, []);
+
+    const handleLogout = () => {
         googleLogout();
+        localStorage.removeItem('userData');
+        setIsLoggedIn(false);
         navigate('/');
-        //setProfile(null);
     };
-    const create = () => {
-        navigate('/creategroup');
-        //setProfile(null);
-    };
+
+    const logoLink = isLoggedIn ? '/lobby' : '/';
+
     return (
-        <div className='navbar'>
-            <img className='logo' src={Logo} alt="" />
+        <div className='main-navbar'>
+            <Link to={logoLink} className="navbar-logo-container">
+                <img className='navbar-logo' src={Logo} alt="StudySphere Logo" />
+            </Link>
 
-            <div className='buttons'>
-                <button className='logout-button' onClick={logOut}>Log Out</button>
-                <button className='logout-button' onClick={create}>Create Group</button>
-
-                <a href="/dashboard"><SlHome /></a>
-                <a href="/findgroup"><SlCompass /></a>
-                <a href="/chat"><SlBubbles /></a>
+            <div className="navbar-links">
+                {isLoggedIn && (
+                    <>
+                        <Link to="/find-group" className="navbar-link">Find Group</Link>
+                        <Link to="/search-alumni" className="navbar-link">Find Alumni</Link>
+                        <Link to="/marketplace" className="navbar-link">Marketplace</Link>
+                        <Link to="/wiki" className="navbar-link">Wiki</Link>
+                        <Link to="/qa" className="navbar-link">Q&A</Link>
+                        <Link to="/ai-chat" className="navbar-link">AI Chat</Link>
+                        <Link to="/schedule" className="navbar-link">Schedule</Link>
+                        <Link to="/create-group" className="navbar-link">Create Group</Link>
+                        <Link to="/dashboard" className="navbar-link">My Profile</Link>
+                        <Link to="/chat" className="navbar-link">Chat</Link>
+                        {isAdmin && <Link to="/admin" className="navbar-link navbar-admin-link">Admin</Link>}
+                        <button onClick={handleLogout} className="navbar-button">Log Out</button>
+                    </>
+                )}
             </div>
         </div>
-
     );
 }

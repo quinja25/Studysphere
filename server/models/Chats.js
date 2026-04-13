@@ -1,13 +1,25 @@
 module.exports = (sequelize, DataTypes) => {
     const Chats = sequelize.define("Chats", {
-        name: {
+        author: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        text: {
+        message: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        time: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        isPinned: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
         }
+    }, {
+        indexes: [
+            { fields: ['GroupId'] },
+        ],
     })
 
 

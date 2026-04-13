@@ -1,0 +1,210 @@
+.lobby-page {
+    min-height: 100vh;
+    background-color: #f5f7fa;
+    font-family: 'Outfit', sans-serif;
+}
+
+.lobby-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.lobby-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.lobby-header h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.user-name {
+    color: #4a90e2;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #666;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.lobby-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    min-width: 200px;
+}
+
+.lobby-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.create-btn {
+    background-color: #4a90e2;
+    color: white;
+}
+
+.join-btn {
+    background-color: #ffffff;
+    color: #4a90e2;
+    border: 2px solid #4a90e2;
+}
+
+.btn-icon {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.groups-section h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e1e4e8;
+    padding-bottom: 10px;
+}
+
+.groups-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.group-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.group-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-color: #4a90e2;
+}
+
+.group-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.group-card-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #2c3e50;
+    word-break: break-word;
+}
+
+.grade-badge {
+    background-color: #e1f0ff;
+    color: #4a90e2;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-left: 10px;
+}
+
+.group-badges {
+    display: flex;
+    align-items: center;
+}
+
+.host-badge {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-left: 10px;
+    border: 1px solid #ffeeba;
+}
+
+.group-card-body p {
+    margin: 8px 0;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.no-groups-placeholder {
+    text-align: center;
+    padding: 40px;
+    background: #fff;
+    border-radius: 12px;
+    color: #888;
+    border: 2px dashed #e1e4e8;
+}
+
+.context-menu {
+    position: fixed;
+    background-color: white;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 1000;
+    overflow: hidden;
+    min-width: 150px;
+    padding: 5px 0;
+    animation: fadeIn 0.1s ease-out;
+}
+
+.context-menu-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.1s;
+}
+
+.context-menu-item:hover {
+    background-color: #f5f7fa;
+}
+
+.context-menu-item.delete {
+    color: #e74c3c;
+}
+
+.context-menu-item.delete:hover {
+    background-color: #fff5f5;
+}
+
+.streak-reminder-banner {
+    background: linear-gradient(135deg, #fff8e1, #fff3e0);
+    border: 1px solid #ffe0b2;
+    border-radius: 10px;
+    padding: 14px 20px;
+    text-align: center;
+    font-size: 0.95rem;
+    color: #e65100;
+    margin-bottom: -20px;
+}

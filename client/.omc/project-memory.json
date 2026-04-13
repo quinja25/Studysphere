@@ -1,0 +1,189 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1775877717841,
+  "projectRoot": "C:\\Users\\jaeyo\\Projects\\StudySphere\\client",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "react",
+        "version": "18.2.0",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "18.2.0",
+        "category": "frontend"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": "npm test",
+    "lintCommand": null,
+    "devCommand": "npm run start",
+    "scripts": {
+      "start": "set PORT=3002 && react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test",
+      "eject": "react-scripts eject"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": "ES modules",
+    "testPattern": null,
+    "fileOrganization": "type-based"
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "public",
+      "src"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "build": {
+      "path": "build",
+      "purpose": "Build output",
+      "fileCount": 7,
+      "lastAccessed": 1775877717796,
+      "keyFiles": [
+        "asset-manifest.json",
+        "favicon.ico",
+        "index.html",
+        "logo192.png",
+        "logo512.png"
+      ]
+    },
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 6,
+      "lastAccessed": 1775877717797,
+      "keyFiles": [
+        "favicon.ico",
+        "index.html",
+        "logo192.png",
+        "logo512.png",
+        "manifest.json"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 11,
+      "lastAccessed": 1775877717804,
+      "keyFiles": [
+        "api.js",
+        "App.css",
+        "App.js",
+        "App.test.js",
+        "index.css"
+      ]
+    },
+    "build\\static": {
+      "path": "build\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1775877717805,
+      "keyFiles": []
+    },
+    "src\\components": {
+      "path": "src\\components",
+      "purpose": "UI components",
+      "fileCount": 34,
+      "lastAccessed": 1775877717806,
+      "keyFiles": [
+        "AiAssistant.css",
+        "AiAssistant.js",
+        "AmbientSound.css"
+      ]
+    },
+    "src\\pages": {
+      "path": "src\\pages",
+      "purpose": "Page components",
+      "fileCount": 42,
+      "lastAccessed": 1775877717806,
+      "keyFiles": [
+        "AdminDashboard.css",
+        "AdminDashboard.js",
+        "AiChat.css"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "src\\tests\\pages\\Wiki.test.js",
+      "accessCount": 3,
+      "lastAccessed": 1775918499637,
+      "type": "file"
+    },
+    {
+      "path": "src\\tests\\pages\\Group.test.js",
+      "accessCount": 3,
+      "lastAccessed": 1775918791780,
+      "type": "file"
+    },
+    {
+      "path": "src\\tests\\pages\\QABoard.test.js",
+      "accessCount": 2,
+      "lastAccessed": 1775918463587,
+      "type": "file"
+    },
+    {
+      "path": "src\\pages\\Wiki.js",
+      "accessCount": 2,
+      "lastAccessed": 1775918684704,
+      "type": "file"
+    },
+    {
+      "path": "src\\pages\\Group.js",
+      "accessCount": 2,
+      "lastAccessed": 1775918787670,
+      "type": "directory"
+    },
+    {
+      "path": "src\\tests\\components\\AiAssistant.test.js",
+      "accessCount": 2,
+      "lastAccessed": 1775958094706,
+      "type": "file"
+    },
+    {
+      "path": "",
+      "accessCount": 2,
+      "lastAccessed": 1775958149733,
+      "type": "directory"
+    },
+    {
+      "path": "src\\tests\\components\\ConfirmModal.test.js",
+      "accessCount": 1,
+      "lastAccessed": 1775958036435,
+      "type": "file"
+    },
+    {
+      "path": "package.json",
+      "accessCount": 1,
+      "lastAccessed": 1775958143210,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

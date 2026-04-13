@@ -3,7 +3,7 @@ import { NavBar } from "../components/NavBar";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import './CreateGroup.css'
-import axios from 'axios';
+import api from '../api';
 import * as Yup from 'yup';
 import { useLocation } from 'react-router-dom';
 
@@ -31,9 +31,9 @@ export const CreateGroup = () => {
     }, [location.state]);
     const fetchUserId = (email) => {
         if (email) {
-            axios.get(`http://localhost:3001/users/byEmail/${email}`)
+            api.get(`/users/byEmail/${email}`)
                 .then((res) => {
-                    setUserId(res.data.userId);
+                    setUserId(res.data.id);
                 })
                 .catch(error => console.error('Error fetching userId:', error));
         }
@@ -45,7 +45,9 @@ export const CreateGroup = () => {
         subject: "",
         gradeLevel: "",
         leader: "",
-        // leader : userId
+        maxParticipants: "5",
+        isPublic: "true",
+        password: ""
     }
 
     // const onSubmit = (data) => {
@@ -56,12 +58,25 @@ export const CreateGroup = () => {
     // }
     const onSubmit = async (data) => {
         try {
+            if (!userId) {
+                console.error("User ID is missing");
+                return;
+            }
             // Post to create group
-            await axios.post('http://localhost:3001/groups', data);
-            const groupIdResponse = await axios.get('http://localhost:3001/groups/newest');
-            const groupId = groupIdResponse.data.id; // Assuming the response contains the ID of the newest group
+            const payload = {
+                ...data,
+                leader: userId, // Set current user as leader
+                isPublic: data.isPublic === "true",
+                maxParticipants: parseInt(data.maxParticipants, 10)
+            };
+            const response = await api.post('/groups', payload);
+            const groupId = response.data.id;
+
+            if (!groupId) {
+                throw new Error("Group ID not returned from server. Check server/routes/Groups.js");
+            }
             // const userId = "1";
-            await axios.post(`http://localhost:3001/groupsUsers/user/${userId}/group/${groupId}`);
+            await api.post(`/groupsUsers/user/${userId}/group/${groupId}`);
 
             // Navigate
             navigate(`/group/${groupId}`);
@@ -75,54 +90,79 @@ export const CreateGroup = () => {
         major: Yup.string(),
         subject: Yup.string(),
         gradeLevel: Yup.string(),
-        leader: Yup.string()
+        leader: Yup.string(),
+        maxParticipants: Yup.number().typeError('Must be a number').min(2, "At least 2 participants").required("Required"),
+        isPublic: Yup.string().required(),
+        password: Yup.string().when('isPublic', {
+            is: "false",
+            then: () => Yup.string().required('Password is required for private groups'),
+            otherwise: () => Yup.string().notRequired()
+        })
     })
 
     return (
-        <div>
-            <div className='navBar'>
-                <NavBar />
-            </div>
-            <h2 className='createGroupTitle'>Create Group</h2>
-            <div className='createGroupContainer'>
+        <div className="create-group-page">
+            <NavBar />
+            <div className="create-group-container">
+                <h2 className="page-title">Create Study Room</h2>
                 <Formik
                     initialValues={initialValues}
                     onSubmit={onSubmit}
                     validationSchema={validationSchema}>
-                    <Form>
-                        <div className="formField">
-                            <label>Group Name: </label>
-                            <ErrorMessage name='groupName' component='span' />
-                            <Field
-                                id='inputCreateGroup'
-                                name='groupName'
-                                placeholder='ex. CSE Group...'
-                            />
-                            <br />
-                            <label>Major: </label>
-                            <Field
-                                id='inputCreateGroup'
-                                name='major'
-                                placeholder='ex. Computer Science...'
-                            />
-                            <br />
-                            <label>Subject: </label>
-                            <Field
-                                id='inputCreateGroup'
-                                name='subject'
-                                placeholder='ex. CSE 100...'
-                            />
-                            <br />
-                            <label>Grade Level: </label>
-                            <Field
-                                id='inputCreateGroup'
-                                name='gradeLevel'
-                                placeholder='ex. Sophomore...'
-                            />
-                            <br />
-                            <button className='create-button' type='submit'>Create</button>
-                        </div>
-                    </Form>
+                    {({ values }) => (
+                        <Form>
+                            <div className="form-group">
+                                <label>Group Name</label>
+                                <Field className="form-input" name="groupName" placeholder="e.g. Calculus 101 Study Group" />
+                                <ErrorMessage name="groupName" component="span" className="error-message" />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Major</label>
+                                <Field className="form-input" name="major" placeholder="e.g. Computer Science" />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Subject</label>
+                                <Field className="form-input" name="subject" placeholder="e.g. Mathematics" />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Grade Level</label>
+                                <Field className="form-input" name="gradeLevel" placeholder="e.g. Sophomore" />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Max Participants</label>
+                                <Field className="form-input" type="number" name="maxParticipants" placeholder="e.g. 5" />
+                                <ErrorMessage name="maxParticipants" component="span" className="error-message" />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Privacy</label>
+                                <div className="radio-group">
+                                    <label className="radio-label">
+                                        <Field type="radio" name="isPublic" value="true" />
+                                        Public
+                                    </label>
+                                    <label className="radio-label">
+                                        <Field type="radio" name="isPublic" value="false" />
+                                        Private
+                                    </label>
+                                </div>
+                            </div>
+
+                            {values.isPublic === "false" && (
+                                <div className="form-group">
+                                    <label>Room Password</label>
+                                    <Field className="form-input" type="password" name="password" placeholder="Set a password" />
+                                    <ErrorMessage name="password" component="span" className="error-message" />
+                                </div>
+                            )}
+
+                            <button className="submit-btn" type="submit">Create Room</button>
+                        </Form>
+                    )}
                 </Formik>
             </div>
         </div>

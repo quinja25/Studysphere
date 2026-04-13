@@ -1,35 +1,848 @@
-.userListTitle{
-    margin: 10px;
-    margin-top: 50px;
-    margin-left: 20px;
+.group-page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f7fa;
 }
 
-.userListContainer{
-    width: 100px;
-    margin-left: 10px;
+.group-main-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.timer-section {
+    background: white;
+    padding: 15px 25px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 10px;
+}
+
+.timer-display {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.timer-display.break {
+    color: #27ae60;
+}
+
+.timer-icon {
+    color: #4a90e2;
+}
+
+.mode-text {
+    font-size: 0.9rem;
+    background: #f0f2f5;
+    padding: 4px 10px;
+    border-radius: 15px;
+    color: #666;
+    text-transform: uppercase;
+}
+
+.timer-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.timer-input {
+    width: 60px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    text-align: center;
+}
+
+.timer-btn {
+    background: #4a90e2;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.timer-btn.stop {
+    background: #e74c3c;
+}
+
+.timer-btn:hover {
+    opacity: 0.9;
+}
+
+.video-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    transition: margin-right 0.3s ease;
+}
+
+.video-container.with-chat,
+.video-container.with-whiteboard,
+.video-container.with-ai {
+    margin-right: 420px;
+}
+
+.video-wrapper {
+    flex: 1;
+    background: #000;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.video-wrapper:fullscreen {
+    border-radius: 0;
+}
+
+/* ── Video grid ── */
+/* Tiles fill the wrapper in a responsive grid.
+   CSS class on the grid changes column count based on participant count. */
+.video-grid {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    gap: 4px;
+    /* Default: 1 column (solo) */
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+}
+
+/* 2 participants → side by side */
+.video-grid.participants-2 {
+    grid-template-columns: 1fr 1fr;
+}
+
+/* 3–4 participants → 2×2 */
+.video-grid.participants-3,
+.video-grid.participants-4 {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+/* 5–6 → 3×2 */
+.video-grid.participants-5,
+.video-grid.participants-6 {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+/* 7–9 → 3×3 */
+.video-grid.participants-7,
+.video-grid.participants-8,
+.video-grid.participants-9 {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+/* 10+ → 4 columns, auto rows */
+.video-grid.participants-many {
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 1fr;
+}
+
+.video-tile {
+    position: relative;
+    background: #1a1a2e;
+    overflow: hidden;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0; /* prevent grid blowout */
+}
+
+.video-feed {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-feed.hidden {
+    display: none;
+}
+
+.video-name-label {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    color: #fff;
+    font-size: 0.78rem;
+    background: rgba(0, 0, 0, 0.55);
+    padding: 2px 8px;
+    border-radius: 10px;
+    pointer-events: none;
+}
+
+.muted-indicator {
+    opacity: 0.7;
+}
+
+/* Quality badge is relative to the tile, not the whole wrapper */
+.video-tile .quality-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+.camera-placeholder {
+    color: white;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: #2c3e50;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.call-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px 20px;
+    border-radius: 30px;
+    backdrop-filter: blur(5px);
+}
+
+.control-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
+}
+
+.control-btn.active {
+    background: #4a90e2; /* Active state color (e.g. muted or chat open) */
+    color: white;
+}
+
+.control-btn.ai-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.control-btn.leave-btn {
+    background: #e74c3c;
+}
+
+.control-btn.leave-btn:hover {
+    background: #c0392b;
+}
+
+.participants-section {
+    height: 140px;
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.participants-section h3 {
+    margin: 0 0 10px 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+.participants-list {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    flex: 1;
+    align-items: center;
+}
+
+.participant-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+}
+
+.participant-avatar {
+    width: 50px;
+    height: 50px;
+    background: #e1f0ff;
+    color: #4a90e2;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.participant-name {
+    font-size: 0.85rem;
+    color: #555;
+    margin: 0;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.group-chat-sidebar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 350px;
+    background: white;
+    border-left: 1px solid #e1e4e8;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.05);
+    z-index: 10;
+}
+
+.chat-sidebar-header {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+}
+
+.chat-sidebar-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.close-chat-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-chat-btn:hover {
+    color: #333;
+}
+
+.chat-sidebar-body {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.chat-error-banner {
+    padding: 8px 14px;
+    background: #fff3cd;
+    color: #856404;
+    font-size: 0.8rem;
+    border-bottom: 1px solid #ffeeba;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.chat-sidebar-footer {
     padding: 10px;
+    border-top: 1px solid #eee;
+    background-color: #f8f9fa;
+}
+
+.exit-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.exit-modal {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.level-up-notification {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    animation: bounce 0.5s infinite alternate;
+}
+
+.modal-close-btn {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+@keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-5px); }
+}
+
+/* ── Exit modal enhancements ── */
+.exit-modal {
+    max-width: 480px;
+}
+
+.exit-modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+/* ── Session Recap in exit modal ── */
+.recap-section {
+    margin-top: 18px;
+    text-align: left;
+}
+
+.recap-generating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    color: #666;
+    font-size: 0.9rem;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.recap-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ddd;
+    border-top-color: #4a90e2;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.recap-preview {
+    background: #f0f7ff;
+    border: 1px solid #d0e8ff;
+    border-radius: 10px;
+    padding: 14px 16px;
+}
+
+.recap-preview h3 {
+    margin: 0 0 8px;
+    font-size: 0.95rem;
+    color: #2c5282;
+}
+
+.recap-summary {
+    font-size: 0.88rem;
+    color: #444;
+    margin: 0 0 10px;
+    line-height: 1.5;
+}
+
+.recap-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.recap-topic-chip {
+    background: #4a90e2;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 500;
+}
+
+.recap-actions {
+    font-size: 0.85rem;
+    color: #444;
+}
+
+.recap-actions-label {
+    font-weight: 600;
+    margin: 0 0 4px;
+    color: #2c5282;
+    font-size: 0.82rem;
+}
+
+.recap-actions ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.recap-actions li {
+    margin-bottom: 3px;
+    line-height: 1.4;
+}
+
+/* ── Network quality badge ── */
+.quality-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0.85;
+}
+.quality-badge.quality-high   { background: #27ae60; color: #fff; }
+.quality-badge.quality-medium { background: #f39c12; color: #fff; }
+.quality-badge.quality-low    { background: #e74c3c; color: #fff; }
+
+/* ── Whiteboard sidebar ── */
+.group-whiteboard-sidebar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 420px;
+    background: white;
+    border-left: 1px solid #e1e4e8;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -2px 0 8px rgba(0,0,0,0.05);
+    z-index: 10;
+}
+
+/* ── Focus / Minimalist Mode ── */
+.group-page .main-navbar {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.group-page.focus-mode .main-navbar {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-100%);
+}
+
+.participants-section h3 {
+    transition: opacity 0.4s ease, max-height 0.4s ease;
+    overflow: hidden;
+    max-height: 3rem;
+}
+.group-page.focus-mode .participants-section h3 {
+    opacity: 0;
+    max-height: 0;
+    margin: 0;
+}
+
+.participant-name {
+    transition: opacity 0.4s ease;
+}
+.group-page.focus-mode .participant-name {
+    opacity: 0;
+}
+
+.group-page.focus-mode .control-btn:not(.leave-btn) {
+    opacity: 0.3;
+    transition: opacity 0.4s ease;
+}
+.group-page.focus-mode .control-btn:not(.leave-btn):hover {
+    opacity: 1;
+}
+
+.group-page.focus-mode .timer-section {
+    box-shadow: 0 0 0 2px #4a90e2;
+    transition: box-shadow 0.4s ease;
+}
+
+.focus-exit-hint {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.5);
+    background: rgba(0, 0, 0, 0.4);
+    padding: 6px 14px;
     border-radius: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    z-index: 200;
+    transition: color 0.2s;
+    user-select: none;
+}
+/* ── Session Goal Modal ── */
+.goal-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
 }
 
-.chatContainer{
-    margin: 20px;
-    width: 1200px;
-    height: 400px;
-    margin-left: 10px;
-    padding: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    border-radius: 20px;
-    float: right;
-    margin-right:50px;
+.goal-modal {
+    background: white;
+    border-radius: 14px;
+    padding: 28px 30px;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    text-align: center;
 }
 
-.webcam {
-    margin: auto;
-    margin-left: 300px;
+.goal-modal h2 {
+    margin: 0 0 8px;
+    font-size: 1.3rem;
+    color: #1a1a2e;
 }
 
-.chatContainer>h3{
-    margin-top: 5px;
-    margin-left: 530px;
+.goal-modal p {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0 0 18px;
 }
+
+.goal-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.goal-input:focus {
+    border-color: #4a90e2;
+}
+
+.goal-modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.goal-modal-buttons button {
+    padding: 9px 20px;
+    border-radius: 7px;
+    border: none;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.goal-modal-buttons button:hover {
+    opacity: 0.85;
+}
+
+.goal-set-btn {
+    background: #4a90e2;
+    color: white;
+}
+
+.goal-skip-btn {
+    background: #f0f2f5;
+    color: #555;
+}
+
+/* Current goal display in participants section */
+.current-goal-card {
+    background: #f0f7ff;
+    border: 1px solid #d0e8ff;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-top: 12px;
+    text-align: left;
+}
+
+.current-goal-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #4a90e2;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+
+.current-goal-text {
+    font-size: 0.88rem;
+    color: #333;
+    line-height: 1.4;
+}
+
+/* Goal completion in exit modal */
+.goal-completion-section {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-top: 16px;
+    text-align: left;
+}
+
+.goal-completion-section h4 {
+    margin: 0 0 10px;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.goal-completion-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.goal-completion-item label {
+    font-size: 0.88rem;
+    color: #444;
+    cursor: pointer;
+    line-height: 1.4;
+}
+
+.goal-completion-item input[type="checkbox"] {
+    margin-top: 2px;
+    accent-color: #4a90e2;
+    flex-shrink: 0;
+}
+
+.focus-exit-hint:hover {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+/* ── Goal Modal actions (spec class name) ───────────────── */
+.goal-modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+/* ── Goal Banner (in-room) ─────────────────────────────── */
+.goal-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 8px 14px;
+    margin: 8px 12px 0;
+    font-size: 0.88rem;
+    flex-wrap: wrap;
+}
+
+.goal-banner.completed {
+    background: #f0fdf4;
+    border-color: #86efac;
+}
+
+.goal-label { font-weight: 700; color: #1d4ed8; }
+.goal-text  { color: #1e40af; flex: 1; }
+
+.goal-complete-btn {
+    padding: 4px 12px;
+    border-radius: 6px;
+    border: none;
+    background: #22c55e;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.goal-complete-btn:hover { background: #16a34a; }
+.goal-done-badge { color: #16a34a; font-weight: 700; font-size: 0.85rem; }
+
+/* ── Exit Modal Goal Status ────────────────────────────── */
+.exit-goal-status {
+    background: #fef3c7;
+    border: 1px solid #fcd34d;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    text-align: left;
+}
+
+.exit-goal-status.completed {
+    background: #f0fdf4;
+    border-color: #86efac;
+}
+
+.exit-goal-label { font-weight: 700; color: #92400e; font-size: 0.85rem; margin: 0 0 4px; }
+.exit-goal-status.completed .exit-goal-label { color: #166534; }
+.exit-goal-text  { color: #78350f; font-size: 0.95rem; margin: 0 0 6px; font-style: italic; }
+.exit-goal-status.completed .exit-goal-text { color: #15803d; }
+.exit-goal-result { font-weight: 700; color: #15803d; margin: 0; font-size: 0.9rem; }
+.exit-goal-result.incomplete { color: #92400e; font-weight: 400; }

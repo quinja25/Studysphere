@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import './ChatRoom.css';
 import { SlEnvolope } from "react-icons/sl";
 import { useLocation } from 'react-router-dom';
@@ -28,9 +28,9 @@ const ChatBar = ({ socket, setSelectedGroupId, setSelectedGroupName }) => {
     }, [location.state]);
     const fetchUserId = (email) => {
         if (email) {
-            axios.get(`http://localhost:3001/users/byEmail/${email}`)
+            api.get(`/users/byEmail/${email}`)
                 .then((res) => {
-                    setUserId(res.data.userId);
+                    setUserId(res.data.id);
                 })
                 .catch(error => console.error('Error fetching userId:', error));
         }
@@ -43,7 +43,7 @@ const ChatBar = ({ socket, setSelectedGroupId, setSelectedGroupName }) => {
     // }, [socket]);
     useEffect(() => {
         if (userId) {
-            axios.get(`http://localhost:3001/groupsUsers/byUser/${userId}`)
+            api.get(`/groupsUsers/byUser/${userId}`)
                 .then((res) => {
                     setGroups(res.data);
                 })

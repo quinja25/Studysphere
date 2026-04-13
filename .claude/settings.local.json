@@ -1,0 +1,45 @@
+{
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "permissions": {
+    "defaultMode": "bypassPermissions",
+    "allow": [
+      "Bash(claude remote-control:*)",
+      "Bash(grep -E \"\\\\.js$\")",
+      "Bash(python3 -c \"import json,sys; data=json.load\\(sys.stdin\\); print\\(data[0][''''text'''']\\)\")",
+      "Bash(python -c \"import json,sys; data=json.load\\(sys.stdin\\); print\\(data[0][''''text'''']\\)\")",
+      "Bash(npm install:*)",
+      "Bash(where mysql:*)",
+      "Read(//c/Program Files/MySQL/**)",
+      "Read(//c/xampp/**)",
+      "Bash(sc query:*)",
+      "Bash(tasklist)",
+      "Bash(node -e \"const mysql = require\\(''mysql2/promise''\\); \\(async \\(\\) => { try { const conn = await mysql.createConnection\\({ host: ''127.0.0.1'', user: ''root'', password: ''JJkk5789!@'' }\\); const [rows] = await conn.query\\(''SHOW DATABASES LIKE \"\"studysphere\"\"''\\); console.log\\(''Connected! DB exists:'', rows.length > 0\\); if \\(rows.length === 0\\) { await conn.query\\(''CREATE DATABASE studysphere''\\); console.log\\(''Created studysphere database''\\); } await conn.end\\(\\); } catch\\(e\\) { console.error\\(''Error:'', e.message\\); } }\\)\\(\\)\")",
+      "Bash(npx sequelize-cli:*)",
+      "Bash(node -e \":*)",
+      "Bash(curl -s http://localhost:3001/)",
+      "Bash(BROWSER=none npm start)",
+      "Bash(bash:*)",
+      "Bash(node:*)",
+      "Bash(claude mcp:*)",
+      "Bash(export PATH=\"/c/Users/jaeyo/AppData/Local/Microsoft/WinGet/Packages/marlocarlo.psmux_Microsoft.Winget.Source_8wekyb3d8bbwe:$PATH\")",
+      "Bash(tmux kill-session:*)",
+      "Bash(omc team:*)",
+      "Bash(OMC_SHELL_READY_TIMEOUT_MS=90000 omc team 2:claude \"StudySphere feature work — 2 independent workers. Worker 1 \\(auditor\\): explore the full codebase, compare every feature against the CLAUDE.md 'What is Built' and 'What to Implement Next' sections, identify what is fully done / partially done / missing, then update CLAUDE.md with accurate findings and a refreshed priority list. Worker 2 \\(builder\\): implement the highest-priority product features from CLAUDE.md 'What to Implement Next' — Session Goals \\(new SessionGoals table + Group.js exit flow\\), In-UI confirmation dialogs replacing all window.confirm\\(\\) calls, and Email verification \\(set isVerified=true on register + send verification email\\). HARD CONSTRAINT for both workers: do NOT read or modify any RAG files — ragRetriever.js, embeddingService.js, embeddingSync.js, openai.js \\(services\\), Ai.js route, ContentEmbeddings model.\")"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell.exe -NonInteractive -Command \"Add-Type -AssemblyName System.Windows.Forms; \\$n = New-Object System.Windows.Forms.NotifyIcon; \\$n.Icon = [System.Drawing.SystemIcons]::Information; \\$n.Visible = \\$true; \\$n.ShowBalloonTip(4000, 'Claude Code', 'Task completed', [System.Windows.Forms.ToolTipIcon]::Info); Start-Sleep -Seconds 5; \\$n.Dispose()\""
+          }
+        ]
+      }
+    ]
+  }
+}
