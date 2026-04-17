@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"ls -la ~/.ssh/ 2>/dev/null && echo \\\"---\\\" && for f in ~/.ssh/*.pub; do [ -f \\\"$f\\\" ] && echo \\\"=== $f ===\\\" && cat \\\"$f\\\"; done\",\"description\":\"Check existing SSH keys and their comments\"...",
+  "error": "Exit code 1",
+  "timestamp": "2026-04-17T13:39:38.743Z",
+  "retry_count": 1
+}
