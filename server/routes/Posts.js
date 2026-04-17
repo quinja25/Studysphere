@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Posts, Users } = require('../models');
+const { Posts, Users, PostLikes } = require('../models');
 const { validateToken } = require('../middlewares/AuthMiddleware');
 const { indexContent, removeContent } = require('../services/embeddingSync');
 
@@ -44,11 +44,15 @@ router.post('/', validateToken, async (req, res) => {
     }
 });
 
-// POST /posts/:id/like — like a post
-router.post('/:id/like', async (req, res) => {
+// POST /posts/:id/like — like a post (auth required, one like per user)
+router.post('/:id/like', validateToken, async (req, res) => {
     try {
         const post = await Posts.findByPk(req.params.id);
         if (!post) return res.status(404).json({ error: 'Post not found' });
+        const [, created] = await PostLikes.findOrCreate({
+            where: { userId: req.user.id, postId: post.id },
+        });
+        if (!created) return res.status(409).json({ error: 'Already liked' });
         await post.increment('likes');
         res.json({ likes: post.likes + 1 });
     } catch (error) {
@@ -56,11 +60,13 @@ router.post('/:id/like', async (req, res) => {
     }
 });
 
-// DELETE /posts/:id/like — unlike a post
-router.delete('/:id/like', async (req, res) => {
+// DELETE /posts/:id/like — unlike a post (auth required)
+router.delete('/:id/like', validateToken, async (req, res) => {
     try {
         const post = await Posts.findByPk(req.params.id);
         if (!post) return res.status(404).json({ error: 'Post not found' });
+        const deleted = await PostLikes.destroy({ where: { userId: req.user.id, postId: post.id } });
+        if (!deleted) return res.status(409).json({ error: 'Not liked' });
         const newLikes = Math.max(0, post.likes - 1);
         await post.update({ likes: newLikes });
         res.json({ likes: newLikes });

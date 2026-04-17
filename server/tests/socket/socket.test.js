@@ -1,9 +1,17 @@
 'use strict';
 
+process.env.JWT_SECRET = 'test-secret-key';
+
 const http = require('http');
 const { Server } = require('socket.io');
 const { io: ioc } = require('socket.io-client');
+const jwt = require('jsonwebtoken');
 const { setupSocket } = require('../../socket/handlers');
+
+/** Generate a valid access token for socket auth. */
+function makeToken(userId = 1, name = 'TestUser') {
+    return jwt.sign({ id: userId, type: 'access', name }, 'test-secret-key', { expiresIn: '15m' });
+}
 
 /** Spin up a fresh in-process server for every describe block. */
 function createTestServer() {
@@ -23,6 +31,7 @@ function connect(port, opts = {}) {
         const client = ioc(`http://localhost:${port}`, {
             forceNew: true,
             transports: ['websocket'],
+            auth: { token: makeToken() },
             ...opts,
         });
         client.once('connect', () => resolve(client));
@@ -74,13 +83,13 @@ describe('Socket.io handlers', () => {
         });
 
         it('room_state excludes the joining socket itself', async () => {
-            const c1 = await connect(port);
-            const c2 = await connect(port);
+            const c1 = await connect(port, { auth: { token: makeToken(10, 'Alice') } });
+            const c2 = await connect(port, { auth: { token: makeToken(2, 'C2') } });
 
             // c1 joins and announces presence
             c1.emit('join_room', 'room-2');
             await waitFor(c1, 'room_state');
-            c1.emit('presence', { room: 'room-2', userId: 10, name: 'Alice' });
+            c1.emit('presence', { room: 'room-2' });
 
             // Small delay so presence is processed before c2 joins
             await new Promise(r => setTimeout(r, 50));
@@ -102,8 +111,8 @@ describe('Socket.io handlers', () => {
 
     describe('presence', () => {
         it('broadcasts user_joined to other clients in the room', async () => {
-            const c1 = await connect(port);
-            const c2 = await connect(port);
+            const c1 = await connect(port, { auth: { token: makeToken(1, 'Alice') } });
+            const c2 = await connect(port, { auth: { token: makeToken(42, 'Bob') } });
 
             c1.emit('join_room', 'room-3');
             await waitFor(c1, 'room_state');
@@ -111,7 +120,7 @@ describe('Socket.io handlers', () => {
             await waitFor(c2, 'room_state');
 
             const joinedPromise = waitFor(c1, 'user_joined');
-            c2.emit('presence', { room: 'room-3', userId: 42, name: 'Bob' });
+            c2.emit('presence', { room: 'room-3' });
             const joined = await joinedPromise;
 
             expect(joined.id).toBe(42);
@@ -221,7 +230,7 @@ describe('Socket.io handlers', () => {
 
     describe('disconnect', () => {
         it('broadcasts user_left when a user with presence disconnects', async () => {
-            const c1 = await connect(port);
+            const c1 = await connect(port, { auth: { token: makeToken(99, 'Leaver') } });
             const c2 = await connect(port);
 
             c1.emit('join_room', 'room-dc');
@@ -230,7 +239,7 @@ describe('Socket.io handlers', () => {
             await waitFor(c2, 'room_state');
 
             // c1 announces presence so it has a userId
-            c1.emit('presence', { room: 'room-dc', userId: 99, name: 'Leaver' });
+            c1.emit('presence', { room: 'room-dc' });
             await waitFor(c2, 'user_joined'); // wait for user_joined before disconnecting
 
             const leftPromise = waitFor(c2, 'user_left');
@@ -268,14 +277,14 @@ describe('Socket.io handlers', () => {
 
     describe('WebRTC signaling', () => {
         it('routes webrtc_offer point-to-point with sender metadata', async () => {
-            const c1 = await connect(port);
+            const c1 = await connect(port, { auth: { token: makeToken(1, 'Alice') } });
             const c2 = await connect(port);
 
             c1.emit('join_room', 'room-rtc');
             await waitFor(c1, 'room_state');
             c2.emit('join_room', 'room-rtc');
             await waitFor(c2, 'room_state');
-            c1.emit('presence', { room: 'room-rtc', userId: 1, name: 'Alice' });
+            c1.emit('presence', { room: 'room-rtc' });
             await waitFor(c2, 'user_joined');
 
             const offerPromise = waitFor(c2, 'webrtc_offer');

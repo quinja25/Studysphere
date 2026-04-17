@@ -18,6 +18,7 @@ jest.mock('../../models', () => ({
     },
     Groups: {
         findAll: jest.fn(),
+        findByPk: jest.fn(),
     },
     Users: {
         findAll: jest.fn(),
@@ -41,6 +42,8 @@ describe('GroupsUsers API', () => {
 
         it('adds user to group and returns 201', async () => {
             const token = generateAccessToken(1);
+            // token user id=1 matches userId param=1, so ownership check passes
+            db.Groups.findByPk.mockResolvedValue({ id: 2, leader: 'SomeOtherUser' });
             db.Groups_Users.create.mockResolvedValue({ UserId: 1, GroupId: 2 });
 
             const res = await request(app)
@@ -52,8 +55,20 @@ describe('GroupsUsers API', () => {
             expect(db.Groups_Users.create).toHaveBeenCalledWith({ UserId: '1', GroupId: '2' });
         });
 
+        it('returns 403 when acting on another user without being leader', async () => {
+            const token = generateAccessToken(1);
+            db.Groups.findByPk.mockResolvedValue({ id: 2, leader: 'SomeOtherUser' });
+
+            const res = await request(app)
+                .post('/groupsUsers/user/99/group/2')
+                .set('Authorization', `Bearer ${token}`);
+
+            expect(res.status).toBe(403);
+        });
+
         it('returns 500 on DB error', async () => {
             const token = generateAccessToken(1);
+            db.Groups.findByPk.mockResolvedValue({ id: 2, leader: 'SomeOtherUser' });
             db.Groups_Users.create.mockRejectedValue(new Error('DB error'));
 
             const res = await request(app)
@@ -72,6 +87,8 @@ describe('GroupsUsers API', () => {
 
         it('removes user from group and returns 200', async () => {
             const token = generateAccessToken(1);
+            // token user id=1 matches userId param=1, so ownership check passes
+            db.Groups.findByPk.mockResolvedValue({ id: 2, leader: 'SomeOtherUser' });
             db.Groups_Users.destroy.mockResolvedValue(1);
 
             const res = await request(app)
@@ -81,6 +98,17 @@ describe('GroupsUsers API', () => {
             expect(res.status).toBe(200);
             expect(res.body.message).toMatch(/removed/i);
             expect(db.Groups_Users.destroy).toHaveBeenCalledWith({ where: { UserId: '1', GroupId: '2' } });
+        });
+
+        it('returns 403 when acting on another user without being leader', async () => {
+            const token = generateAccessToken(1);
+            db.Groups.findByPk.mockResolvedValue({ id: 2, leader: 'SomeOtherUser' });
+
+            const res = await request(app)
+                .delete('/groupsUsers/user/99/group/2')
+                .set('Authorization', `Bearer ${token}`);
+
+            expect(res.status).toBe(403);
         });
     });
 

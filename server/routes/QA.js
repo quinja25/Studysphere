@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { Questions, Answers, Users } = require('../models');
+const { Questions, Answers, Users, AnswerVotes } = require('../models');
 const { Op } = require('sequelize');
 const { validateToken } = require('../middlewares/AuthMiddleware');
 const { indexContent, removeContent } = require('../services/embeddingSync');
+const { createAndEmit } = require('../services/notificationService');
 
 // ── Questions ──
 
@@ -109,17 +110,35 @@ router.post('/:questionId/answers', validateToken, async (req, res) => {
             include: [{ model: Users, as: 'author', attributes: ['id', 'name', 'picture', 'role'] }],
         });
         indexContent('answer', answer.id).catch(err => console.error('Embedding sync error:', err.message));
+
+        // Notify the question author unless they answered their own question
+        if (question.authorId && question.authorId !== req.user.id) {
+            const authorName = answer.author?.name || 'Someone';
+            createAndEmit({
+                userId: question.authorId,
+                type: 'answer',
+                relatedType: 'question',
+                relatedId: question.id,
+                content: `${authorName} answered your question: "${question.title}"`,
+                link: `/qa?question=${question.id}`,
+            }, req.app.get('io')).catch(err => console.error('Notification error:', err.message));
+        }
+
         res.status(201).json(answer);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-// POST /qa/answers/:id/vote — upvote an answer
+// POST /qa/answers/:id/vote — upvote an answer (one vote per user)
 router.post('/answers/:id/vote', validateToken, async (req, res) => {
     try {
         const answer = await Answers.findByPk(req.params.id);
         if (!answer) return res.status(404).json({ error: 'Answer not found' });
+        const [, created] = await AnswerVotes.findOrCreate({
+            where: { userId: req.user.id, answerId: answer.id },
+        });
+        if (!created) return res.status(409).json({ error: 'Already voted' });
         await answer.increment('votes');
         res.json({ votes: answer.votes + 1 });
     } catch (error) {

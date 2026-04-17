@@ -28,12 +28,16 @@ jest.mock('../../models', () => ({
     findByPk: jest.fn(),
     create: jest.fn(),
   },
+  PostLikes: {
+    findOrCreate: jest.fn(),
+    destroy: jest.fn(),
+  },
   Users: {
     findByPk: jest.fn(),
   },
 }));
 
-const { Posts } = require('../../models');
+const { Posts, PostLikes } = require('../../models');
 const router = require('../../routes/Posts');
 
 const app = express();
@@ -108,15 +112,23 @@ describe('POST /posts', () => {
 
 describe('POST /posts/:id/like', () => {
   it('returns 404 when post not found', async () => {
+    const token = generateAccessToken(42);
     Posts.findByPk.mockResolvedValue(null);
-    const res = await request(app).post('/posts/999/like');
+    PostLikes.findOrCreate.mockResolvedValue([{}, true]);
+    const res = await request(app)
+      .post('/posts/999/like')
+      .set('Authorization', `Bearer ${token}`);
     expect(res.status).toBe(404);
   });
 
   it('increments likes (200)', async () => {
+    const token = generateAccessToken(42);
     const post = { ...mockPost, likes: 5, increment: jest.fn().mockResolvedValue(undefined) };
     Posts.findByPk.mockResolvedValue(post);
-    const res = await request(app).post('/posts/1/like');
+    PostLikes.findOrCreate.mockResolvedValue([{}, true]); // created = true (new like)
+    const res = await request(app)
+      .post('/posts/1/like')
+      .set('Authorization', `Bearer ${token}`);
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty('likes');
     expect(post.increment).toHaveBeenCalledWith('likes');

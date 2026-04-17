@@ -21,9 +21,10 @@ router.get('/', async (req, res) => {
 
 router.post('/', validateToken, async (req, res) => {
     try {
-        const data = { ...req.body };
-        if (data.password) {
-            data.password = await bcrypt.hash(data.password, 10);
+        const { groupName, major, subject, gradeLevel, password, isPublic, maxParticipants } = req.body;
+        const data = { groupName, major, subject, gradeLevel, isPublic, maxParticipants, leader: req.user.name };
+        if (password) {
+            data.password = await bcrypt.hash(password, 10);
         }
         const newGroup = await Groups.create(data);
         res.json(safeGroup(newGroup));

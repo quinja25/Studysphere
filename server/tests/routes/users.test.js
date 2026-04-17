@@ -44,12 +44,14 @@ jest.mock('nodemailer', () => ({
   }),
 }));
 
+const cookieParser = require('cookie-parser');
 const { Users, StudySessions } = require('../../models');
 const usersRouter = require('../../routes/Users');
 
 // Build minimal express app
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 app.use('/users', usersRouter);
 
 describe('Users API', () => {
@@ -102,7 +104,7 @@ describe('Users API', () => {
 
       expect(res.status).toBe(200);
       expect(res.body).toHaveProperty('token');
-      expect(res.body).toHaveProperty('refreshToken');
+      expect(res.body).not.toHaveProperty('refreshToken'); // refresh token is set as httpOnly cookie
     });
 
     it('returns 400 when email already exists', async () => {
@@ -138,7 +140,7 @@ describe('Users API', () => {
 
       expect(res.status).toBe(200);
       expect(res.body).toHaveProperty('token');
-      expect(res.body).toHaveProperty('refreshToken');
+      expect(res.body).not.toHaveProperty('refreshToken'); // refresh token is set as httpOnly cookie
     });
 
     it('returns 400 on wrong password', async () => {
@@ -190,7 +192,7 @@ describe('Users API', () => {
 
       const res = await request(app)
         .post('/users/refresh')
-        .send({ refreshToken });
+        .set('Cookie', `refreshToken=${refreshToken}`);
 
       expect(res.status).toBe(200);
       expect(res.body).toHaveProperty('accessToken');
@@ -199,15 +201,14 @@ describe('Users API', () => {
     it('returns 401 with invalid refresh token string', async () => {
       const res = await request(app)
         .post('/users/refresh')
-        .send({ refreshToken: 'totally-invalid-token' });
+        .set('Cookie', 'refreshToken=totally-invalid-token');
 
       expect(res.status).toBe(401);
     });
 
     it('returns 400 with missing refresh token', async () => {
       const res = await request(app)
-        .post('/users/refresh')
-        .send({});
+        .post('/users/refresh');
 
       expect(res.status).toBe(400);
     });
@@ -218,7 +219,7 @@ describe('Users API', () => {
 
       const res = await request(app)
         .post('/users/refresh')
-        .send({ refreshToken: wrongTypeToken });
+        .set('Cookie', `refreshToken=${wrongTypeToken}`);
 
       expect(res.status).toBe(401);
     });

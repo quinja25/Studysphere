@@ -26,7 +26,8 @@ export const Login = () => {
             // Try to log in with the Google token — server verifies it and returns JWT
             api.post('/users/google-login', { googleAccessToken: user.access_token })
                 .then(response => {
-                    localStorage.setItem('userData', JSON.stringify(response.data));
+                    const { id, name, email, token, picture, role, isAdmin } = response.data;
+                    localStorage.setItem('userData', JSON.stringify({ id, name, email, token, picture, role, isAdmin }));
                     navigate('/lobby');
                 })
                 .catch((err) => {
@@ -49,7 +50,8 @@ export const Login = () => {
         try {
             const response = await api.post('/users/login', { email, password });
             if (response.data) {
-                localStorage.setItem('userData', JSON.stringify(response.data));
+                const { id, name, email: userEmail, token, picture, role, isAdmin } = response.data;
+                localStorage.setItem('userData', JSON.stringify({ id, name, email: userEmail, token, picture, role, isAdmin }));
                 navigate('/lobby');
             }
         } catch (error) {

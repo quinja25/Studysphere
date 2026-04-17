@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { SlClose, SlPaperPlane, SlDocs, SlCheck, SlTrash } from 'react-icons/sl';
+import { SlClose, SlPaperPlane, SlDocs, SlCheck, SlTrash, SlLike, SlDislike } from 'react-icons/sl';
 import api from '../api';
 import './AiAssistant.css';
 import ConfirmModal from './ConfirmModal';
@@ -126,6 +126,7 @@ const AiAssistant = ({ groupId, group, socket, onClose }) => {
     const [quizDifficulty, setQuizDifficulty]   = useState('medium');
     const [showQuizSetup, setShowQuizSetup]     = useState(false);
     const [copiedId, setCopiedId]               = useState(null);
+    const [feedback, setFeedback]               = useState({}); // msgId → 'up' | 'down'
 
     const [confirmState, setConfirmState] = useState({ open: false, title: '', message: '', onConfirm: null });
     const openConfirm = (title, message, onConfirm) =>
@@ -261,6 +262,31 @@ const AiAssistant = ({ groupId, group, socket, onClose }) => {
         setInput(e.target.value);
         e.target.style.height = 'auto';
         e.target.style.height = Math.min(e.target.scrollHeight, 120) + 'px';
+    };
+
+    const submitFeedback = async (idx, rating) => {
+        const msg = messages[idx];
+        if (!msg || msg.role !== 'assistant') return;
+        const msgKey = msg.id || idx;
+        if (feedback[msgKey]) return;
+
+        let queryText = '';
+        for (let i = idx - 1; i >= 0; i--) {
+            if (messages[i].role === 'user') { queryText = messages[i].content; break; }
+        }
+        const sources = messageSources[msg.id] || [];
+
+        setFeedback(prev => ({ ...prev, [msgKey]: rating }));
+        try {
+            await api.post('/ai/feedback', {
+                queryText: queryText.slice(0, 1000),
+                messageId: typeof msg.id === 'number' ? msg.id : undefined,
+                rating,
+                clickedSources: sources.map(s => ({ source: s.source, sourceId: s.sourceId })),
+            });
+        } catch {
+            setFeedback(prev => { const next = { ...prev }; delete next[msgKey]; return next; });
+        }
     };
 
     const handleCopy = (msgId, text) => {
@@ -549,13 +575,31 @@ const AiAssistant = ({ groupId, group, socket, onClose }) => {
                                                 : <p className="ai-md-p">{msg.content}</p>
                                             }
                                             {msg.role === 'assistant' && (
-                                                <button
-                                                    className={`ai-copy-btn ${copiedId === (msg.id || idx) ? 'copied' : ''}`}
-                                                    onClick={() => handleCopy(msg.id || idx, msg.content)}
-                                                    title={copiedId === (msg.id || idx) ? 'Copied!' : 'Copy'}
-                                                >
-                                                    {copiedId === (msg.id || idx) ? <SlCheck /> : <SlDocs />}
-                                                </button>
+                                                <div className="ai-bubble-actions">
+                                                    <button
+                                                        className={`ai-feedback-btn ${feedback[msg.id || idx] === 'up' ? 'active up' : ''}`}
+                                                        onClick={() => submitFeedback(idx, 'up')}
+                                                        disabled={!!feedback[msg.id || idx]}
+                                                        title="Helpful"
+                                                    >
+                                                        <SlLike />
+                                                    </button>
+                                                    <button
+                                                        className={`ai-feedback-btn ${feedback[msg.id || idx] === 'down' ? 'active down' : ''}`}
+                                                        onClick={() => submitFeedback(idx, 'down')}
+                                                        disabled={!!feedback[msg.id || idx]}
+                                                        title="Not helpful"
+                                                    >
+                                                        <SlDislike />
+                                                    </button>
+                                                    <button
+                                                        className={`ai-copy-btn ${copiedId === (msg.id || idx) ? 'copied' : ''}`}
+                                                        onClick={() => handleCopy(msg.id || idx, msg.content)}
+                                                        title={copiedId === (msg.id || idx) ? 'Copied!' : 'Copy'}
+                                                    >
+                                                        {copiedId === (msg.id || idx) ? <SlCheck /> : <SlDocs />}
+                                                    </button>
+                                                </div>
                                             )}
                                         </div>
                                         {/* Source chips for assistant messages */}

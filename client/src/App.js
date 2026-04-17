@@ -1,5 +1,9 @@
 import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
+import api from './api';
+import { NotificationProvider } from './contexts/NotificationContext';
 
 // pages
 import { Home } from './pages/Home';
@@ -22,6 +26,7 @@ import { ForgotPassword } from './pages/ForgotPassword';
 import { ResetPassword } from './pages/ResetPassword';
 import VerifyEmail from './pages/VerifyEmail';
 import { AiChat } from './pages/AiChat';
+import { ForMentors } from './pages/ForMentors';
 import { NotFound } from './pages/NotFound';
 
 // Redirect to /login if not authenticated
@@ -30,25 +35,36 @@ const ProtectedRoute = ({ children }) => {
   return isLoggedIn ? children : <Navigate to="/login" replace />;
 };
 
-// Redirect to /lobby if not an admin
+// Redirect to /lobby if not an admin — verified server-side to prevent localStorage spoofing
 const AdminRoute = ({ children }) => {
-  const raw = localStorage.getItem('userData');
-  if (!raw) return <Navigate to="/login" replace />;
-  try {
-    const user = JSON.parse(raw);
-    if (!user.isAdmin) return <Navigate to="/lobby" replace />;
-  } catch {
-    return <Navigate to="/login" replace />;
-  }
+  const [status, setStatus] = useState('checking'); // 'checking' | 'allowed' | 'denied' | 'unauthed'
+
+  useEffect(() => {
+    const raw = localStorage.getItem('userData');
+    if (!raw) { setStatus('unauthed'); return; }
+    api.get('/admin/dashboard')
+      .then(() => setStatus('allowed'))
+      .catch((err) => {
+        if (err.response?.status === 401) setStatus('unauthed');
+        else setStatus('denied');
+      });
+  }, []);
+
+  if (status === 'checking') return null;
+  if (status === 'unauthed') return <Navigate to="/login" replace />;
+  if (status === 'denied') return <Navigate to="/lobby" replace />;
   return children;
 };
 
 export const App = () => {
   return (
+    <HelmetProvider>
     <BrowserRouter>
+      <NotificationProvider>
       <Routes>
         {/* Public routes */}
         <Route index element={<Home />} />
+        <Route path="/for-mentors" element={<ForMentors />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -82,7 +98,9 @@ export const App = () => {
         {/* 404 fallback */}
         <Route path="*" element={<NotFound />} />
       </Routes>
+      </NotificationProvider>
     </BrowserRouter>
+    </HelmetProvider>
   );
 }
 

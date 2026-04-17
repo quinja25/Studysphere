@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { NavBar } from '../components/NavBar';
+import ConfirmModal from '../components/ConfirmModal';
 import api from '../api';
-import { SlPaperPlane, SlDocs, SlCheck, SlMagnifier, SlTrash } from 'react-icons/sl';
+import { SlPaperPlane, SlDocs, SlCheck, SlMagnifier, SlTrash, SlLike, SlDislike } from 'react-icons/sl';
 import './AiChat.css';
 
 // ── Inline markdown renderer (mirrors AiAssistant) ───────────────────────────
@@ -104,6 +105,7 @@ export const AiChat = () => {
     const [credits, setCredits]     = useState({ used: 0, limit: 50000 });
     const [expandedSource, setExpandedSource] = useState(null);
     const [copiedId, setCopiedId]   = useState(null);
+    const [feedback, setFeedback]   = useState({}); // msgId → 'up' | 'down'
 
     // Quiz state
     const [quizMode, setQuizMode]             = useState(false);
@@ -137,6 +139,7 @@ export const AiChat = () => {
     const [uploadFile, setUploadFile]     = useState(null);
     const [uploading, setUploading]       = useState(false);
     const [uploadError, setUploadError]   = useState(null);
+    const [docToDelete, setDocToDelete]   = useState(null);
 
     const messagesEndRef = useRef(null);
     const inputRef       = useRef(null);
@@ -183,7 +186,7 @@ export const AiChat = () => {
             setLoading(false);
             inputRef.current?.focus();
         }
-    }, [input, loading, messages]);
+    }, [input, loading, messages, activeSubject]);
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
@@ -200,6 +203,31 @@ export const AiChat = () => {
         setCopiedId(id);
         setTimeout(() => setCopiedId(null), 1500);
     };
+
+    const submitFeedback = useCallback(async (idx, rating) => {
+        const msg = messages[idx];
+        if (!msg || msg.role !== 'assistant') return;
+        const msgKey = msg.id || idx;
+        if (feedback[msgKey]) return; // one rating per message
+
+        // Find the user question that produced this response
+        let queryText = '';
+        for (let i = idx - 1; i >= 0; i--) {
+            if (messages[i].role === 'user') { queryText = messages[i].content; break; }
+        }
+
+        setFeedback(prev => ({ ...prev, [msgKey]: rating }));
+        try {
+            await api.post('/ai/feedback', {
+                queryText: queryText.slice(0, 1000),
+                rating,
+                clickedSources: (msg.sources || []).map(s => ({ source: s.source, sourceId: s.sourceId })),
+            });
+        } catch {
+            // revert so the user can retry
+            setFeedback(prev => { const next = { ...prev }; delete next[msgKey]; return next; });
+        }
+    }, [messages, feedback]);
 
     const handleUpload = async () => {
         if (!uploadFile || !uploadTitle.trim()) return;
@@ -222,7 +250,10 @@ export const AiChat = () => {
         }
     };
 
-    const handleDeleteDoc = async (id) => {
+    const confirmDeleteDoc = async () => {
+        if (!docToDelete) return;
+        const id = docToDelete.id;
+        setDocToDelete(null);
         try {
             await api.delete(`/ai/documents/${id}`);
             setDocuments(prev => prev.filter(d => d.id !== id));
@@ -389,7 +420,7 @@ export const AiChat = () => {
                                         {doc.subject && <span className="aic-doc-subject">{doc.subject}</span>}
                                         <span className="aic-doc-meta">{doc.pageCount}p · {doc.chunkCount} chunks</span>
                                     </div>
-                                    <button className="aic-doc-delete" onClick={() => handleDeleteDoc(doc.id)} title="Delete">
+                                    <button className="aic-doc-delete" onClick={() => setDocToDelete(doc)} title="Delete">
                                         <SlTrash />
                                     </button>
                                 </div>
@@ -535,13 +566,31 @@ export const AiChat = () => {
                                                 : <p className="aic-md-p">{msg.content}</p>
                                             }
                                             {msg.role === 'assistant' && (
-                                                <button
-                                                    className={`aic-copy-btn ${copiedId === (msg.id || idx) ? 'copied' : ''}`}
-                                                    onClick={() => handleCopy(msg.id || idx, msg.content)}
-                                                    title={copiedId === (msg.id || idx) ? 'Copied!' : 'Copy'}
-                                                >
-                                                    {copiedId === (msg.id || idx) ? <SlCheck /> : <SlDocs />}
-                                                </button>
+                                                <div className="aic-bubble-actions">
+                                                    <button
+                                                        className={`aic-feedback-btn ${feedback[msg.id || idx] === 'up' ? 'active up' : ''}`}
+                                                        onClick={() => submitFeedback(idx, 'up')}
+                                                        disabled={!!feedback[msg.id || idx]}
+                                                        title="Helpful"
+                                                    >
+                                                        <SlLike />
+                                                    </button>
+                                                    <button
+                                                        className={`aic-feedback-btn ${feedback[msg.id || idx] === 'down' ? 'active down' : ''}`}
+                                                        onClick={() => submitFeedback(idx, 'down')}
+                                                        disabled={!!feedback[msg.id || idx]}
+                                                        title="Not helpful"
+                                                    >
+                                                        <SlDislike />
+                                                    </button>
+                                                    <button
+                                                        className={`aic-copy-btn ${copiedId === (msg.id || idx) ? 'copied' : ''}`}
+                                                        onClick={() => handleCopy(msg.id || idx, msg.content)}
+                                                        title={copiedId === (msg.id || idx) ? 'Copied!' : 'Copy'}
+                                                    >
+                                                        {copiedId === (msg.id || idx) ? <SlCheck /> : <SlDocs />}
+                                                    </button>
+                                                </div>
                                             )}
                                         </div>
 
@@ -557,18 +606,28 @@ export const AiChat = () => {
                                                 </button>
                                                 {expandedSource === idx && (
                                                     <div className="aic-source-cards">
-                                                        {msg.sources.map((s, si) => (
-                                                            <div key={si} className="aic-source-card">
-                                                                <span
-                                                                    className="aic-source-type"
-                                                                    style={{ background: SOURCE_COLOR[s.source] || '#888' }}
-                                                                >
-                                                                    {SOURCE_LABEL[s.source] || s.source}
-                                                                </span>
-                                                                <span className="aic-source-title">{s.title || 'Untitled'}</span>
-                                                                {s.preview && <p className="aic-source-preview">{s.preview}…</p>}
-                                                            </div>
-                                                        ))}
+                                                        {msg.sources.map((s, si) => {
+                                                            const citedDoc = s.source === 'document'
+                                                                ? documents.find(d => d.id === s.sourceId)
+                                                                : null;
+                                                            const displayTitle = citedDoc?.title || s.title || 'Untitled';
+                                                            const docTypeLabel = citedDoc ? DOC_TYPE_LABEL[citedDoc.docType] : null;
+                                                            return (
+                                                                <div key={si} className="aic-source-card">
+                                                                    <span
+                                                                        className="aic-source-type"
+                                                                        style={{ background: SOURCE_COLOR[s.source] || '#888' }}
+                                                                    >
+                                                                        {SOURCE_LABEL[s.source] || s.source}
+                                                                    </span>
+                                                                    {docTypeLabel && (
+                                                                        <span className="aic-source-doctype">{docTypeLabel}</span>
+                                                                    )}
+                                                                    <span className="aic-source-title">{displayTitle}</span>
+                                                                    {s.preview && <p className="aic-source-preview">{s.preview}…</p>}
+                                                                </div>
+                                                            );
+                                                        })}
                                                     </div>
                                                 )}
                                             </div>
@@ -617,6 +676,17 @@ export const AiChat = () => {
                     )}
                 </main>
             </div>
+
+            <ConfirmModal
+                isOpen={!!docToDelete}
+                title="Delete Document"
+                message={docToDelete ? `Delete "${docToDelete.title}"? This will remove all its AI context and cannot be undone.` : ''}
+                confirmText="Delete"
+                cancelText="Cancel"
+                danger
+                onConfirm={confirmDeleteDoc}
+                onCancel={() => setDocToDelete(null)}
+            />
         </div>
     );
 };

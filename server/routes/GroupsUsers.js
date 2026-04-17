@@ -8,6 +8,11 @@ const { validateToken } = require('../middlewares/AuthMiddleware');
 router.post('/user/:userId/group/:groupId', validateToken, async (req, res) => {
     const { userId, groupId } = req.params;
     try {
+        const group = await db.Groups.findByPk(groupId);
+        if (!group) return res.status(404).json({ error: 'Group not found.' });
+        if (String(req.user.id) !== String(userId) && group.leader !== req.user.name) {
+            return res.status(403).json({ error: 'Forbidden.' });
+        }
         await db.Groups_Users.create({ UserId: userId, GroupId: groupId });
         res.status(201).json({ message: 'User added to group successfully.' });
     } catch (error) {
@@ -19,6 +24,11 @@ router.post('/user/:userId/group/:groupId', validateToken, async (req, res) => {
 router.delete('/user/:userId/group/:groupId', validateToken, async (req, res) => {
     const { userId, groupId } = req.params;
     try {
+        const group = await db.Groups.findByPk(groupId);
+        if (!group) return res.status(404).json({ error: 'Group not found.' });
+        if (String(req.user.id) !== String(userId) && group.leader !== req.user.name) {
+            return res.status(403).json({ error: 'Forbidden.' });
+        }
         await db.Groups_Users.destroy({ where: { UserId: userId, GroupId: groupId } });
         res.status(200).json({ message: 'User removed from group successfully.' });
     } catch (error) {

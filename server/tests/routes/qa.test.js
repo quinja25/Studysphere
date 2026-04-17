@@ -47,12 +47,15 @@ jest.mock('../../models', () => ({
     create: jest.fn(),
     update: jest.fn(),
   },
+  AnswerVotes: {
+    findOrCreate: jest.fn(),
+  },
   Users: {
     findByPk: jest.fn(),
   },
 }));
 
-const { Questions, Answers } = require('../../models');
+const { Questions, Answers, AnswerVotes } = require('../../models');
 const router = require('../../routes/QA');
 
 const app = express();
@@ -230,8 +233,9 @@ describe('POST /qa/answers/:id/vote', () => {
 
   it('increments votes (200)', async () => {
     const token = generateAccessToken(42);
-    const answer = { ...mockAnswer, increment: jest.fn().mockResolvedValue(undefined) };
+    const answer = { ...mockAnswer, votes: 0, increment: jest.fn().mockResolvedValue(undefined) };
     Answers.findByPk.mockResolvedValue(answer);
+    AnswerVotes.findOrCreate.mockResolvedValue([{}, true]); // created = true (new vote)
     const res = await request(app)
       .post('/qa/answers/10/vote')
       .set('Authorization', `Bearer ${token}`);

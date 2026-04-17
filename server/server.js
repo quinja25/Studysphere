@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
+const helmet = require('helmet');
 const db = require('./models');
 const rateLimit = require('express-rate-limit');
 const cron = require('node-cron');
@@ -12,12 +13,14 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:3000";
 
+app.use(helmet());
 app.use(cors({
     origin: CLIENT_URL,
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
 app.use(express.json());
+app.use(require('cookie-parser')());
 
 // ── Rate limiting ───────────────────────────────────────────────────────────
 // Strict limiter for auth endpoints (10 attempts per 15 min)
@@ -51,7 +54,13 @@ const io = new Server(server, {
 });
 
 // Wire all Socket.io handlers (extracted to socket/handlers.js for testability)
-setupSocket(io);
+const roomUsers = setupSocket(io);
+
+// Expose io to route handlers via req.app.get('io') so services like
+// notificationService can push real-time events from request flows.
+app.set('io', io);
+// Expose live-presence map for /public/stats (read-only).
+app.set('roomUsers', roomUsers);
 
 const setupServer = async () => {
     const groupRouter = require('./routes/Groups');
@@ -71,6 +80,9 @@ const setupServer = async () => {
     const recapsRouter = require('./routes/Recaps');
     const sessionGoalsRouter = require('./routes/SessionGoals');
     const subjectsRouter = require('./routes/Subjects');
+    const notificationsRouter = require('./routes/Notifications');
+    const aiFeedbackRouter = require('./routes/AiFeedback');
+    const publicRouter = require('./routes/Public');
 
     app.use('/groups', groupRouter);
     app.use('/chats', chatRouter);
@@ -89,6 +101,9 @@ const setupServer = async () => {
     app.use('/recaps', recapsRouter);
     app.use('/session-goals', sessionGoalsRouter);
     app.use('/subjects', subjectsRouter);
+    app.use('/notifications', notificationsRouter);
+    app.use('/ai/feedback', aiFeedbackRouter);
+    app.use('/public', publicRouter);
 
     app.get('/', (req, res) => res.send('Main page'));
 

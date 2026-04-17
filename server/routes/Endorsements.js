@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Endorsements, Users } = require('../models');
 const { validateToken } = require('../middlewares/AuthMiddleware');
+const { createAndEmit } = require('../services/notificationService');
 
 // POST /endorsements — endorse an alumni (auth required)
 router.post('/', validateToken, async (req, res) => {
@@ -12,6 +13,19 @@ router.post('/', validateToken, async (req, res) => {
             where: { studentId, alumniId },
             defaults: { message },
         });
+
+        if (created && alumniId && alumniId !== studentId) {
+            const student = await Users.findByPk(studentId, { attributes: ['name'] });
+            createAndEmit({
+                userId: alumniId,
+                type: 'endorsement',
+                relatedType: 'user',
+                relatedId: studentId,
+                content: `${student?.name || 'A student'} endorsed you`,
+                link: `/alumni/${alumniId}`,
+            }, req.app.get('io')).catch(err => console.error('Notification error:', err.message));
+        }
+
         res.status(created ? 201 : 200).json({ endorsement, created });
     } catch (error) {
         res.status(500).json({ error: error.message });

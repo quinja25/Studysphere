@@ -25,7 +25,8 @@ A **virtual study room + community platform** connecting students with alumni. F
 - **Groups**: create/delete, bcrypt-hashed passwords, `hasPassword` scrubbed from GET, `POST /groups/:id/verify-password`
 - **Group Membership**: add/remove, list by user or group
 - **Chat**: real-time via Socket.io, pin/delete messages
-- **AI (RAG)**: hybrid FULLTEXT + vector search over Wiki, Q&A, Posts, Resources; 50k token/day budget; quiz generation; `AiMessages` history; `/ai/suggest`, `/ai/ask` (stateless); provider abstracted in `server/services/openai.js`
+- **AI (RAG)**: hybrid FULLTEXT + vector search over Wiki, Q&A, Posts, Resources; 50k token/day budget; quiz generation; `AiMessages` history; `/ai/suggest`, `/ai/ask` (stateless); provider abstracted in `server/services/openai.js`. RAG pipeline now includes cross-encoder reranker (`rerank.js`), conversational query rewriter (`queryRewriter.js`), HyDE (`hyde.js`, skipped for queries > 120 chars), type-aware chunker (`adaptiveChunker.js`), query intent classifier with per-source boosts (`queryIntent.js`) — all opt-in via env vars, run in parallel with FULLTEXT search where possible.
+- **AI feedback loop**: `AiFeedback` table, `POST /ai/feedback`, `GET /ai/feedback/my`, `GET /ai/feedback/stats/mine`. `feedbackAggregates.js` service computes per-source-type up/down counts for scoring influence.
 - **Wiki / Q&A / Posts**: full CRUD, FULLTEXT search, tagging (`tags` TEXT column, comma-separated), embedding sync, view/vote counts
 - **Resources Marketplace**: XP-gated unlock, `UserResources`, download tracking, XP debt allowed
 - **Streaks**: leaderboard, `node-cron` weekly reset Monday 00:00
@@ -35,6 +36,8 @@ A **virtual study room + community platform** connecting students with alumni. F
 - **Session Recaps**: `SessionRecaps` table, AI summary after session, Dashboard "Recaps" tab
 - **Session Goals**: `SessionGoals` table, +25 XP bonus on completion
 - **Per-user documents**: `documentProcessor.js` (textbook/past-paper/notes chunking), `UserDocuments` model, `POST /ai/upload-document`, `GET /ai/documents`, `DELETE /ai/documents/:id`
+- **Notifications**: `Notifications` table, `notificationService.createAndEmit()` persists + pushes via Socket.io `user_${userId}` room. Emitters wired for new answers (notify question author), new endorsements (notify alumni), and admin report actions (notify reporter). REST routes: `GET /notifications`, `GET /notifications/unread-count`, `PUT /notifications/:id/read`, `PUT /notifications/read-all`, `DELETE /notifications/:id`. All routes auth-scoped to the current user.
+- **Public landing endpoints** (`server/routes/Public.js`, no auth): `GET /public/stats` returns `{studentsOnline, activeRooms, questionsLast24h, unansweredQuestions, lastAnswerMinutesAgo}` — `studentsOnline`/`activeRooms` read from the Socket.io presence map exposed via `app.set('roomUsers', ...)`, DB counts fail-safe to 0. `GET /public/open-questions?limit=3` returns recent unanswered questions (capped at 6). `POST /public/ai-try` is a no-auth IB-aware AI preview: `express-rate-limit` 3/day/IP, 200-char prompt cap, `trust proxy` respected, IB command-term guidance injected into system prompt, **no DB writes**. All three cache-headered (30 s).
 
 ### Frontend
 - **Auth**: Login, Register (email + Google OAuth), ForgotPassword + ResetPassword, `/verify-email` page, Dashboard resend banner
@@ -44,8 +47,13 @@ A **virtual study room + community platform** connecting students with alumni. F
 - **Dashboard** (`/dashboard`): profile editing, XP bar, streak card, weekly goal ring, study stats, My Groups tab, Recaps tab
 - **Chat / DMs** (`/chat`): Study Rooms vs Messages sidebar, `__dm_{min}_{max}` naming
 - **Q&A / Wiki / Marketplace / Alumni**: full CRUD UIs, AI Suggest, tag pills, XP debt mechanic, endorsements, reports
-- **AI Chat** (`/ai-chat`): standalone RAG chat, source cards, provider badge
+- **AI Chat** (`/ai-chat`): standalone RAG chat, source cards, provider badge, per-message thumbs up/down feedback (posts to `/ai/feedback` with `clickedSources`), ConfirmModal on doc delete, docType badge + title on cited uploaded documents.
+- **Study Room AI sidebar** (`AiAssistant.js`): same thumbs feedback controls on every assistant message.
 - **Admin Dashboard** (`/admin`): stats, trust distribution, report queue, user management
+- **Notification bell**: `NotificationContext` opens a socket to `user_${userId}`, initial fetch via `GET /notifications`, optimistic mark-read. `<NotificationBell />` mounted in `NavBar`: bell icon + red badge, dropdown with click-through to `n.link`, mark-all-read, per-item dismiss.
+- **Public landing** (`/`): IB-first hero ("Get a 7 in IB. Together."), `<LiveStatsStrip />` pulling `/public/stats` on 60 s poll, `<TryAiWidget />` (3 IB sample chips, 200-char cap, posts to `/public/ai-try`, 429 → sign-up CTA, shows cited source pills). Copy leads with "the only AI trained on the IB curriculum" USP.
+- **Mentor landing** (`/for-mentors`): separate alumni-facing page. Hero "Your IB experience is worth paying for" + projected-impact card ($24–$80/mo bounty projection, Verified Mentor credit). Reuses `<LiveStatsStrip items={MENTOR_ITEMS} />` for alumni-relevant metrics (unanswered questions first). Live unanswered-Q feed from `/public/open-questions`. Four pillars — Earn (coming soon), Verified Badge (live), Cohorts (coming soon), Email-reply (coming soon). Mentor social-proof cards + honest FAQ. CTA → `/registration?role=alumni`.
+- **Shared components**: `LiveStatsStrip` accepts a custom `items` prop so the same component drives both student and mentor stat rows. `Home.js` nav + `ForMentors.js` nav cross-link each audience.
 - **Schedule** (`/schedule`): Google Calendar OAuth
 - **ConfirmModal**: replaces all `window.confirm()` calls, supports `danger` prop
 
@@ -53,16 +61,23 @@ A **virtual study room + community platform** connecting students with alumni. F
 
 ## RAG System
 
-**Data flow:** Content created → `embeddingSync.js` chunks (~150 tokens, 50 overlap) → `openai.js` embeds → `ContentEmbeddings` BLOB → on query: parallel FULLTEXT + vector search → RRF merge → top N chunks injected into LLM prompt.
+**Data flow:** Content created → `adaptiveChunker.chunkContent()` per-type chunks (Q+acceptedAnswer, wiki section boundaries, 200-tok post windows; falls back to flat sliding-window if `RAG_ADAPTIVE_CHUNKS=false`) → `openai.js` embeds → `ContentEmbeddings` BLOB. On query: `rewriteQuery()` (optional) → `retrieveContext()` kicks off `hyde()` + `classifyQuery()` + FULLTEXT in parallel → vector search with HyDE text (or original) → RRF merge → apply intent boosts → `rerank()` top candidates → slice to maxChunks → inject into LLM prompt.
 
 **Key files:**
 | File | Responsibility |
 |------|---------------|
 | `server/services/embeddingService.js` | `chunkText()`, `findSimilar()` (in-memory cache + IVF), BLOB serialization |
-| `server/services/embeddingSync.js` | `indexContent()`, `removeContent()`, `reindexAll()` |
-| `server/services/ragRetriever.js` | `retrieveContext()` — parallel FULLTEXT + vector, RRF, scoring bonuses |
+| `server/services/embeddingSync.js` | `indexContent()`, `removeContent()`, `reindexAll()`; uses adaptive chunker when enabled |
+| `server/services/adaptiveChunker.js` | `chunkContent(sourceType, record)` — type-aware chunks |
+| `server/services/ragRetriever.js` | `retrieveContext()` — parallel HyDE + intent + FULLTEXT + vector, RRF, boosts, rerank |
+| `server/services/rerank.js` | `rerank(query, chunks)` — Cohere or Ollama cross-encoder, opt-in |
+| `server/services/hyde.js` | `generateHypotheticalAnswer()` — opt-in HyDE |
+| `server/services/queryRewriter.js` | `rewriteQuery(message, history)` — conversational rewrite, opt-in |
+| `server/services/queryIntent.js` | `classifyQuery()` — heuristic (free) or LLM mode, returns per-source-type boosts |
+| `server/services/feedbackAggregates.js` | `sourceTypeStats()`, `sourcePerformance()` — aggregate thumbs feedback |
 | `server/services/openai.js` | `chatCompletion()`, `createEmbedding()`, `createEmbeddingBatch()` — provider-abstracted |
-| `server/routes/Ai.js` | `/ai/chat`, `/ai/ask`, `/ai/quiz`, `/ai/sources`, `/ai/reindex` |
+| `server/routes/Ai.js` | `/ai/chat`, `/ai/ask`, `/ai/quiz`, `/ai/sources`, `/ai/reindex` — all wire query rewriter |
+| `server/routes/AiFeedback.js` | `/ai/feedback` POST/my/stats |
 
 **Vector search:** In-memory cache (pre-normalized Float32Array). IVF index built when corpus ≥ `RAG_IVF_MIN_ROWS` (500) — k-means into √n clusters, probes top 15%. Cache invalidated on every write.
 
@@ -70,7 +85,42 @@ A **virtual study room + community platform** connecting students with alumni. F
 
 **Adding a new content type:** (1) Add case to `getContentText()` in `embeddingSync.js`. (2) Add to `reindexAll()`. (3) Add to `sourceType` ENUM + migrate. (4) Add FULLTEXT search fn in `ragRetriever.js`. (5) Add to `retrieveContext()` Promise.all. (6) Hook CRUD routes with `indexContent`/`removeContent`.
 
-**RAG env vars:** `OPENAI_API_KEY`, `OLLAMA_BASE_URL/MODEL/EMBED_MODEL`, `AI_DAILY_TOKEN_LIMIT` (50000), `RAG_MAX_CHUNKS` (5), `RAG_CHUNK_SIZE` (150), `RAG_CHUNK_OVERLAP` (50), `RAG_SIMILARITY_THRESHOLD` (0.5), `RAG_IVF_MIN_ROWS` (500), `RAG_IVF_NPROBE` (0=auto).
+**RAG env vars:** `OPENAI_API_KEY`, `OLLAMA_BASE_URL/MODEL/EMBED_MODEL`, `AI_DAILY_TOKEN_LIMIT` (50000), `RAG_MAX_CHUNKS` (5), `RAG_CHUNK_SIZE` (150), `RAG_CHUNK_OVERLAP` (50), `RAG_SIMILARITY_THRESHOLD` (0.5), `RAG_IVF_MIN_ROWS` (500), `RAG_IVF_NPROBE` (0=auto), `RAG_ADAPTIVE_CHUNKS` (default `true`), `RAG_RERANK_PROVIDER` (`cohere`/`ollama`/`off`), `RAG_RERANK_CANDIDATES` (20), `RAG_RERANK_MODEL` (for Ollama), `COHERE_API_KEY`, `RAG_QUERY_REWRITE_ENABLED` (default off), `RAG_HYDE_ENABLED` (default off), `RAG_INTENT_MODE` (`heuristic`/`llm`/`off`, default heuristic).
+
+---
+
+## RAG Upgrade Paths
+
+**Shipped (all behind env flags; default flags keep cost at zero):**
+
+| # | Upgrade | Files | Flag | Status |
+|---|---------|-------|------|--------|
+| 1 | Cross-encoder reranker (Cohere or Ollama) | `rerank.js` | `RAG_RERANK_PROVIDER` | Live, off by default |
+| 2 | Conversational query rewriter | `queryRewriter.js` + `Ai.js` | `RAG_QUERY_REWRITE_ENABLED` | Live, off by default |
+| 3 | HyDE | `hyde.js` | `RAG_HYDE_ENABLED` | Live, off by default, skipped for queries > 120 chars |
+| 5 | Adaptive per-type chunking | `adaptiveChunker.js` + `embeddingSync.js` | `RAG_ADAPTIVE_CHUNKS` | Live, **on** by default |
+| 7 | Query intent classifier + per-source boosts | `queryIntent.js` | `RAG_INTENT_MODE` | Live, heuristic mode default (free) |
+| 8 | Thumbs feedback loop | `AiFeedback` model + `/ai/feedback` + `feedbackAggregates.js` | — | Live, frontend wired in `AiChat.js` + `AiAssistant.js` |
+
+Pipeline efficiency: HyDE + intent classify kicked off in parallel with FULLTEXT search; vector search only blocks on HyDE; worst-case serial LLM calls when every flag enabled = 3 (rewrite → HyDE/intent parallel → final answer) + 1 HTTP call (reranker).
+
+**Not yet shipped (deliberate defer):**
+
+### 4. pgvector migration
+**Symptom:** corpus > 100k chunks, in-memory IVF eats RAM and cold-starts slowly.
+**Fix:** move `ContentEmbeddings.embedding` from MySQL BLOB → Postgres `vector(1536)` with HNSW index. Already listed in Tech Debt.
+- **How**: dump embeddings via `pg_dump`-style script; provision Supabase/Railway Postgres with pgvector; swap `findSimilar()` to `SELECT ... ORDER BY embedding <=> $1 LIMIT $2`. Drop the in-memory cache entirely.
+- **Effort**: 3–5 days. Defer until production corpus exceeds ~50k chunks.
+
+### 6. Embedding model upgrade
+**Symptom:** recall plateaus on scientific / IB-specific vocabulary.
+**Fix:** swap `text-embedding-3-small` (1536-d) → `text-embedding-3-large` (3072-d) or cross-lingual `BGE-M3`.
+- **How**: change `createEmbedding()` model + schema: `embedding BLOB` → new column sized for 3072 dims. Must full re-index; old + new can't coexist on one column.
+- **Cost**: 6.5× embedding cost, 2× storage. Defer until reranker + query rewrite + HyDE are all enabled and still saturate.
+
+### Next-step bets not in the original list
+- **Feedback-driven scoring:** wire `feedbackAggregates.sourcePerformance()` into the RRF score as a small per-source prior. Nightly job, not per-query.
+- **RAG eval harness:** `server/scripts/rag-eval.js` with 20 golden-pair queries from `server/seed.js`, measures recall@5 and MRR. Re-run before flipping any RAG env flag in production so regressions are caught.
 
 ---
 
@@ -86,6 +136,8 @@ A **virtual study room + community platform** connecting students with alumni. F
 
 **AI:** `POST /ai/chat`, `POST /ai/ask`, `POST /ai/quiz`, `POST /ai/suggest`, `GET /ai/sources`, `GET /ai/history/:groupId`, `DELETE /ai/history/:groupId`, `GET /ai/credits`, `POST /ai/reindex`, `POST /ai/upload-document`, `GET /ai/documents`, `DELETE /ai/documents/:id`
 
+**AI Feedback:** `POST /ai/feedback` (body: `{queryText, rating, messageId?, clickedSources?, comment?}`), `GET /ai/feedback/my`, `GET /ai/feedback/stats/mine`. All auth-scoped.
+
 **Recaps:** `POST /recaps/generate`, `GET /recaps/byUser/:userId`, `GET /recaps/:id`
 
 **Streaks:** `GET /streaks/me`, `GET /streaks/leaderboard`, `GET /streaks/:userId`, `GET /streaks/history/:userId`, `PUT /streaks/goal`
@@ -93,6 +145,10 @@ A **virtual study room + community platform** connecting students with alumni. F
 **Content:** Standard CRUD at `/posts`, `/wiki`, `/qa`, `/resources`, `/endorsements`, `/reports`. Writes require auth.
 
 **Admin** (requires `isAdmin`): `GET /admin/dashboard`, `GET /admin/reports`, `PUT /admin/reports/:id`, `GET /admin/users`, `PUT /admin/users/:id/ban|unban|make-admin`
+
+**Notifications** (auth-scoped): `GET /notifications` (paginated), `GET /notifications/unread-count`, `PUT /notifications/:id/read`, `PUT /notifications/read-all`, `DELETE /notifications/:id`. Real-time push via Socket.io event `notification:new` to `user_${userId}` room.
+
+**Public (no auth, rate-limited):** `GET /public/stats` (live presence + DB counts), `GET /public/open-questions?limit=N` (unanswered questions, N≤6), `POST /public/ai-try` (IB preview AI, 3/day/IP, prompt ≤200 chars, no DB writes).
 
 **Socket.io:** `join_room` → `room_state`; `presence` → `user_joined`; `send_message` → `receive_message`; `whiteboard_draw/clear` → broadcast; `disconnect` → `user_left`; WebRTC offer/answer point-to-point routing.
 
@@ -123,18 +179,22 @@ A **virtual study room + community platform** connecting students with alumni. F
 **ContentEmbeddings**: sourceType ENUM('wiki','question','answer','resource','post'), sourceId, chunkIndex, chunkText, embedding BLOB (Float32Array), tokenCount, subject
 **SessionRecaps**: groupId FK, generatedBy FK, summary, topicsCovered JSON, linksShared JSON, actionItems JSON, participantIds JSON, durationMinutes, startedAt, endedAt
 **SessionGoals**: userId FK, groupId FK, goal STRING, isCompleted, completedAt
+**Notifications**: userId FK, type ENUM('answer','endorsement','report_actioned'), relatedType, relatedId, content STRING(500), link, isRead (default false). Indexed on (userId, isRead) and (userId, createdAt).
+**AiFeedback**: userId FK, messageId (nullable — null for stateless `/ai/ask`), queryText STRING(1000), rating ENUM('up','down'), comment STRING(1000) nullable, clickedSources TEXT (JSON array of `{source, sourceId}`). Indexed on (userId, createdAt) and (rating, createdAt).
 
 ---
 
 ## Tests
 
-Full pyramid — all passing. Run:
+Full pyramid — all backend passing. Run:
 ```bash
-cd server && npm test          # 325 backend tests (routes, services, socket, integration/SQLite)
-cd client && CI=true npm test  # 140 frontend component tests
+cd server && npm test          # 462 backend tests across 29 suites (routes, services, socket, integration/SQLite)
+cd client && CI=true npm test  # 26 passing; 7 suites blocked by pre-existing react-router-dom v7 ESM × CRA Jest 27 incompat
 cd e2e && npx playwright test  # 41 E2E tests (requires CRA dev server on :3000)
 ```
-Remaining gap: E2E study room flow (WebRTC requires browser media permissions), `/diary` routes (when Spaced Repetition ships).
+Coverage of RAG upgrades: `rerank.test.js` (10), `queryRewriter.test.js` (8), `hyde.test.js` (7), `adaptiveChunker.test.js` (25), `queryIntent.test.js` (18), `aiFeedback.test.js` (11), `feedbackAggregates.test.js` (7). Notifications: `notifications.test.js` (15) + `notificationService.test.js` (5). Public landing: `public.test.js` (18 — stats shape, socket-room counting, DB-failure fallback, rate-limit with per-IP keying via `X-Forwarded-For`, IB prompt injection, open-questions filter/limit/no-auth).
+
+Remaining gaps: E2E study room flow (WebRTC requires browser media permissions), `/diary` routes (when Spaced Repetition ships), client Jest config fix for react-router-dom ESM.
 
 ---
 
@@ -179,6 +239,126 @@ Remaining gap: E2E study room flow (WebRTC requires browser media permissions), 
 5. **Alumni LinkedIn verification** — LinkedIn OAuth → verify education → `isVerified = true`, checkmark badge
 6. **Weekly progress email** — `node-cron` Monday 9 AM, nodemailer, opt-out via `emailNotifications` flag on Users
 7. **Institutional admin portal** — `Institutions` table, email domain auto-assign Pro, `/institution-admin` page
+
+---
+
+## Monetization Reality Check
+
+The product is mostly built. What blocks revenue is not features — it's retention, distribution, and a free tier that gives a reason to pay. Order of sequential gates, not parallel work:
+
+### Gate 1 — Retention proof (no money yet)
+- 100 users returning 3+ days/week for 4+ weeks.
+- Without this, monetization is dead on arrival.
+- Leading indicator: first-session → next-session return rate.
+- Required before anything else: onboarding flow (set subject → join/create room → first Pomodoro → first streak day).
+
+### Gate 2 — Willingness to pay (first $1k MRR)
+- 200 Pro conversions from the retained cohort.
+- Requires: Stripe paywall (`<ProGate>` component + `POST /billing/checkout|webhook|portal`) — data model already has `isPro`, `proExpiresAt`, `stripeCustomerId`.
+- Requires: a Pro feature people actually want. Spaced Repetition is the best bet because it's daily-use, not one-shot. Session Recaps should also be Pro-gated.
+- Analytics must exist before gate 2: PostHog or Amplitude. Without events on `signup`, `session_started`, `ai_message_sent`, `pro_upgrade`, the conversion funnel is un-diagnosable.
+
+### Gate 3 — Scalable channel
+Pick one:
+- **Consumer ($5/mo direct):** needs ~40k MAU for $10k MRR at 5% conversion. Only viable channels at $5/mo LTV are SEO (wiki + Q&A pages with `react-helmet` + `/sitemap.xml`) and virality (streak sharing, room invites, alumni endorsement LinkedIn posts). Paid ads are infeasible at this price.
+- **Institutional ($3–5/student/yr):** 50 schools × 500 students × $4 = $100k ARR. Warm intros through IB coordinators and tutor networks only — cold email is hopeless. Longer sales cycles, higher-touch, but tractable list of targets.
+
+### Non-negotiable prerequisites
+- Deployed to Railway + Vercel (~2 hrs). Cannot sell a URL that doesn't exist.
+- Analytics before scale.
+- Founder conducts ~20 user interviews before adding more features. The "Pro" feature list should come from what retained students say they'd pay for, not from this document.
+
+### The single hardest constraint
+Most consumer ed-tech fails at monetization. Student-facing apps compete with free alternatives (Discord, Quizlet, ChatGPT, Khan Academy). What differentiates StudySphere is alumni mentorship — but alumni are an **existential product risk**, not a feature. See next section.
+
+---
+
+## Public Landing Pages
+
+Two separate landing pages for two audiences. Same codebase, shared CSS vars, different copy and CTAs.
+
+| | **`/` (students)** | **`/for-mentors` (alumni)** |
+|--|--|--|
+| Headline | Get a 7 in IB. **Together.** | Your IB experience is **worth paying for.** |
+| Primary CTA | Get Started Free → `/registration` | Apply as Mentor → `/registration?role=alumni` |
+| Live strip | studying now · live rooms · questions today · last answer | **IB questions waiting** · students online · new questions today · last answer |
+| Interactive slice | `<TryAiWidget />` anonymous AI preview (3/day/IP) | Live `/public/open-questions` feed — 3 unanswered Qs a mentor could take |
+| Feature framing | Rooms, AI, XP/streaks, knowledge base, mentorship | Bounties (soon), Verified Badge (live), Cohorts (soon), Email-reply (soon) |
+| Social proof | Sample student cards with streaks | Sample mentor cards with university + "helped N students" + Verified check |
+| Closing CTA | Your first session is one click away | Your first answer is one reply away |
+
+**Why the split:** a student landing a cold page from Reddit/TikTok and an alumnus landing from a LinkedIn DM need different value props. Bundling them onto one page was diluting both.
+
+**IB USP is the differentiator.** The `TryAiWidget` is explicitly scoped to IB (Maths AA, Bio HL, Chem SL, command terms, HL vs SL). This is the single hardest thing for a generic competitor (Discord + ChatGPT) to replicate — it's a curriculum moat, not a feature moat.
+
+**Landing-page polish (done this session):**
+- ✅ `/registration?role=alumni` now prefills the role dropdown (`Registration.js` reads `location.search`).
+- ✅ OG + Twitter meta tags on both landings via `react-helmet-async` (`HelmetProvider` wraps `<App>`, each page declares its own `<Helmet>` block).
+
+**Still open:**
+- No OG image asset yet — meta tags reference URLs and titles but no social-preview image. Adding `client/public/og-home.png` + `og-for-mentors.png` (1200×630) closes this.
+- PostHog events on `public_stats_view`, `public_ai_try_submit`, `public_ai_try_rate_limited`, `mentor_apply_click`. Without these the next landing-page iteration is guessing.
+- Absolute `og:url` (currently `"/"` / `"/for-mentors"`) — swap to full canonical once a production domain exists.
+
+---
+
+## Alumni Supply-Side Strategy
+
+Alumni are **not an audience** — they're a supply-side problem. Student mechanics (XP, streaks, levels) don't motivate 22–28-year-olds with jobs. Without 50+ active alumni, the value prop collapses to "Discord + ChatGPT" and the whole platform becomes undifferentiated.
+
+### Why alumni won't show up or stay
+1. **No personal upside.** They graduated. They don't need the platform.
+2. **Time cost.** Working grads have ~0 spare cycles for mentoring strangers.
+3. **Demand uncertainty.** Log in once, nobody's asking questions, leave forever.
+4. **LinkedIn already exists.** Same DMs land there with better identity signal.
+
+Until at least one of these flips, alumni signups decay to zero within 2 weeks of joining.
+
+### The four levers (in priority order)
+
+**1. Bounty system — pay them real money (the single biggest unlock).**
+- Student posts a question tagged with a bounty (e.g. `$2`).
+- Verified alumni answers. On acceptance, alumni gets paid.
+- Platform takes 20% cut; rest to alumni.
+- Turns StudySphere from "volunteer platform" → "gig economy for grads."
+- Alumni earn coffee money on a 10-min train ride. Students pay less than a Chegg answer.
+- Tech: requires **Stripe Connect** (marketplace pay-outs) on top of the Stripe paywall. ~1 week incremental.
+- Data: `Bounties` table (`questionId`, `amount`, `status`, `fundingMethod`), `Payouts` table (`alumniId`, `amount`, `stripeTransferId`, `status`).
+- Unit economics: if 5% of questions get bounties and alumni accept rate is 60%, the platform cut funds itself. Needs ~500 questions/month to produce meaningful alumni income.
+
+**2. Async daily email digest — meet them where they are.**
+- Nobody sits on the platform waiting. Don't require logins.
+- `node-cron` 8am local time: email each alumnus 3 unanswered questions in their subject area.
+- Reply-to-answer — parse inbound email via a provider like SendGrid Inbound Parse or Mailgun Routes.
+- Zero-login participation → fundamentally changes the commitment curve.
+- Requires: `AlumniEmailPreferences` table, inbound email parsing endpoint, subject-matching query.
+
+**3. Off-platform identity signal.**
+- Verified StudySphere Mentor badge with LinkedIn OAuth verification (already in backlog — see "Business Features > Alumni LinkedIn verification").
+- Public profile page (`/alumni/:id`) with OG meta tags so profiles share well on LinkedIn / Twitter.
+- Lifetime contribution metrics: "StudySphere Mentor — 127 IB students helped in 2026" → recruiter-visible, career-relevant.
+- Without this, alumni have no reason to build reputation here instead of Reddit or Discord.
+
+**4. University-branded alumni cohorts.**
+- "Imperial Alumni" room, "Oxford PPE" room, "Cambridge CompSci" room.
+- Solves the stickiness problem: alumni come *for the students* but stay *because other alumni from the same school are there*.
+- Belonging, not broadcast. Private sub-communities, not yet another public channel.
+- Data: `AlumniCohorts` (university, program, creator), `AlumniCohortMembers` (userId, cohortId). Requires verified university field on Users.
+
+### The founder move nobody wants to do
+Concierge-recruit the first **50 alumni** by hand, one-degree-out on LinkedIn — alumni of top IB / A-Level schools, Oxbridge, Ivy-equivalent. Personal intro call, Slack DM, tag the first 3 questions you want them to answer. Airbnb photographed apartments by hand. DoorDash's founders delivered meals. Two-sided marketplaces do not scale supply via signup forms at day zero. This work is not outsourceable.
+
+### The one bet if forced to pick
+**Bounties.** Everything else (async email, badges, cohorts) improves retention but won't get alumni in the door. Money will. Once 200 paid answers are flowing, StudySphere has a real business — not a study app hoping for volunteers.
+
+### Priority order for implementation
+1. LinkedIn verification + public profile OG meta (prerequisite for legitimacy, 2–3 days).
+2. Stripe paywall (prerequisite for Pro; also prerequisite for Stripe Connect, ~2–3 days).
+3. Stripe Connect + Bounties (~5–7 days on top of Stripe paywall).
+4. Async email digest (~2–3 days).
+5. University-branded cohorts (~3–5 days).
+
+Only start (3) after (1) and (2) ship — bounties without a Pro paywall funds alumni out of thin air, and bounties without verified mentors attract scammers.
 
 ---
 
@@ -362,6 +542,61 @@ Use **PostHog** (open source, free tier) for event tracking. Key events: `signup
 - [ ] 5 school ambassadors recruited
 - [ ] 10 alumni profiles live on the platform
 - [ ] Product Hunt draft ready (screenshots, tagline)
+
+---
+
+## Local Dev Setup (macOS)
+
+The backend needs MySQL running at `127.0.0.1:3306` before `npm start`. If `cd server && npm start` fails with `ECONNREFUSED 127.0.0.1:3306`, MySQL is not running (or not installed).
+
+### Option A — Homebrew (recommended)
+
+```bash
+brew install mysql
+brew services start mysql
+
+# One-time: create the dev + test databases.
+mysql -u root -e "CREATE DATABASE IF NOT EXISTS studysphere; CREATE DATABASE IF NOT EXISTS studysphere_test;"
+```
+
+Then confirm `server/.env` matches:
+
+```
+DB_USER=root
+DB_PASSWORD=
+DB_NAME=studysphere
+DB_HOST=127.0.0.1
+```
+
+Homebrew's fresh MySQL has no root password by default. If you set one during install, put it in `DB_PASSWORD`.
+
+### Option B — Docker
+
+If you prefer containers (Docker Desktop must be installed first):
+
+```bash
+docker run -d --name studysphere-mysql \
+  -p 3306:3306 \
+  -e MYSQL_ROOT_PASSWORD=password \
+  -e MYSQL_DATABASE=studysphere \
+  mysql:8
+```
+
+Then set `DB_PASSWORD=password` in `server/.env`.
+
+A `docker-compose.yml` for the full stack (mysql + server + client) is on the Tech Debt list — not shipped yet.
+
+### Managing the service
+
+```bash
+brew services list           # show running services
+brew services stop mysql     # stop MySQL
+brew services restart mysql  # restart after config change
+```
+
+### First boot
+
+On first boot the server auto-seeds `IbSubjects` and triggers a background RAG reindex (if `OPENAI_API_KEY` is set and `ContentEmbeddings` is empty). Run `node server/seed.js` to load the sample Wiki/Q&A/Posts/Resources used by the landing-page `/public/open-questions` feed — without seeded content, the mentor landing will render the empty-state ("No unanswered questions right now").
 
 ---
 

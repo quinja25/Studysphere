@@ -7,6 +7,13 @@ import ReportButton from '../components/ReportButton';
 import { FaLinkedin, FaGithub, FaGlobe } from 'react-icons/fa';
 import ConfirmModal from '../components/ConfirmModal';
 
+const safeUrl = (url) => {
+    try {
+        const parsed = new URL(url);
+        return ['http:', 'https:'].includes(parsed.protocol) ? url : '#';
+    } catch { return '#'; }
+};
+
 export const AlumniProfile = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -207,17 +214,17 @@ export const AlumniProfile = () => {
                         {(profile.linkedinUrl || profile.githubUrl || profile.website) && (
                             <div className="alumni-social-links">
                                 {profile.linkedinUrl && (
-                                    <a href={profile.linkedinUrl} target="_blank" rel="noopener noreferrer" className="alumni-social-btn alumni-social-linkedin">
+                                    <a href={safeUrl(profile.linkedinUrl)} target="_blank" rel="noopener noreferrer" className="alumni-social-btn alumni-social-linkedin">
                                         <FaLinkedin /> LinkedIn
                                     </a>
                                 )}
                                 {profile.githubUrl && (
-                                    <a href={profile.githubUrl} target="_blank" rel="noopener noreferrer" className="alumni-social-btn alumni-social-github">
+                                    <a href={safeUrl(profile.githubUrl)} target="_blank" rel="noopener noreferrer" className="alumni-social-btn alumni-social-github">
                                         <FaGithub /> GitHub
                                     </a>
                                 )}
                                 {profile.website && (
-                                    <a href={profile.website} target="_blank" rel="noopener noreferrer" className="alumni-social-btn alumni-social-website">
+                                    <a href={safeUrl(profile.website)} target="_blank" rel="noopener noreferrer" className="alumni-social-btn alumni-social-website">
                                         <FaGlobe /> Website
                                     </a>
                                 )}

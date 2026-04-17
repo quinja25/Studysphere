@@ -1,7 +1,7 @@
 {
   "tool_name": "Bash",
-  "tool_input_preview": "{\"command\":\"cd C:/Users/jaeyo/Projects/StudySphere/server && npm test -- --testPathPattern=embeddingService --silent 2>&1\",\"description\":\"Run embedding service tests specifically\"}",
-  "error": "Exit code 1\n\n> server@1.0.0 test\n> jest --forceExit --runInBand --testPathPattern=embeddingService --silent\n\ntestPathPattern:\n\n  Option \"testPathPattern\" was replaced by \"--testPathPatterns\". \"--testPathPatterns\" is only available as a command-line option.\n  \n  Please update your configuration.\n\n  CLI Options Documentation:\n  https://jestjs.io/docs/cli",
-  "timestamp": "2026-04-11T03:35:58.622Z",
-  "retry_count": 1
+  "tool_input_preview": "{\"command\":\"npm test -- --testPathPattern=\\\"aiFeedback.test.js|feedbackAggregates.test.js\\\" --no-coverage 2>&1\",\"timeout\":60000}",
+  "error": "Exit code 1\n\n> server@1.0.0 test\n> jest --forceExit --runInBand --testPathPattern=aiFeedback.test.js|feedbackAggregates.test.js --no-coverage\n\ntestPathPattern:\n\n  Option \"testPathPattern\" was replaced by \"--testPathPatterns\". \"--testPathPatterns\" is only available as a command-line option.\n  \n  Please update your configuration.\n\n  CLI Options Documentation:\n  https://jestjs.io/docs/cli",
+  "timestamp": "2026-04-17T07:47:33.430Z",
+  "retry_count": 4
 }

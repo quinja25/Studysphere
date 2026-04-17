@@ -1,0 +1,263 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1776429240142,
+  "projectRoot": "/Users/jaeyongjung/Studysphere/server",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "express",
+        "version": "4.18.2",
+        "category": "backend"
+      },
+      {
+        "name": "jest",
+        "version": "30.3.0",
+        "category": "testing"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": "npm test",
+    "lintCommand": null,
+    "devCommand": "npm run dev",
+    "scripts": {
+      "test": "jest --forceExit --runInBand",
+      "start": "node server.js",
+      "dev": "nodemon server.js"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "tests"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "config": {
+      "path": "config",
+      "purpose": "Configuration files",
+      "fileCount": 2,
+      "lastAccessed": 1776429240127,
+      "keyFiles": [
+        "config.js",
+        "config.json"
+      ]
+    },
+    "data": {
+      "path": "data",
+      "purpose": "Data files",
+      "fileCount": 1,
+      "lastAccessed": 1776429240127,
+      "keyFiles": [
+        "ibSubjects.js"
+      ]
+    },
+    "middlewares": {
+      "path": "middlewares",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1776429240128,
+      "keyFiles": [
+        "AdminMiddleware.js",
+        "AuthMiddleware.js"
+      ]
+    },
+    "migrations": {
+      "path": "migrations",
+      "purpose": "Database migrations",
+      "fileCount": 12,
+      "lastAccessed": 1776429240129,
+      "keyFiles": [
+        "20260304050000-update-chats-schema.js",
+        "20260304060000-add-public-password-to-groups.js",
+        "20260304070000-backfill-group-leaders.js",
+        "20260304080000-add-max-participants-to-groups.js",
+        "20260304090000-add-xp-level-to-users.js"
+      ]
+    },
+    "models": {
+      "path": "models",
+      "purpose": "Data models",
+      "fileCount": 27,
+      "lastAccessed": 1776429240129,
+      "keyFiles": [
+        "AiFeedback.js",
+        "AiMessages.js",
+        "AnswerVotes.js",
+        "Answers.js",
+        "Chats.js"
+      ]
+    },
+    "routes": {
+      "path": "routes",
+      "purpose": "Route handlers",
+      "fileCount": 19,
+      "lastAccessed": 1776429240129,
+      "keyFiles": [
+        "Admin.js",
+        "Ai.js",
+        "AiFeedback.js",
+        "Chats.js",
+        "Endorsements.js"
+      ]
+    },
+    "services": {
+      "path": "services",
+      "purpose": "Business logic services",
+      "fileCount": 12,
+      "lastAccessed": 1776429240129,
+      "keyFiles": [
+        "adaptiveChunker.js",
+        "documentProcessor.js",
+        "embeddingService.js",
+        "embeddingSync.js",
+        "feedbackAggregates.js"
+      ]
+    },
+    "socket": {
+      "path": "socket",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1776429240129,
+      "keyFiles": [
+        "handlers.js"
+      ]
+    },
+    "tests": {
+      "path": "tests",
+      "purpose": "Test files",
+      "fileCount": 0,
+      "lastAccessed": 1776429240130,
+      "keyFiles": []
+    },
+    "uploads": {
+      "path": "uploads",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1776429240130,
+      "keyFiles": [
+        "all-dp-subjects-list-en.pdf"
+      ]
+    },
+    "tests/helpers": {
+      "path": "tests/helpers",
+      "purpose": "Helper functions",
+      "fileCount": 2,
+      "lastAccessed": 1776429240131,
+      "keyFiles": [
+        "authHelpers.js",
+        "mockModels.js"
+      ]
+    },
+    "tests/routes": {
+      "path": "tests/routes",
+      "purpose": "Route handlers",
+      "fileCount": 17,
+      "lastAccessed": 1776429240131,
+      "keyFiles": [
+        "admin.test.js",
+        "ai.test.js",
+        "aiFeedback.test.js"
+      ]
+    },
+    "tests/services": {
+      "path": "tests/services",
+      "purpose": "Business logic services",
+      "fileCount": 9,
+      "lastAccessed": 1776429240131,
+      "keyFiles": [
+        "adaptiveChunker.test.js",
+        "embeddingService.test.js",
+        "feedbackAggregates.test.js"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "tests/routes/public.test.js",
+      "accessCount": 7,
+      "lastAccessed": 1776431448480,
+      "type": "file"
+    },
+    {
+      "path": "server.js",
+      "accessCount": 4,
+      "lastAccessed": 1776430677325,
+      "type": "file"
+    },
+    {
+      "path": "routes/Public.js",
+      "accessCount": 3,
+      "lastAccessed": 1776431272179,
+      "type": "file"
+    },
+    {
+      "path": "",
+      "accessCount": 1,
+      "lastAccessed": 1776430551034,
+      "type": "directory"
+    },
+    {
+      "path": "models/StudySessions.js",
+      "accessCount": 1,
+      "lastAccessed": 1776430551325,
+      "type": "file"
+    },
+    {
+      "path": "socket/handlers.js",
+      "accessCount": 1,
+      "lastAccessed": 1776430555979,
+      "type": "file"
+    },
+    {
+      "path": "routes/Ai.js",
+      "accessCount": 1,
+      "lastAccessed": 1776430556700,
+      "type": "file"
+    },
+    {
+      "path": "models/Questions.js",
+      "accessCount": 1,
+      "lastAccessed": 1776430633617,
+      "type": "file"
+    },
+    {
+      "path": "models/Answers.js",
+      "accessCount": 1,
+      "lastAccessed": 1776430633644,
+      "type": "file"
+    },
+    {
+      "path": "tests/routes/ai.test.js",
+      "accessCount": 1,
+      "lastAccessed": 1776430802801,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

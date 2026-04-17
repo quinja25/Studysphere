@@ -131,6 +131,12 @@
   },
   "hotPaths": [
     {
+      "path": "src/App.js",
+      "accessCount": 4,
+      "lastAccessed": 1776410271452,
+      "type": "file"
+    },
+    {
       "path": "src\\tests\\pages\\Wiki.test.js",
       "accessCount": 3,
       "lastAccessed": 1775918499637,
@@ -140,6 +146,12 @@
       "path": "src\\tests\\pages\\Group.test.js",
       "accessCount": 3,
       "lastAccessed": 1775918791780,
+      "type": "file"
+    },
+    {
+      "path": "src/components/NavBar.js",
+      "accessCount": 3,
+      "lastAccessed": 1776410276993,
       "type": "file"
     },
     {
@@ -182,6 +194,30 @@
       "path": "package.json",
       "accessCount": 1,
       "lastAccessed": 1775958143210,
+      "type": "file"
+    },
+    {
+      "path": "src/api.js",
+      "accessCount": 1,
+      "lastAccessed": 1776410221829,
+      "type": "file"
+    },
+    {
+      "path": "src/contexts/NotificationContext.js",
+      "accessCount": 1,
+      "lastAccessed": 1776410239556,
+      "type": "file"
+    },
+    {
+      "path": "src/components/NotificationBell.js",
+      "accessCount": 1,
+      "lastAccessed": 1776410256646,
+      "type": "file"
+    },
+    {
+      "path": "src/components/NotificationBell.css",
+      "accessCount": 1,
+      "lastAccessed": 1776410268276,
       "type": "file"
     }
   ],

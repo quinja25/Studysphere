@@ -182,36 +182,55 @@
     border-bottom-left-radius: 4px;
 }
 
-.ai-copy-btn {
+.ai-bubble-actions {
     position: absolute;
     top: 6px;
     right: 6px;
+    display: flex;
+    gap: 2px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.ai-message-bubble:hover .ai-bubble-actions {
+    opacity: 1;
+}
+
+.ai-copy-btn,
+.ai-feedback-btn {
     background: none;
     border: none;
     font-size: 0.85rem;
     cursor: pointer;
     color: #aaa;
-    opacity: 0;
-    transition: opacity 0.2s, color 0.2s, background 0.2s;
+    transition: color 0.2s, background 0.2s;
     padding: 4px 6px;
     border-radius: 4px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
 }
 
-.ai-message-bubble:hover .ai-copy-btn {
-    opacity: 1;
-}
-
-.ai-copy-btn:hover {
+.ai-copy-btn:hover,
+.ai-feedback-btn:hover:not(:disabled) {
     color: #333;
     background: rgba(0, 0, 0, 0.05);
 }
 
 .ai-copy-btn.copied {
-    opacity: 1;
     color: #27ae60;
+}
+
+.ai-feedback-btn:disabled { cursor: default; }
+.ai-feedback-btn.active.up { opacity: 1; color: #22c55e; }
+.ai-feedback-btn.active.down { opacity: 1; color: #ef4444; }
+.ai-message-bubble:hover .ai-feedback-btn.active { color: inherit; }
+.ai-feedback-btn.active.up,
+.ai-feedback-btn.active.down {
+    opacity: 1;
+}
+.ai-bubble-actions:has(.active) {
+    opacity: 1;
 }
 
 /* ── Thinking Animation ── */

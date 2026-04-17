@@ -12,8 +12,11 @@ const { generateAccessToken } = require('../helpers/authHelpers');
 
 const mockChatInstance = {
     isPinned: false,
+    author: 'Alice',
+    GroupId: 1,
     save: jest.fn().mockResolvedValue(undefined),
     toJSON: jest.fn().mockReturnValue({ id: 1, message: 'Hello', author: 'Alice', GroupId: 1, isPinned: false }),
+    destroy: jest.fn().mockResolvedValue(undefined),
 };
 
 jest.mock('../../models', () => ({
@@ -22,6 +25,12 @@ jest.mock('../../models', () => ({
         findByPk: jest.fn(),
         create: jest.fn(),
         destroy: jest.fn(),
+    },
+    Groups: {
+        findByPk: jest.fn(),
+    },
+    Groups_Users: {
+        findOne: jest.fn(),
     },
 }));
 
@@ -35,6 +44,7 @@ jest.mock('multer', () => {
 });
 
 const { Chats } = require('../../models');
+const db = require('../../models');
 const router = require('../../routes/Chats');
 const app = express();
 app.use(express.json());
@@ -44,7 +54,10 @@ describe('Chats API', () => {
     beforeEach(() => {
         jest.clearAllMocks();
         mockChatInstance.isPinned = false;
+        mockChatInstance.author = 'Alice';
+        mockChatInstance.GroupId = 1;
         mockChatInstance.save.mockResolvedValue(undefined);
+        mockChatInstance.destroy.mockResolvedValue(undefined);
         mockChatInstance.toJSON.mockReturnValue({ id: 1, message: 'Hello', author: 'Alice', GroupId: 1, isPinned: false });
     });
 
@@ -73,19 +86,19 @@ describe('Chats API', () => {
 
     describe('POST /chats/', () => {
         it('returns 401 when no auth token', async () => {
-            const res = await request(app).post('/chats/').send({ message: 'Hello', author: 'Alice', GroupId: 1 });
+            const res = await request(app).post('/chats/').send({ message: 'Hello', GroupId: 1 });
             expect(res.status).toBe(401);
         });
 
         it('creates chat message and returns 200', async () => {
-            const token = generateAccessToken(1);
+            const token = generateAccessToken(1, { name: 'Alice' });
             const newChat = { id: 1, message: 'Hello', author: 'Alice', GroupId: 1 };
             Chats.create.mockResolvedValue(newChat);
 
             const res = await request(app)
                 .post('/chats/')
                 .set('Authorization', `Bearer ${token}`)
-                .send({ message: 'Hello', author: 'Alice', GroupId: 1 });
+                .send({ message: 'Hello', GroupId: 1 });
 
             expect(res.status).toBe(200);
             expect(res.body.message).toBe('Hello');
@@ -93,13 +106,13 @@ describe('Chats API', () => {
         });
 
         it('returns 500 on DB error', async () => {
-            const token = generateAccessToken(1);
+            const token = generateAccessToken(1, { name: 'Alice' });
             Chats.create.mockRejectedValue(new Error('DB error'));
 
             const res = await request(app)
                 .post('/chats/')
                 .set('Authorization', `Bearer ${token}`)
-                .send({ message: 'Hello' });
+                .send({ message: 'Hello', GroupId: 1 });
 
             expect(res.status).toBe(500);
         });
@@ -112,7 +125,7 @@ describe('Chats API', () => {
         });
 
         it('returns 404 when chat not found', async () => {
-            const token = generateAccessToken(1);
+            const token = generateAccessToken(1, { name: 'Alice' });
             Chats.findByPk.mockResolvedValue(null);
 
             const res = await request(app)
@@ -123,10 +136,12 @@ describe('Chats API', () => {
         });
 
         it('toggles isPinned from false to true', async () => {
-            const token = generateAccessToken(1);
+            const token = generateAccessToken(1, { name: 'Alice' });
             mockChatInstance.isPinned = false;
             mockChatInstance.toJSON.mockReturnValue({ id: 1, isPinned: true });
             Chats.findByPk.mockResolvedValue(mockChatInstance);
+            db.Groups.findByPk.mockResolvedValue({ id: 1, leader: 'SomeOtherUser' });
+            db.Groups_Users.findOne.mockResolvedValue({ UserId: 1, GroupId: 1 }); // user is member
 
             const res = await request(app)
                 .put('/chats/pin/1')
@@ -138,10 +153,12 @@ describe('Chats API', () => {
         });
 
         it('toggles isPinned from true to false', async () => {
-            const token = generateAccessToken(1);
+            const token = generateAccessToken(1, { name: 'Alice' });
             mockChatInstance.isPinned = true;
             mockChatInstance.toJSON.mockReturnValue({ id: 1, isPinned: false });
             Chats.findByPk.mockResolvedValue(mockChatInstance);
+            db.Groups.findByPk.mockResolvedValue({ id: 1, leader: 'SomeOtherUser' });
+            db.Groups_Users.findOne.mockResolvedValue({ UserId: 1, GroupId: 1 }); // user is member
 
             const res = await request(app)
                 .put('/chats/pin/1')
@@ -149,6 +166,19 @@ describe('Chats API', () => {
 
             expect(res.status).toBe(200);
             expect(res.body.isPinned).toBe(false);
+        });
+
+        it('returns 403 when user is not member or leader', async () => {
+            const token = generateAccessToken(1, { name: 'Alice' });
+            Chats.findByPk.mockResolvedValue(mockChatInstance);
+            db.Groups.findByPk.mockResolvedValue({ id: 1, leader: 'SomeOtherUser' });
+            db.Groups_Users.findOne.mockResolvedValue(null); // not a member
+
+            const res = await request(app)
+                .put('/chats/pin/1')
+                .set('Authorization', `Bearer ${token}`);
+
+            expect(res.status).toBe(403);
         });
     });
 
@@ -159,8 +189,9 @@ describe('Chats API', () => {
         });
 
         it('deletes chat message and returns success message', async () => {
-            const token = generateAccessToken(1);
-            Chats.destroy.mockResolvedValue(1);
+            const token = generateAccessToken(1, { name: 'Alice' });
+            mockChatInstance.author = 'Alice';
+            Chats.findByPk.mockResolvedValue(mockChatInstance);
 
             const res = await request(app)
                 .delete('/chats/1')
@@ -168,7 +199,30 @@ describe('Chats API', () => {
 
             expect(res.status).toBe(200);
             expect(res.body.message).toMatch(/deleted/i);
-            expect(Chats.destroy).toHaveBeenCalledWith({ where: { id: '1' } });
+            expect(mockChatInstance.destroy).toHaveBeenCalled();
+        });
+
+        it('returns 403 when user is not the author', async () => {
+            const token = generateAccessToken(1, { name: 'Bob' });
+            mockChatInstance.author = 'Alice'; // different author
+            Chats.findByPk.mockResolvedValue(mockChatInstance);
+
+            const res = await request(app)
+                .delete('/chats/1')
+                .set('Authorization', `Bearer ${token}`);
+
+            expect(res.status).toBe(403);
+        });
+
+        it('returns 404 when chat not found', async () => {
+            const token = generateAccessToken(1, { name: 'Alice' });
+            Chats.findByPk.mockResolvedValue(null);
+
+            const res = await request(app)
+                .delete('/chats/999')
+                .set('Authorization', `Bearer ${token}`);
+
+            expect(res.status).toBe(404);
         });
     });
 });

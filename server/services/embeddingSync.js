@@ -4,6 +4,10 @@ const { ContentEmbeddings, WikiArticles, Questions, Answers, Posts, Resources, U
 const { Op } = require('sequelize');
 const { chunkText, estimateTokens, serializeEmbedding, invalidateVectorIndex } = require('./embeddingService');
 const { createEmbeddingBatch } = require('./openai');
+const { chunkContent } = require('./adaptiveChunker');
+
+// Disable via RAG_ADAPTIVE_CHUNKS=false to fall back to flat sliding-window chunking.
+const ADAPTIVE_CHUNKS_ENABLED = process.env.RAG_ADAPTIVE_CHUNKS !== 'false';
 
 /**
  * Index (or re-index) a single piece of content.
@@ -13,11 +17,18 @@ const { createEmbeddingBatch } = require('./openai');
  * @param {number} sourceId
  */
 async function indexContent(sourceType, sourceId, skipInvalidate = false) {
-    const { text, prefix, subject } = await getContentText(sourceType, sourceId);
-    if (!text) return;
+    const { text, prefix, subject, record } = await getContentText(sourceType, sourceId);
 
-    // Generate chunks
-    const chunks = chunkText(text, prefix);
+    // Prefer adaptive per-type chunking when we have a structured record.
+    // Falls back to the legacy sliding-window path for any type without one.
+    let chunks;
+    if (ADAPTIVE_CHUNKS_ENABLED && record) {
+        chunks = chunkContent(sourceType, record);
+    } else if (text) {
+        chunks = chunkText(text, prefix);
+    } else {
+        return;
+    }
     if (chunks.length === 0) return;
 
     // Delete old embeddings for this source
@@ -75,6 +86,9 @@ async function reindexAll(onProgress) {
         { type: 'resource', model: Resources, where: {} },
     ];
 
+    const BATCH_SIZE = 5;
+    const BATCH_DELAY_MS = 100;
+
     // Re-index global documents separately using stored chunksJson (no file re-read needed)
     if (GlobalDocuments) {
         const globalDocs = await GlobalDocuments.findAll({ attributes: ['id', 'chunksJson', 'subject'] });
@@ -100,8 +114,6 @@ async function reindexAll(onProgress) {
 
     // Process documents in parallel batches — each doc is already 1 API call (batch embed),
     // so parallelising batches of 5 gives ~5× throughput while still respecting rate limits.
-    const BATCH_SIZE = 5;
-    const BATCH_DELAY_MS = 100; // delay between batches, not between every doc
 
     for (const { type, model, where } of sources) {
         const records = await model.findAll({ attributes: ['id'], where });
@@ -143,6 +155,7 @@ async function getContentText(sourceType, sourceId) {
                 text: article.content,
                 prefix: `Wiki Article: ${article.title}\nSubject: ${article.subject || 'General'}\nBy: ${article.author?.name || 'Unknown'}`,
                 subject: article.subject,
+                record: { title: article.title, content: article.content },
             };
         }
         case 'question': {
@@ -169,6 +182,11 @@ async function getContentText(sourceType, sourceId) {
                 text,
                 prefix: `Q&A Question${bestAnswer?.isAccepted ? ' (Answered)' : ''}\nSubject: ${q.subject || 'General'}`,
                 subject: q.subject,
+                record: {
+                    title: q.title,
+                    body: q.body,
+                    acceptedAnswer: bestAnswer?.isAccepted ? bestAnswer.content : null,
+                },
             };
         }
         case 'answer': {
@@ -189,6 +207,7 @@ async function getContentText(sourceType, sourceId) {
                 text: `${questionContext}\n\nAnswer: ${a.content}`,
                 prefix: `Q&A Answer${a.isAccepted ? ' (Accepted)' : ''}\nSubject: ${q?.subject || 'General'}\nBy: ${a.author?.name || 'Unknown'}${a.author?.role === 'alumni' ? ' (Alumni)' : ''}`,
                 subject: q?.subject,
+                record: { content: a.content, questionTitle: q?.title || '' },
             };
         }
         case 'resource': {
@@ -201,6 +220,7 @@ async function getContentText(sourceType, sourceId) {
                 text: `${r.title}\n\n${r.description || ''}`,
                 prefix: `Resource (${r.type})\nBy: ${r.author?.name || 'Unknown'}`,
                 subject: null,
+                record: { title: r.title, description: r.description || '', content: '' },
             };
         }
         case 'post': {
@@ -212,6 +232,7 @@ async function getContentText(sourceType, sourceId) {
                 text: p.content,
                 prefix: `${p.type === 'advice' ? 'Advice' : 'Blog'}: ${p.title}\nBy: ${p.author?.name || 'Unknown'}`,
                 subject: null,
+                record: { title: p.title, content: p.content },
             };
         }
         default:

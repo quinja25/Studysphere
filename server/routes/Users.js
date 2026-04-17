@@ -129,12 +129,19 @@ router.post('/google-login', async (req, res) => {
             await user.update({ picture: googleUser.picture });
         }
 
-        const tokens = issueTokens(user.id);
+        const { token, refreshToken } = issueTokens(user.id);
         const safeUser = PUBLIC_ATTRIBUTES.reduce((acc, key) => {
             acc[key] = user.dataValues[key];
             return acc;
         }, {});
-        res.json({ ...safeUser, ...tokens });
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+            path: '/users/refresh',
+        });
+        res.json({ ...safeUser, token });
     } catch (e) {
         res.status(401).json({ error: 'Google authentication failed' });
     }
@@ -154,12 +161,19 @@ router.post('/login', async (req, res) => {
         const match = await bcrypt.compare(password, user.password);
         if (!match) return res.status(400).json({ error: "Wrong password" });
 
-        const tokens = issueTokens(user.id);
+        const { token, refreshToken } = issueTokens(user.id);
         const safeUser = PUBLIC_ATTRIBUTES.reduce((acc, key) => {
             acc[key] = user.dataValues[key];
             return acc;
         }, {});
-        res.json({ ...safeUser, ...tokens });
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+            path: '/users/refresh',
+        });
+        res.json({ ...safeUser, token });
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
@@ -184,12 +198,19 @@ router.post('/register', async (req, res) => {
             targetUniversity, username, major, openHours, isPublic, picture,
         });
 
-        const tokens = issueTokens(newUser.id);
+        const { token, refreshToken } = issueTokens(newUser.id);
         const safeUser = PUBLIC_ATTRIBUTES.reduce((acc, key) => {
             acc[key] = newUser.dataValues[key];
             return acc;
         }, {});
-        res.json({ ...safeUser, ...tokens });
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 30 * 24 * 60 * 60 * 1000,
+            path: '/users/refresh',
+        });
+        res.json({ ...safeUser, token });
 
         // Send verification email (fire-and-forget, don't block response)
         try {
@@ -499,8 +520,9 @@ router.post('/send-verification', validateToken, async (req, res) => {
 });
 
 // POST /users/refresh — exchange a valid refresh token for a new access token
+// The refresh token is read from the httpOnly cookie set at login (not req.body).
 router.post('/refresh', (req, res) => {
-    const { refreshToken } = req.body;
+    const refreshToken = req.cookies?.refreshToken;
     if (!refreshToken) return res.status(400).json({ error: 'Missing refresh token' });
     try {
         const decoded = verify(refreshToken, process.env.JWT_SECRET);

@@ -5,9 +5,10 @@ const { validateToken } = require('../middlewares/AuthMiddleware');
 
 // POST /session-goals — create a new goal for the current session
 router.post('/', validateToken, async (req, res) => {
-    const { userId, groupId, goal } = req.body;
-    if (!userId || !groupId || !goal) {
-        return res.status(400).json({ error: 'userId, groupId, and goal are required.' });
+    const { groupId, goal } = req.body;
+    const userId = req.user.id;
+    if (!groupId || !goal) {
+        return res.status(400).json({ error: 'groupId and goal are required.' });
     }
     try {
         const newGoal = await SessionGoals.create({ userId, groupId, goal });
@@ -36,6 +37,9 @@ router.put('/:id', validateToken, async (req, res) => {
     try {
         const goalRecord = await SessionGoals.findByPk(id);
         if (!goalRecord) return res.status(404).json({ error: 'Goal not found.' });
+        if (String(goalRecord.userId) !== String(req.user.id)) {
+            return res.status(403).json({ error: 'You can only update your own goals.' });
+        }
 
         const updates = {};
         if (isCompleted !== undefined) updates.isCompleted = isCompleted;

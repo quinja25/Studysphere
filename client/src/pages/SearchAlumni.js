@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { NavBar } from '../components/NavBar';
 import api from '../api';
 import './SearchAlumni.css';
@@ -8,7 +8,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 export const SearchAlumni = () => {
     const [users, setUsers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [filteredUsers, setFilteredUsers] = useState([]);
     const [filterOption, setFilterOption] = useState('all');
     const navigate = useNavigate();
     const location = useLocation();
@@ -19,12 +18,10 @@ export const SearchAlumni = () => {
         api.get('/users/public')
             .then(res => {
                 setUsers(res.data);
-                setFilteredUsers(res.data);
             })
             .catch(err => {
                 console.error("Error fetching users:", err);
                 setUsers([]);
-                setFilteredUsers([]);
             });
     }, []);
 
@@ -33,7 +30,7 @@ export const SearchAlumni = () => {
         return m ? { name: m[1].trim(), level: m[2] } : { name: str.trim(), level: null };
     };
 
-    useEffect(() => {
+    const filteredUsers = useMemo(() => {
         const lowerTerm = searchTerm.toLowerCase();
         let results = users;
 
@@ -57,15 +54,15 @@ export const SearchAlumni = () => {
                     return mySubjectNames.some(s => userSubjectNames.includes(s));
                 });
             } else if (filterOption === 'peers-uni' && currentUser) {
-                results = results.filter(user => 
-                    user.role === 'student' && 
+                results = results.filter(user =>
+                    user.role === 'student' &&
                     user.id !== currentUser.id &&
                     user.targetUniversity && currentUser.targetUniversity &&
                     user.targetUniversity.toLowerCase() === currentUser.targetUniversity.toLowerCase()
                 );
             } else if (filterOption === 'alumni-uni' && currentUser) {
-                results = results.filter(user => 
-                    user.role === 'alumni' && 
+                results = results.filter(user =>
+                    user.role === 'alumni' &&
                     user.targetUniversity && currentUser.targetUniversity &&
                     user.targetUniversity.toLowerCase() === currentUser.targetUniversity.toLowerCase()
                 );
@@ -75,8 +72,8 @@ export const SearchAlumni = () => {
                 results = results.filter(user => user.role === 'student');
             }
         }
-        setFilteredUsers(results);
-    }, [searchTerm, users, filterOption, currentUser]);
+        return results;
+    }, [users, searchTerm, filterOption, currentUser]);
 
     const handleMessage = async (targetUser) => {
         try {

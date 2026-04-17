@@ -3,6 +3,7 @@ const router = express.Router();
 const { Users, Reports, TrustEvents, StudySessions } = require('../models');
 const { validateToken } = require('../middlewares/AuthMiddleware');
 const { validateAdmin } = require('../middlewares/AdminMiddleware');
+const { createAndEmit } = require('../services/notificationService');
 const { Op } = require('sequelize');
 
 // All admin routes require auth + admin
@@ -131,6 +132,19 @@ router.put('/reports/:id', async (req, res) => {
             }
         }
 
+        // Tell the original reporter what happened with their report
+        if (report.reporterId && (status === 'actioned' || status === 'dismissed' || status === 'reviewed')) {
+            const verb = status === 'actioned' ? 'actioned' : status === 'dismissed' ? 'dismissed' : 'reviewed';
+            createAndEmit({
+                userId: report.reporterId,
+                type: 'report_actioned',
+                relatedType: 'report',
+                relatedId: report.id,
+                content: `Your report was ${verb} by moderators`,
+                link: `/dashboard`,
+            }, req.app.get('io')).catch(err => console.error('Notification error:', err.message));
+        }
+
         res.json(report);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -138,8 +152,15 @@ router.put('/reports/:id', async (req, res) => {
 });
 
 // GET /admin/users — user list with trust scores
+const ALLOWED_SORT = ['trustScore', 'name', 'email', 'createdAt', 'level'];
+const ALLOWED_ORDER = ['ASC', 'DESC'];
+
 router.get('/users', async (req, res) => {
     const { search, sort = 'trustScore', order = 'ASC', page = 1, limit = 20 } = req.query;
+
+    const safeSort = ALLOWED_SORT.includes(sort) ? sort : 'trustScore';
+    const safeOrder = ALLOWED_ORDER.includes(order.toUpperCase()) ? order.toUpperCase() : 'ASC';
+
     const where = {};
     if (search) {
         where[Op.or] = [
@@ -153,7 +174,7 @@ router.get('/users', async (req, res) => {
             attributes: ['id', 'name', 'email', 'picture', 'role', 'trustScore',
                 'isShadowBanned', 'bannedAt', 'banReason', 'isAdmin',
                 'currentStreak', 'totalStudyMinutes', 'totalSessions', 'level', 'createdAt'],
-            order: [[sort, order]],
+            order: [[safeSort, safeOrder]],
             limit: parseInt(limit),
             offset: (parseInt(page) - 1) * parseInt(limit),
         });

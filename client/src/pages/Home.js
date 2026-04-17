@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import Logo from '../Logo1.svg';
+import { LiveStatsStrip } from '../components/LiveStatsStrip';
+import { TryAiWidget } from '../components/TryAiWidget';
 import './Home.css';
 
 const useScrollReveal = () => {
@@ -71,18 +74,26 @@ const STEPS = [
     { num: '03', title: 'Level up every session',      desc: 'Earn XP, extend your streak, hit your weekly goal. Leave with a clear record of what you covered.' },
 ];
 
-const STATS = [
-    { val: '10×',  label: 'XP per minute studied' },
-    { val: '50k',  label: 'AI tokens daily, free' },
-    { val: '∞',   label: 'Simultaneous rooms' },
-    { val: '4',    label: 'Ambient focus sounds' },
-];
-
 export const Home = () => {
     useScrollReveal();
 
+    const siteTitle = 'StudySphere — Get a 7 in IB. Together.';
+    const siteDesc = 'The only AI trained on the IB curriculum. Live study rooms with HD video, alumni mentors who took your exams, and a streak system that keeps you coming back. Free to join.';
+
     return (
         <div className="home">
+            <Helmet>
+                <title>{siteTitle}</title>
+                <meta name="description" content={siteDesc} />
+                <meta property="og:title" content={siteTitle} />
+                <meta property="og:description" content={siteDesc} />
+                <meta property="og:type" content="website" />
+                <meta property="og:site_name" content="StudySphere" />
+                <meta property="og:url" content="/" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={siteTitle} />
+                <meta name="twitter:description" content={siteDesc} />
+            </Helmet>
             <div className="bg-grid" />
 
             {/* ── Navbar ── */}
@@ -95,6 +106,7 @@ export const Home = () => {
                         <a href="#features">Features</a>
                         <a href="#how-it-works">How It Works</a>
                         <a href="#community">Community</a>
+                        <Link to="/for-mentors">For Mentors</Link>
                     </div>
                     <div className="home-nav-actions">
                         <Link to="/login" className="btn-ghost">Log in</Link>
@@ -107,18 +119,18 @@ export const Home = () => {
             <section className="hero">
                 <div className="hero-glow" />
                 <div className="hero-content">
-                    <div className="hero-eyebrow reveal">Virtual study rooms for serious students</div>
+                    <div className="hero-eyebrow reveal">Built for IB students</div>
                     <h1 className="hero-headline reveal">
-                        Study smarter.<br />
+                        Get a 7 in IB.<br />
                         <span className="gradient-text">Together.</span>
                     </h1>
                     <p className="hero-sub reveal">
-                        Real-time video rooms, an AI assistant that knows your subject,
-                        alumni mentors, and a habit system that keeps you coming back.
+                        The only AI trained on the IB curriculum — HL/SL depth, command terms,
+                        past-paper conventions. Paired with live study rooms and alumni who took your exams.
                     </p>
                     <div className="hero-ctas reveal">
                         <Link to="/registration" className="btn-primary btn-lg">Get Started Free</Link>
-                        <Link to="/login" className="btn-ghost btn-lg">Log in →</Link>
+                        <a href="#try-ai" className="btn-ghost btn-lg">Try the AI →</a>
                     </div>
                 </div>
                 <div className="hero-visual reveal">
@@ -126,15 +138,11 @@ export const Home = () => {
                 </div>
             </section>
 
-            {/* ── Stats ── */}
-            <div className="stats-bar reveal">
-                {STATS.map((s, i) => (
-                    <div key={i} className="stat-item">
-                        <span className="stat-val">{s.val}</span>
-                        <span className="stat-label">{s.label}</span>
-                    </div>
-                ))}
-            </div>
+            {/* ── Live stats ── */}
+            <LiveStatsStrip />
+
+            {/* ── Try the AI ── */}
+            <TryAiWidget />
 
             {/* ── Features ── */}
             <section className="features-section" id="features">

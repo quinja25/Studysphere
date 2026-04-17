@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { NavBar } from '../components/NavBar';
 import './Dashboard.css';
 import { SlPencil, SlCheck, SlClose, SlPlus, SlFire, SlBadge, SlGraduation, SlBookOpen, SlClock, SlGraph, SlTarget, SlDoc } from "react-icons/sl";
@@ -83,6 +83,19 @@ export const Dashboard = () => {
         const m = str.match(/^(.+?)\s*\((SL|HL)\)$/);
         return m ? { name: m[1], level: m[2] } : { name: str, level: null };
     };
+
+    const safeUrl = (url) => {
+        try {
+            const parsed = new URL(url);
+            return ['http:', 'https:'].includes(parsed.protocol) ? url : '#';
+        } catch { return '#'; }
+    };
+
+    const displaySubjects = useMemo(() => {
+        const raw = (isEditing ? editFormData : userData)?.subject;
+        if (!raw) return [];
+        return raw.split(',').map(s => s.trim()).filter(s => s).map(sub => ({ raw: sub, ...parseSubject(sub) }));
+    }, [isEditing, editFormData, userData]);
 
     const handleRemoveSubject = (subjectToRemove) => {
         const currentSubjects = editFormData.subject ? editFormData.subject.split(',').map(s => s.trim()).filter(s => s) : [];
@@ -242,9 +255,9 @@ export const Dashboard = () => {
                                 {isAlumni && userData.openHours && <span className="dash-meta-item"><SlClock /> Available: {userData.openHours}</span>}
                             </div>
                             <div className="dash-social-row">
-                                {userData.linkedinUrl && <a href={userData.linkedinUrl} target="_blank" rel="noopener noreferrer" className="dash-social-link dash-social-linkedin" title="LinkedIn"><FaLinkedin /></a>}
-                                {userData.githubUrl && <a href={userData.githubUrl} target="_blank" rel="noopener noreferrer" className="dash-social-link dash-social-github" title="GitHub"><FaGithub /></a>}
-                                {userData.website && <a href={userData.website} target="_blank" rel="noopener noreferrer" className="dash-social-link dash-social-website" title="Website"><FaGlobe /></a>}
+                                {userData.linkedinUrl && <a href={safeUrl(userData.linkedinUrl)} target="_blank" rel="noopener noreferrer" className="dash-social-link dash-social-linkedin" title="LinkedIn"><FaLinkedin /></a>}
+                                {userData.githubUrl && <a href={safeUrl(userData.githubUrl)} target="_blank" rel="noopener noreferrer" className="dash-social-link dash-social-github" title="GitHub"><FaGithub /></a>}
+                                {userData.website && <a href={safeUrl(userData.website)} target="_blank" rel="noopener noreferrer" className="dash-social-link dash-social-website" title="Website"><FaGlobe /></a>}
                             </div>
                             <div className="dash-actions-row">
                                 {!isEditing ? (
@@ -443,17 +456,14 @@ export const Dashboard = () => {
                                 <div className="dash-card">
                                     <h3>{isAlumni ? 'Expertise' : 'Subjects'}</h3>
                                     <div className="dash-subjects-list">
-                                        {(isEditing ? editFormData : userData).subject
-                                            ? (isEditing ? editFormData : userData).subject.split(',').map(s => s.trim()).filter(s => s).map((sub, i) => {
-                                                const { name, level } = parseSubject(sub);
-                                                return (
+                                        {displaySubjects.length > 0
+                                            ? displaySubjects.map(({ raw, name, level }, i) => (
                                                     <span key={i} className={`dash-subject-chip ${isAlumni ? 'alumni-chip' : ''}`}>
                                                         {name}
                                                         {level && <span className={`dash-level-badge ${level === 'HL' ? 'dash-level-hl' : 'dash-level-sl'}`}>{level}</span>}
-                                                        {isEditing && <SlClose className="dash-chip-remove" onClick={() => handleRemoveSubject(sub)} />}
+                                                        {isEditing && <SlClose className="dash-chip-remove" onClick={() => handleRemoveSubject(raw)} />}
                                                     </span>
-                                                );
-                                            })
+                                                ))
                                             : <p className="dash-empty">No {isAlumni ? 'expertise' : 'subjects'} added</p>
                                         }
                                     </div>

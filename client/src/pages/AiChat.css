@@ -261,11 +261,16 @@
 .aic-inline-code { background: rgba(0,0,0,0.07); padding: 2px 5px; border-radius: 4px; font-family: monospace; font-size: 0.87em; }
 .aic-code-block { background: #1e1e2e; color: #cdd6f4; padding: 12px 16px; border-radius: 8px; overflow-x: auto; font-size: 0.85em; margin: 8px 0; }
 
-/* Copy button */
-.aic-copy-btn {
+/* Bubble actions (feedback + copy) */
+.aic-bubble-actions {
     position: absolute;
     top: 8px;
     right: 8px;
+    display: flex;
+    gap: 2px;
+}
+.aic-copy-btn,
+.aic-feedback-btn {
     background: none;
     border: none;
     color: #aaa;
@@ -274,8 +279,15 @@
     padding: 4px;
     border-radius: 4px;
     transition: color 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 .aic-copy-btn:hover, .aic-copy-btn.copied { color: #4a90e2; }
+.aic-feedback-btn:hover:not(:disabled) { color: #4a90e2; }
+.aic-feedback-btn:disabled { cursor: default; }
+.aic-feedback-btn.active.up { color: #22c55e; }
+.aic-feedback-btn.active.down { color: #ef4444; }
 
 /* Sources */
 .aic-sources {
@@ -323,6 +335,20 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
     margin-bottom: 4px;
+}
+
+.aic-source-doctype {
+    display: inline-block;
+    margin-left: 6px;
+    margin-bottom: 4px;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #4338ca;
+    background: #eef2ff;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
 }
 
 .aic-source-title {

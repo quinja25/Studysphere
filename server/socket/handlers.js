@@ -1,5 +1,7 @@
 'use strict';
 
+const { verify } = require('jsonwebtoken');
+
 /**
  * setupSocket — wires all Socket.io room/presence/relay handlers.
  *
@@ -13,7 +15,28 @@ function setupSocket(io) {
     // roomId -> Map<socketId, { userId, name }>
     const roomUsers = new Map();
 
+    // ── Socket.io authentication middleware ────────────────────────────────
+    io.use((socket, next) => {
+        const token = socket.handshake.auth?.token;
+        if (!token) return next(new Error('Authentication required'));
+        try {
+            const decoded = verify(token, process.env.JWT_SECRET);
+            if (decoded.type !== 'access') return next(new Error('Invalid token type'));
+            socket.user = decoded;
+            next();
+        } catch (err) {
+            next(new Error('Authentication failed'));
+        }
+    });
+
     io.on('connection', (socket) => {
+        // ── Per-user notification room ─────────────────────────────────────
+        // Every authenticated socket joins `user_${userId}` on connect so the
+        // backend can target real-time pushes (new answer, endorsement, etc.)
+        // without knowing which tab the user has open.
+        if (socket.user?.id != null) {
+            socket.join(`user_${socket.user.id}`);
+        }
 
         // ── Room join ──────────────────────────────────────────────────────
         socket.on('join_room', (room) => {
@@ -33,17 +56,19 @@ function setupSocket(io) {
         // ── Presence ───────────────────────────────────────────────────────
         socket.on('presence', (data) => {
             const roomId = String(data.room);
+            const userId = socket.user.id;
+            const name = socket.user.name;
             socket._studyRoom = roomId;
-            socket._userId = data.userId;
-            socket._userName = data.name;
+            socket._userId = userId;
+            socket._userName = name;
 
             if (roomUsers.has(roomId)) {
-                roomUsers.get(roomId).set(socket.id, { userId: data.userId, name: data.name });
+                roomUsers.get(roomId).set(socket.id, { userId, name });
             }
 
             socket.to(roomId).emit('user_joined', {
-                id: data.userId,
-                name: data.name,
+                id: userId,
+                name,
                 socketId: socket.id,
             });
         });

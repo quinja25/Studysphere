@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Chats } = require('../models');
+const { Chats, Groups, Groups_Users } = require('../models');
 const { validateToken } = require('../middlewares/AuthMiddleware');
 const multer = require('multer');
 const path = require('path');
@@ -61,8 +61,9 @@ router.post('/upload', validateToken, (req, res, next) => {
 
 router.post('/', validateToken, async (req, res) => {
     try {
-        const chat = req.body;
-        const newChat = await Chats.create(chat);
+        const { message, GroupId } = req.body;
+        if (!message || !GroupId) return res.status(400).json({ error: 'message and GroupId are required.' });
+        const newChat = await Chats.create({ author: req.user.name, message, GroupId });
         res.json(newChat);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -74,6 +75,15 @@ router.put('/pin/:id', validateToken, async (req, res) => {
     try {
         const chat = await Chats.findByPk(id);
         if (!chat) return res.status(404).json({ error: "Chat not found" });
+
+        // Check membership: user must be the group leader or a member
+        const group = await Groups.findByPk(chat.GroupId);
+        const membership = await Groups_Users.findOne({ where: { UserId: req.user.id, GroupId: chat.GroupId } });
+        const isLeader = group && String(group.leader) === String(req.user.id);
+        if (!isLeader && !membership) {
+            return res.status(403).json({ error: 'Only group members can pin messages.' });
+        }
+
         const newPinnedStatus = !chat.isPinned;
         chat.isPinned = newPinnedStatus;
         await chat.save();
@@ -88,7 +98,12 @@ router.put('/pin/:id', validateToken, async (req, res) => {
 router.delete('/:id', validateToken, async (req, res) => {
     const id = req.params.id;
     try {
-        await Chats.destroy({ where: { id } });
+        const chat = await Chats.findByPk(id);
+        if (!chat) return res.status(404).json({ error: 'Chat not found' });
+        if (chat.author !== req.user.name) {
+            return res.status(403).json({ error: 'You can only delete your own messages.' });
+        }
+        await chat.destroy();
         res.json({ message: "Deleted successfully" });
     } catch (error) {
         res.status(500).json({ error: error.message });

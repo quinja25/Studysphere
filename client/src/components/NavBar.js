@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { googleLogout } from '@react-oauth/google';
 import Logo from '../Logo1.svg';
+import { NotificationBell } from './NotificationBell';
 import './NavBar.css';
 
 export const NavBar = () => {
@@ -50,6 +51,7 @@ export const NavBar = () => {
                         <Link to="/dashboard" className="navbar-link">My Profile</Link>
                         <Link to="/chat" className="navbar-link">Chat</Link>
                         {isAdmin && <Link to="/admin" className="navbar-link navbar-admin-link">Admin</Link>}
+                        <NotificationBell />
                         <button onClick={handleLogout} className="navbar-button">Log Out</button>
                     </>
                 )}

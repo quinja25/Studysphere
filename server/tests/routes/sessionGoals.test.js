@@ -38,18 +38,8 @@ beforeEach(() => {
 
 describe('POST /session-goals', () => {
     it('returns 401 without auth token', async () => {
-        const res = await request(app).post('/session-goals').send({ userId: 42, groupId: 1, goal: 'Study' });
+        const res = await request(app).post('/session-goals').send({ groupId: 1, goal: 'Study' });
         expect(res.status).toBe(401);
-    });
-
-    it('returns 400 when userId is missing', async () => {
-        const token = generateAccessToken(42);
-        const res = await request(app)
-            .post('/session-goals')
-            .set('Authorization', `Bearer ${token}`)
-            .send({ groupId: 1, goal: 'Study hard' });
-        expect(res.status).toBe(400);
-        expect(res.body.error).toMatch(/userId/i);
     });
 
     it('returns 400 when groupId is missing', async () => {
@@ -57,7 +47,7 @@ describe('POST /session-goals', () => {
         const res = await request(app)
             .post('/session-goals')
             .set('Authorization', `Bearer ${token}`)
-            .send({ userId: 42, goal: 'Study hard' });
+            .send({ goal: 'Study hard' });
         expect(res.status).toBe(400);
         expect(res.body.error).toMatch(/groupId/i);
     });
@@ -67,18 +57,18 @@ describe('POST /session-goals', () => {
         const res = await request(app)
             .post('/session-goals')
             .set('Authorization', `Bearer ${token}`)
-            .send({ userId: 42, groupId: 1 });
+            .send({ groupId: 1 });
         expect(res.status).toBe(400);
         expect(res.body.error).toMatch(/goal/i);
     });
 
-    it('creates a goal and returns it (200)', async () => {
+    it('creates a goal using userId from token and returns it (200)', async () => {
         const token = generateAccessToken(42);
         SessionGoals.create.mockResolvedValue(mockGoal);
         const res = await request(app)
             .post('/session-goals')
             .set('Authorization', `Bearer ${token}`)
-            .send({ userId: 42, groupId: 1, goal: 'Finish Chapter 5 problems' });
+            .send({ groupId: 1, goal: 'Finish Chapter 5 problems' });
         expect(res.status).toBe(200);
         expect(res.body.goal).toBe('Finish Chapter 5 problems');
         expect(SessionGoals.create).toHaveBeenCalledWith({
@@ -139,6 +129,17 @@ describe('PUT /session-goals/:id', () => {
             .send({ isCompleted: true });
         expect(res.status).toBe(404);
         expect(res.body.error).toMatch(/goal/i);
+    });
+
+    it('returns 403 when goal belongs to another user', async () => {
+        const token = generateAccessToken(42);
+        const goal = { ...mockGoal, userId: 99 }; // different user
+        SessionGoals.findByPk.mockResolvedValue(goal);
+        const res = await request(app)
+            .put('/session-goals/1')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ isCompleted: true });
+        expect(res.status).toBe(403);
     });
 
     it('marks goal as completed (200)', async () => {

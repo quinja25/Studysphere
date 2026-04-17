@@ -40,6 +40,10 @@ export const useSessionSave = (id, userId, joinTime, goalCompleted) => {
             const raw = localStorage.getItem('userData');
             const token = raw ? JSON.parse(raw).token : null;
             if (!token) return;
+            // Security note: sendBeacon sends the short-lived access token (15 min TTL)
+            // in the request body because the Beacon API does not support custom headers.
+            // This is an acceptable tradeoff — the access token is already short-lived and
+            // is NOT the 30-day refresh token (which is now httpOnly cookie-only).
             const blob = new Blob(
                 [JSON.stringify({ ...payload, accessToken: token })],
                 { type: 'application/json' }

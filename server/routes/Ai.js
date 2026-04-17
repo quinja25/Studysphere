@@ -9,6 +9,7 @@ const { estimateTokens } = require('../services/embeddingService');
 const { retrieveContext } = require('../services/ragRetriever');
 const { reindexAll, indexDocument, removeDocument } = require('../services/embeddingSync');
 const { processDocument } = require('../services/documentProcessor');
+const { rewriteQuery } = require('../services/queryRewriter');
 
 // Accept PDFs up to 20MB in memory (no disk write)
 const upload = multer({
@@ -149,9 +150,12 @@ router.post('/chat', validateToken, async (req, res) => {
             });
         }
 
-        // 5. RAG — retrieve relevant knowledge base content + user's uploaded documents
-        // Fall back to user's profile subject/major when the group hasn't set them
-        const ragChunks = await retrieveContext(message, {
+        // 5. RAG — retrieve relevant knowledge base content + user's uploaded documents.
+        // Query rewriter expands follow-ups using AiMessages history (retrieval only;
+        // the original message still goes to the LLM).
+        const rewriteHistory = aiHistory.map(m => ({ role: m.role, content: m.content }));
+        const retrievalQuery = await rewriteQuery(message, rewriteHistory);
+        const ragChunks = await retrieveContext(retrievalQuery, {
             subject: group.subject || user.subject || null,
             major: group.major || user.major || null,
             gradeLevel: group.gradeLevel || user.gradeLevel || null,
@@ -480,7 +484,10 @@ router.post('/ask', validateToken, async (req, res) => {
             return res.status(429).json({ error: 'Daily AI credit limit reached. Try again tomorrow.' });
         }
 
-        const ragChunks = await retrieveContext(message, {
+        // Rewrite the query with conversational context for retrieval only.
+        // Original `message` still goes to the LLM so the final answer addresses the raw question.
+        const retrievalQuery = await rewriteQuery(message, Array.isArray(history) ? history : []);
+        const ragChunks = await retrieveContext(retrievalQuery, {
             userId,
             subject: subjectOverride || user.subject || null,
             major: user.major || null,
@@ -528,6 +535,7 @@ router.post('/ask', validateToken, async (req, res) => {
             sources: ragChunks.map(c => ({
                 title: c.title,
                 source: c.source,
+                sourceId: c.sourceId,
                 preview: c.content.slice(0, 220),
             })),
             creditsUsed: user.aiCreditsUsed + aiResponse.tokens,

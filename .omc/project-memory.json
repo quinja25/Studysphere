@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1776165315766,
-  "projectRoot": "C:\\Users\\jaeyo\\Projects\\StudySphere",
+  "lastScanned": 1776408032407,
+  "projectRoot": "/Users/jaeyongjung/Studysphere",
   "techStack": {
     "languages": [],
     "frameworks": [],
@@ -25,15 +25,18 @@
     "isMonorepo": false,
     "workspaces": [],
     "mainDirectories": [],
-    "gitBranches": null
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
   },
   "customNotes": [],
   "directoryMap": {
     "client": {
       "path": "client",
       "purpose": null,
-      "fileCount": 5,
-      "lastAccessed": 1776165315687,
+      "fileCount": 4,
+      "lastAccessed": 1776408032371,
       "keyFiles": [
         "package-lock.json",
         "package.json"
@@ -43,7 +46,7 @@
       "path": "e2e",
       "purpose": null,
       "fileCount": 3,
-      "lastAccessed": 1776165315688,
+      "lastAccessed": 1776408032371,
       "keyFiles": [
         "package-lock.json",
         "package.json",
@@ -53,8 +56,8 @@
     "server": {
       "path": "server",
       "purpose": null,
-      "fileCount": 9,
-      "lastAccessed": 1776165315690,
+      "fileCount": 8,
+      "lastAccessed": 1776408032371,
       "keyFiles": [
         "jest.config.js",
         "package-lock.json",
@@ -63,101 +66,298 @@
         "server.js"
       ]
     },
-    "client\\build": {
-      "path": "client\\build",
+    "client/build": {
+      "path": "client/build",
       "purpose": "Build output",
       "fileCount": 7,
-      "lastAccessed": 1776165315693,
+      "lastAccessed": 1776408032372,
       "keyFiles": [
         "asset-manifest.json",
         "favicon.ico",
         "index.html"
       ]
     },
-    "client\\node_modules": {
-      "path": "client\\node_modules",
+    "client/node_modules": {
+      "path": "client/node_modules",
       "purpose": "Dependencies",
       "fileCount": 1,
-      "lastAccessed": 1776165315695,
+      "lastAccessed": 1776408032378,
       "keyFiles": []
     },
-    "client\\public": {
-      "path": "client\\public",
+    "client/public": {
+      "path": "client/public",
       "purpose": "Public files",
       "fileCount": 6,
-      "lastAccessed": 1776165315697,
+      "lastAccessed": 1776408032379,
       "keyFiles": [
         "favicon.ico",
         "index.html",
         "logo192.png"
       ]
     },
-    "client\\src": {
-      "path": "client\\src",
+    "client/src": {
+      "path": "client/src",
       "purpose": "Source code",
       "fileCount": 11,
-      "lastAccessed": 1776165315698,
+      "lastAccessed": 1776408032380,
       "keyFiles": [
-        "api.js",
         "App.css",
-        "App.js"
+        "App.js",
+        "App.test.js"
       ]
     },
-    "e2e\\node_modules": {
-      "path": "e2e\\node_modules",
+    "e2e/node_modules": {
+      "path": "e2e/node_modules",
       "purpose": "Dependencies",
       "fileCount": 1,
-      "lastAccessed": 1776165315698,
+      "lastAccessed": 1776408032380,
       "keyFiles": []
     },
-    "e2e\\tests": {
-      "path": "e2e\\tests",
+    "e2e/tests": {
+      "path": "e2e/tests",
       "purpose": "Test files",
       "fileCount": 3,
-      "lastAccessed": 1776165315699,
+      "lastAccessed": 1776408032381,
       "keyFiles": [
         "auth.spec.js",
         "groups.spec.js",
         "navigation.spec.js"
       ]
     },
-    "server\\config": {
-      "path": "server\\config",
+    "server/config": {
+      "path": "server/config",
       "purpose": "Configuration files",
       "fileCount": 2,
-      "lastAccessed": 1776165315700,
+      "lastAccessed": 1776408032381,
       "keyFiles": [
         "config.js",
         "config.json"
       ]
     },
-    "server\\data": {
-      "path": "server\\data",
+    "server/data": {
+      "path": "server/data",
       "purpose": "Data files",
       "fileCount": 1,
-      "lastAccessed": 1776165315700,
+      "lastAccessed": 1776408032381,
       "keyFiles": [
         "ibSubjects.js"
       ]
     },
-    "server\\migrations": {
-      "path": "server\\migrations",
+    "server/migrations": {
+      "path": "server/migrations",
       "purpose": "Database migrations",
       "fileCount": 12,
-      "lastAccessed": 1776165315701,
+      "lastAccessed": 1776408032381,
       "keyFiles": [
         "20260304050000-update-chats-schema.js",
         "20260304060000-add-public-password-to-groups.js",
         "20260304070000-backfill-group-leaders.js"
       ]
+    },
+    "server/models": {
+      "path": "server/models",
+      "purpose": "Data models",
+      "fileCount": 25,
+      "lastAccessed": 1776408032381,
+      "keyFiles": [
+        "AiMessages.js",
+        "AnswerVotes.js",
+        "Answers.js"
+      ]
     }
   },
   "hotPaths": [
+    {
+      "path": "client/src/pages/Dashboard.js",
+      "accessCount": 15,
+      "lastAccessed": 1776397968964,
+      "type": "file"
+    },
+    {
+      "path": "client/src/pages/AiChat.js",
+      "accessCount": 13,
+      "lastAccessed": 1776409804103,
+      "type": "directory"
+    },
+    {
+      "path": "server/server.js",
+      "accessCount": 10,
+      "lastAccessed": 1776409542418,
+      "type": "file"
+    },
+    {
+      "path": "client/src/pages/FindGroup.js",
+      "accessCount": 9,
+      "lastAccessed": 1776397968754,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/Chats.js",
+      "accessCount": 9,
+      "lastAccessed": 1776398822235,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/SessionGoals.js",
+      "accessCount": 9,
+      "lastAccessed": 1776398827194,
+      "type": "file"
+    },
+    {
+      "path": "client/src/pages/AlumniProfile.js",
+      "accessCount": 9,
+      "lastAccessed": 1776398856284,
+      "type": "file"
+    },
     {
       "path": "CLAUDE.md",
       "accessCount": 8,
       "lastAccessed": 1776165840456,
       "type": "file"
+    },
+    {
+      "path": "server/services/embeddingSync.js",
+      "accessCount": 8,
+      "lastAccessed": 1776398836759,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/Users.js",
+      "accessCount": 7,
+      "lastAccessed": 1776396519776,
+      "type": "file"
+    },
+    {
+      "path": "server/socket/handlers.js",
+      "accessCount": 7,
+      "lastAccessed": 1776409547637,
+      "type": "file"
+    },
+    {
+      "path": "server/tests/routes/ai.test.js",
+      "accessCount": 7,
+      "lastAccessed": 1776409855648,
+      "type": "directory"
+    },
+    {
+      "path": "server/routes/Posts.js",
+      "accessCount": 6,
+      "lastAccessed": 1776397968640,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/QA.js",
+      "accessCount": 6,
+      "lastAccessed": 1776409565604,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/Admin.js",
+      "accessCount": 5,
+      "lastAccessed": 1776397927569,
+      "type": "file"
+    },
+    {
+      "path": "client/src/pages/Login.js",
+      "accessCount": 5,
+      "lastAccessed": 1776398811003,
+      "type": "file"
+    },
+    {
+      "path": "server/tests/routes/groupsUsers.test.js",
+      "accessCount": 4,
+      "lastAccessed": 1776396578321,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/GroupsUsers.js",
+      "accessCount": 4,
+      "lastAccessed": 1776397926003,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/Groups.js",
+      "accessCount": 4,
+      "lastAccessed": 1776397942973,
+      "type": "file"
+    },
+    {
+      "path": "client/public/index.html",
+      "accessCount": 4,
+      "lastAccessed": 1776398867899,
+      "type": "directory"
+    },
+    {
+      "path": "client/src/App.js",
+      "accessCount": 4,
+      "lastAccessed": 1776409552497,
+      "type": "file"
+    },
+    {
+      "path": "client/src/api.js",
+      "accessCount": 4,
+      "lastAccessed": 1776409552718,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/Ai.js",
+      "accessCount": 4,
+      "lastAccessed": 1776409756162,
+      "type": "file"
+    },
+    {
+      "path": "server/tests/routes/users.test.js",
+      "accessCount": 3,
+      "lastAccessed": 1776396600765,
+      "type": "file"
+    },
+    {
+      "path": "client/src/hooks/useSessionSave.js",
+      "accessCount": 3,
+      "lastAccessed": 1776397946964,
+      "type": "file"
+    },
+    {
+      "path": ".claude/settings.local.json",
+      "accessCount": 3,
+      "lastAccessed": 1776409426103,
+      "type": "file"
+    },
+    {
+      "path": "server/services/ragRetriever.js",
+      "accessCount": 3,
+      "lastAccessed": 1776409701962,
+      "type": "file"
+    },
+    {
+      "path": "client/src/pages/AiChat.css",
+      "accessCount": 3,
+      "lastAccessed": 1776409820833,
+      "type": "directory"
+    },
+    {
+      "path": "client/src/pages/SearchAlumni.js",
+      "accessCount": 2,
+      "lastAccessed": 1776396499590,
+      "type": "file"
+    },
+    {
+      "path": "server/package.json",
+      "accessCount": 2,
+      "lastAccessed": 1776396530125,
+      "type": "file"
+    },
+    {
+      "path": "server/tests/routes/sessionGoals.test.js",
+      "accessCount": 2,
+      "lastAccessed": 1776396549720,
+      "type": "file"
+    },
+    {
+      "path": "server/routes",
+      "accessCount": 2,
+      "lastAccessed": 1776409566066,
+      "type": "directory"
     },
     {
       "path": "client\\src",
@@ -170,6 +370,72 @@
       "accessCount": 1,
       "lastAccessed": 1776165695718,
       "type": "directory"
+    },
+    {
+      "path": "server/tests/routes/chats.test.js",
+      "accessCount": 1,
+      "lastAccessed": 1776396522664,
+      "type": "file"
+    },
+    {
+      "path": "client/src/pages",
+      "accessCount": 1,
+      "lastAccessed": 1776396527507,
+      "type": "directory"
+    },
+    {
+      "path": "client/src/pages/Registration.js",
+      "accessCount": 1,
+      "lastAccessed": 1776396544460,
+      "type": "file"
+    },
+    {
+      "path": "server/tests/socket/socket.test.js",
+      "accessCount": 1,
+      "lastAccessed": 1776396553467,
+      "type": "file"
+    },
+    {
+      "path": ".claude/settings.json",
+      "accessCount": 1,
+      "lastAccessed": 1776408906043,
+      "type": "file"
+    },
+    {
+      "path": "server/services/documentProcessor.js",
+      "accessCount": 1,
+      "lastAccessed": 1776409547438,
+      "type": "file"
+    },
+    {
+      "path": "client/src/pages/Group.js",
+      "accessCount": 1,
+      "lastAccessed": 1776409552263,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/Endorsements.js",
+      "accessCount": 1,
+      "lastAccessed": 1776409560095,
+      "type": "file"
+    },
+    {
+      "path": "client/src/components/NavBar.js",
+      "accessCount": 1,
+      "lastAccessed": 1776409562643,
+      "type": "file"
+    },
+    {
+      "path": "client/src/components/AiAssistant.js",
+      "accessCount": 1,
+      "lastAccessed": 1776409575018,
+      "type": "file"
+    },
+    {
+      "path": "client/src/components/ConfirmModal.js",
+      "accessCount": 1,
+      "lastAccessed": 1776409715016,
+      "type": "file"
     }
   ],
   "userDirectives": []

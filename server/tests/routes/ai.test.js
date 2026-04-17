@@ -57,6 +57,7 @@ jest.mock('../../models', () => {
     const mockUsers = {
         findByPk: jest.fn(),
         update: jest.fn().mockResolvedValue([1]),
+        increment: jest.fn().mockResolvedValue([1]),
     };
     const mockChats = {
         findAll: jest.fn().mockResolvedValue([]),
@@ -362,6 +363,128 @@ describe('POST /ai/ask', () => {
         const callArgs = chatCompletion.mock.calls[0][0];
         const hasHistory = callArgs.some(m => m.content === 'Previous question');
         expect(hasHistory).toBe(true);
+    });
+
+    it('passes userId to retrieveContext so user documents are included', async () => {
+        const token = generateAccessToken(42);
+        db.Users.findByPk.mockResolvedValue({
+            ...freshUser, id: 42, subject: 'Biology', save: jest.fn(),
+        });
+        const { retrieveContext } = require('../../services/ragRetriever');
+        await request(app)
+            .post('/ai/ask')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ message: 'Explain photosynthesis' });
+        expect(retrieveContext).toHaveBeenCalled();
+        const opts = retrieveContext.mock.calls[0][1];
+        expect(opts.userId).toBe(42);
+    });
+
+    it('returns sourceId on each source so UI can identify cited documents', async () => {
+        const token = generateAccessToken(1);
+        const { retrieveContext } = require('../../services/ragRetriever');
+        retrieveContext.mockResolvedValueOnce([
+            { source: 'document', sourceId: 7, title: 'Biology HL', content: 'Chapter 2 — cells...', metadata: 'p.23', score: 0.9 },
+            { source: 'wiki', sourceId: 3, title: 'Mitosis', content: 'Cell division process', metadata: '', score: 0.7 },
+        ]);
+        const res = await request(app)
+            .post('/ai/ask')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ message: 'What is mitosis?' });
+        expect(res.status).toBe(200);
+        expect(res.body.sources).toHaveLength(2);
+        expect(res.body.sources[0]).toMatchObject({ source: 'document', sourceId: 7, title: 'Biology HL' });
+        expect(res.body.sources[1]).toMatchObject({ source: 'wiki', sourceId: 3, title: 'Mitosis' });
+    });
+});
+
+// ── POST /ai/upload-document ──────────────────────────────────────────────────
+
+describe('POST /ai/upload-document', () => {
+    it('returns 401 without auth token', async () => {
+        const res = await request(app).post('/ai/upload-document');
+        expect(res.status).toBe(401);
+    });
+
+    it('returns 400 when no file is supplied', async () => {
+        const token = generateAccessToken(1);
+        const res = await request(app)
+            .post('/ai/upload-document')
+            .set('Authorization', `Bearer ${token}`)
+            .send({ title: 'My Doc' });
+        expect(res.status).toBe(400);
+        expect(res.body.error).toMatch(/file/i);
+    });
+
+    it('returns 400 when title is missing', async () => {
+        const token = generateAccessToken(1);
+        const res = await request(app)
+            .post('/ai/upload-document')
+            .set('Authorization', `Bearer ${token}`)
+            .set('x-test-file', '1')
+            .send({ subject: 'Biology', docType: 'textbook' });
+        expect(res.status).toBe(400);
+        expect(res.body.error).toMatch(/title/i);
+    });
+
+    it('returns 422 when PDF yields no extractable text', async () => {
+        const token = generateAccessToken(1);
+        const { processDocument } = require('../../services/documentProcessor');
+        processDocument.mockResolvedValueOnce({ chunks: [], pages: 0 });
+        const res = await request(app)
+            .post('/ai/upload-document')
+            .set('Authorization', `Bearer ${token}`)
+            .set('x-test-file', '1')
+            .send({ title: 'Scanned PDF', docType: 'other' });
+        expect(res.status).toBe(422);
+        expect(res.body.error).toMatch(/extract/i);
+    });
+
+    it('creates a document, triggers indexing, and returns metadata (200)', async () => {
+        const token = generateAccessToken(1);
+        const { processDocument } = require('../../services/documentProcessor');
+        const { indexDocument } = require('../../services/embeddingSync');
+        processDocument.mockResolvedValueOnce({
+            chunks: [{ text: 'chunk 1', metadata: {} }, { text: 'chunk 2', metadata: {} }],
+            pages: 12,
+        });
+        db.UserDocuments.create.mockResolvedValue({
+            id: 99, title: 'Biology HL', subject: 'Biology',
+            docType: 'textbook', pageCount: 12, chunkCount: 2,
+        });
+        const res = await request(app)
+            .post('/ai/upload-document')
+            .set('Authorization', `Bearer ${token}`)
+            .set('x-test-file', '1')
+            .send({ title: 'Biology HL', subject: 'Biology', docType: 'textbook' });
+        expect(res.status).toBe(200);
+        expect(res.body.document).toMatchObject({
+            id: 99, title: 'Biology HL', subject: 'Biology',
+            docType: 'textbook', pageCount: 12, chunkCount: 2,
+        });
+        await new Promise(r => setImmediate(r));
+        expect(indexDocument).toHaveBeenCalledWith(1, 99, expect.any(Array), 'Biology');
+    });
+
+    it('coerces unknown docType to "other"', async () => {
+        const token = generateAccessToken(1);
+        const { processDocument } = require('../../services/documentProcessor');
+        processDocument.mockResolvedValueOnce({
+            chunks: [{ text: 'hi', metadata: {} }],
+            pages: 1,
+        });
+        db.UserDocuments.create.mockResolvedValue({
+            id: 100, title: 'Thing', subject: null, docType: 'other', pageCount: 1, chunkCount: 1,
+        });
+        const res = await request(app)
+            .post('/ai/upload-document')
+            .set('Authorization', `Bearer ${token}`)
+            .set('x-test-file', '1')
+            .send({ title: 'Thing', docType: 'nonsense' });
+        expect(res.status).toBe(200);
+        expect(db.UserDocuments.create).toHaveBeenCalledWith(
+            expect.objectContaining({ docType: 'other' })
+        );
     });
 });
 

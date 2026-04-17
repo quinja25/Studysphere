@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { NavBar } from '../components/NavBar';
 import api from '../api';
 import './FindGroup.css';
@@ -9,7 +9,6 @@ import ConfirmModal from '../components/ConfirmModal';
 
 export const FindGroup = () => {
     const [groupList, setGroupList] = useState([]);
-    const [filteredGroups, setFilteredGroups] = useState([]);
     const [showFilters, setShowFilters] = useState(false);
     const [filterSubject, setFilterSubject] = useState('');
     const [filterPrivacy, setFilterPrivacy] = useState('all'); // 'all', 'public', 'private'
@@ -26,6 +25,13 @@ export const FindGroup = () => {
     const closeConfirm = () =>
         setConfirmState(s => ({ ...s, open: false }));
 
+    const currentUser = (() => {
+        try {
+            const raw = localStorage.getItem('userData');
+            return raw ? JSON.parse(raw) : null;
+        } catch { return null; }
+    })();
+
     let navigate = useNavigate();
 
     useEffect(() => {
@@ -41,7 +47,7 @@ export const FindGroup = () => {
             .catch(err => console.error("Error fetching groups:", err));
     }, []);
 
-    useEffect(() => {
+    const filteredGroups = useMemo(() => {
         let result = groupList;
 
         if (filterSubject) {
@@ -52,11 +58,10 @@ export const FindGroup = () => {
 
         if (filterPrivacy !== 'all') {
             const isPublic = filterPrivacy === 'public';
-            // Ensure boolean comparison (handles 0/1 from DB)
             result = result.filter(group => !!group.isPublic === isPublic);
         }
 
-        setFilteredGroups(result);
+        return result;
     }, [groupList, filterSubject, filterPrivacy]);
 
     const handleDeleteGroup = (groupId) => {
@@ -143,12 +148,14 @@ export const FindGroup = () => {
                                     <h3 className='groupName'>{group.groupName}</h3>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                         {group.isPublic ? <SlLockOpen title="Public" /> : <SlLock title="Private" />}
-                                        <SlTrash
-                                            className="delete-icon"
-                                            onClick={(e) => { e.stopPropagation(); handleDeleteGroup(group.id); }}
-                                            title="Delete Group"
-                                            style={{ cursor: 'pointer', color: '#e74c3c' }}
-                                        />
+                                        {currentUser && String(group.leader) === String(currentUser.name) && (
+                                            <SlTrash
+                                                className="delete-icon"
+                                                onClick={(e) => { e.stopPropagation(); handleDeleteGroup(group.id); }}
+                                                title="Delete Group"
+                                                style={{ cursor: 'pointer', color: '#e74c3c' }}
+                                            />
+                                        )}
                                     </div>
                                 </div>
                                 <div className='infoContainer'>

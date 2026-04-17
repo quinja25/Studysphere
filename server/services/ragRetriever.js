@@ -2,9 +2,13 @@ const db = require('../models');
 const { WikiArticles, Questions, Answers, Posts, Resources, Users } = db;
 const { Op } = require('sequelize');
 const { embedText, findSimilar, hasEmbeddings } = require('./embeddingService');
+const { rerank } = require('./rerank');
+const { generateHypotheticalAnswer } = require('./hyde');
+const { classifyQuery } = require('./queryIntent');
 
 const MAX_CHUNKS = parseInt(process.env.RAG_MAX_CHUNKS || '5', 10);
 const MAX_CHUNK_CHARS = 1200; // ~400 tokens (~3 chars per token)
+const RERANK_CANDIDATES = parseInt(process.env.RAG_RERANK_CANDIDATES || '20', 10);
 
 // Query preprocessing: strip stop words, punctuation, and short words to improve search relevance
 
@@ -425,15 +429,30 @@ async function retrieveContext(query, options = {}) {
     const maxChunks = options.maxChunks || MAX_CHUNKS;
     const RRF_K = 60; // standard RRF constant — empirically robust across domains
 
-    // Run FULLTEXT and vector search in parallel.
-    // userId is passed to vectorSearch so user-uploaded documents are included and boosted.
-    const [wikiResults, qaResults, postResults, resourceResults, vectorResults] = await Promise.all([
+    // Kick off HyDE + intent classification in parallel with FULLTEXT search.
+    // HyDE is skipped for long queries (already keyword-rich → low upside).
+    // FULLTEXT doesn't depend on HyDE so we never block it on an LLM call.
+    const HYDE_MAX_QUERY_LEN = 120;
+    const hydePromise = query.length <= HYDE_MAX_QUERY_LEN
+        ? generateHypotheticalAnswer(query, { subject: options.subject })
+        : Promise.resolve(null);
+    const intentPromise = classifyQuery(query, { subject: options.subject });
+
+    const fulltextPromise = Promise.all([
         searchWiki(query, keywords, options).catch(() => []),
         searchQA(query, keywords, options).catch(() => []),
         searchPosts(query, keywords, options).catch(() => []),
         searchResources(query, keywords, options).catch(() => []),
-        vectorSearch(query, options).catch(() => []),
     ]);
+
+    // Wait for HyDE (but let fulltext + intent keep running), then start vector search.
+    // userId is passed to vectorSearch so user-uploaded documents are included and boosted.
+    const hypothetical = await hydePromise;
+    const vectorQuery = hypothetical || query;
+    const vectorPromise = vectorSearch(vectorQuery, options).catch(() => []);
+
+    const [[wikiResults, qaResults, postResults, resourceResults], vectorResults] =
+        await Promise.all([fulltextPromise, vectorPromise]);
 
     // Merge all FULLTEXT results into one ranked list.
     // normalizeScore already accounts for quality signals within each list;
@@ -499,8 +518,26 @@ async function retrieveContext(query, options = {}) {
     });
 
     const results = Array.from(rrfScores.values());
+
+    // Intent-based per-source-type boosts (heuristic is free; LLM is opt-in via RAG_INTENT_MODE).
+    // Kicked off in parallel with retrieval above — by here it's almost always already resolved.
+    const { boosts } = await intentPromise;
+    if (boosts && Object.keys(boosts).length) {
+        for (const r of results) {
+            const delta = boosts[r.source];
+            if (delta) r.rrfScore += delta;
+        }
+    }
     results.sort((a, b) => b.rrfScore - a.rrfScore);
-    return results.slice(0, maxChunks);
+
+    // Rerank (opt-in via RAG_RERANK_PROVIDER): hand the top N candidates to a
+    // cross-encoder / LLM reranker for higher precision, then slice to maxChunks.
+    // Uses the ORIGINAL user query (not the HyDE hypothetical) — reranker judges
+    // relevance to what the user actually asked.
+    const candidatePool = Math.max(RERANK_CANDIDATES, maxChunks);
+    const candidates = results.slice(0, candidatePool);
+    const reranked = await rerank(query, candidates, { topN: maxChunks });
+    return reranked.slice(0, maxChunks);
 }
 
 module.exports = { retrieveContext, extractKeywords };

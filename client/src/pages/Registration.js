@@ -34,6 +34,15 @@ export const Registration = () => {
         }
     }, [location.state]);
 
+    // Honour ?role=alumni from the mentor landing CTA so the signup form starts on the right track.
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const roleParam = params.get('role');
+        if (roleParam === 'alumni' || roleParam === 'student') {
+            setFormData(prev => ({ ...prev, role: roleParam }));
+        }
+    }, [location.search]);
+
     useEffect(() => {
         api.get('/subjects').then(res => setIbSubjects(res.data)).catch(() => {});
     }, []);
@@ -79,7 +88,8 @@ export const Registration = () => {
         try {
             const response = await api.post('/users/register', formData);
             if (response.data) {
-                localStorage.setItem('userData', JSON.stringify(response.data));
+                const { id, name, email, token, picture, role, isAdmin } = response.data;
+                localStorage.setItem('userData', JSON.stringify({ id, name, email, token, picture, role, isAdmin }));
                 navigate('/lobby');
             }
         } catch (error) {

@@ -1,0 +1,196 @@
+.try-ai {
+    position: relative;
+    z-index: 1;
+    padding: 88px 24px 56px;
+}
+
+.try-ai-inner {
+    max-width: 880px;
+    margin: 0 auto;
+}
+
+.try-ai-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.try-ai-eyebrow {
+    display: inline-block;
+    padding: 6px 14px;
+    background: rgba(74, 144, 226, 0.1);
+    color: var(--primary);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    margin-bottom: 18px;
+}
+
+.try-ai-title {
+    font-size: clamp(1.9rem, 3.8vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 12px;
+}
+
+.try-ai-sub {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 560px;
+    margin: 0 auto;
+}
+
+.try-ai-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 14px 40px rgba(15, 23, 42, 0.06);
+}
+
+.try-ai-samples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+.try-ai-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, transform 0.15s;
+}
+.try-ai-chip:hover:not(:disabled) {
+    background: #fff;
+    border-color: var(--primary);
+    transform: translateY(-1px);
+}
+.try-ai-chip:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.try-ai-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.try-ai-input {
+    width: 100%;
+    min-height: 68px;
+    padding: 14px 16px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--text);
+    resize: vertical;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+.try-ai-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.18);
+}
+.try-ai-input:disabled { opacity: 0.7; }
+
+.try-ai-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.try-ai-count {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+}
+.btn-primary.btn-sm {
+    padding: 7px 14px;
+    font-size: 0.82rem;
+    border-radius: 8px;
+}
+
+.try-ai-error {
+    margin-top: 16px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.try-ai-error.rate-limited {
+    background: #fff7ed;
+    border-color: #fed7aa;
+    color: #9a3412;
+}
+
+.try-ai-answer {
+    margin-top: 20px;
+    padding: 18px 20px;
+    background: linear-gradient(180deg, rgba(74, 144, 226, 0.04), transparent);
+    border: 1px solid rgba(74, 144, 226, 0.2);
+    border-radius: 12px;
+}
+.try-ai-answer-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--primary);
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+}
+.try-ai-answer-body {
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.65;
+    white-space: pre-wrap;
+}
+.try-ai-sources {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+.try-ai-sources-label {
+    color: var(--muted);
+    font-size: 0.8rem;
+    margin-right: 4px;
+}
+.try-ai-source-pill {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 0.78rem;
+    color: var(--muted);
+}
+.try-ai-followup {
+    margin-top: 14px;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+.try-ai-signup-link {
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: none;
+}
+.try-ai-signup-link:hover { text-decoration: underline; }
+
+@media (max-width: 640px) {
+    .try-ai { padding: 64px 16px 40px; }
+    .try-ai-box { padding: 18px; }
+}
