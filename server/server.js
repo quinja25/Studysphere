@@ -13,9 +13,19 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:3000";
 
+// In development accept both common CRA ports (3000 + 3002) so a stale
+// dev server on the wrong port doesn't silently break auth via CORS.
+const allowedOrigins = process.env.NODE_ENV === 'production'
+    ? [CLIENT_URL]
+    : [CLIENT_URL, 'http://localhost:3000', 'http://localhost:3002', 'http://localhost:3001'];
+
 app.use(helmet());
 app.use(cors({
-    origin: CLIENT_URL,
+    origin: (origin, cb) => {
+        // Allow requests with no origin (curl, Postman, same-origin)
+        if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+        cb(new Error(`CORS: origin ${origin} not allowed`));
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));

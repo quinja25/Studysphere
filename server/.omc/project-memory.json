@@ -199,15 +199,15 @@
   },
   "hotPaths": [
     {
-      "path": "tests/routes/public.test.js",
-      "accessCount": 7,
-      "lastAccessed": 1776431448480,
+      "path": "server.js",
+      "accessCount": 8,
+      "lastAccessed": 1776479369400,
       "type": "file"
     },
     {
-      "path": "server.js",
-      "accessCount": 4,
-      "lastAccessed": 1776430677325,
+      "path": "tests/routes/public.test.js",
+      "accessCount": 7,
+      "lastAccessed": 1776431448480,
       "type": "file"
     },
     {
@@ -215,6 +215,24 @@
       "accessCount": 3,
       "lastAccessed": 1776431272179,
       "type": "file"
+    },
+    {
+      "path": "services\\embeddingService.js",
+      "accessCount": 3,
+      "lastAccessed": 1776778716567,
+      "type": "file"
+    },
+    {
+      "path": "routes\\Public.js",
+      "accessCount": 3,
+      "lastAccessed": 1776778726759,
+      "type": "file"
+    },
+    {
+      "path": "models",
+      "accessCount": 2,
+      "lastAccessed": 1776778709694,
+      "type": "directory"
     },
     {
       "path": "",
@@ -256,6 +274,54 @@
       "path": "tests/routes/ai.test.js",
       "accessCount": 1,
       "lastAccessed": 1776430802801,
+      "type": "file"
+    },
+    {
+      "path": ".env",
+      "accessCount": 1,
+      "lastAccessed": 1776477601524,
+      "type": "file"
+    },
+    {
+      "path": ".env.example",
+      "accessCount": 1,
+      "lastAccessed": 1776477602159,
+      "type": "file"
+    },
+    {
+      "path": "config\\config.js",
+      "accessCount": 1,
+      "lastAccessed": 1776477635508,
+      "type": "file"
+    },
+    {
+      "path": "railway.json",
+      "accessCount": 1,
+      "lastAccessed": 1776477681479,
+      "type": "file"
+    },
+    {
+      "path": "routes\\Users.js",
+      "accessCount": 1,
+      "lastAccessed": 1776479171344,
+      "type": "file"
+    },
+    {
+      "path": "services\\ragRetriever.js",
+      "accessCount": 1,
+      "lastAccessed": 1776778699691,
+      "type": "file"
+    },
+    {
+      "path": "services",
+      "accessCount": 1,
+      "lastAccessed": 1776778702552,
+      "type": "directory"
+    },
+    {
+      "path": "models\\ContentEmbeddings.js",
+      "accessCount": 1,
+      "lastAccessed": 1776778716335,
       "type": "file"
     }
   ],

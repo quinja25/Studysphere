@@ -36,7 +36,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "osascript -e 'display notification \"Task completed\" with title \"Claude Code\" sound name \"Glass\"'"
+            "command": "powershell -Command \"Add-Type -AssemblyName System.Windows.Forms; \\$n = New-Object System.Windows.Forms.NotifyIcon; \\$n.Icon = [System.Drawing.SystemIcons]::Application; \\$n.BalloonTipTitle = 'Claude Code'; \\$n.BalloonTipText = 'Task completed'; \\$n.Visible = \\$true; \\$n.ShowBalloonTip(4000); Start-Sleep -Seconds 2; \\$n.Dispose()\""
           }
         ]
       }

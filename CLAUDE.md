@@ -37,6 +37,7 @@ A **virtual study room + community platform** connecting students with alumni. F
 - **Session Goals**: `SessionGoals` table, +25 XP bonus on completion
 - **Per-user documents**: `documentProcessor.js` (textbook/past-paper/notes chunking), `UserDocuments` model, `POST /ai/upload-document`, `GET /ai/documents`, `DELETE /ai/documents/:id`
 - **Notifications**: `Notifications` table, `notificationService.createAndEmit()` persists + pushes via Socket.io `user_${userId}` room. Emitters wired for new answers (notify question author), new endorsements (notify alumni), and admin report actions (notify reporter). REST routes: `GET /notifications`, `GET /notifications/unread-count`, `PUT /notifications/:id/read`, `PUT /notifications/read-all`, `DELETE /notifications/:id`. All routes auth-scoped to the current user.
+- **Waitlist**: `WaitlistEntries` table (email unique, role, curriculum). `POST /public/waitlist` (5/hr/IP rate limit, email validation, idempotent findOrCreate, returns total count). `GET /public/waitlist/count` (60s cache). No auth required.
 - **Public landing endpoints** (`server/routes/Public.js`, no auth): `GET /public/stats` returns `{studentsOnline, activeRooms, questionsLast24h, unansweredQuestions, lastAnswerMinutesAgo}` — `studentsOnline`/`activeRooms` read from the Socket.io presence map exposed via `app.set('roomUsers', ...)`, DB counts fail-safe to 0. `GET /public/open-questions?limit=3` returns recent unanswered questions (capped at 6). `POST /public/ai-try` is a no-auth IB-aware AI preview: `express-rate-limit` 3/day/IP, 200-char prompt cap, `trust proxy` respected, IB command-term guidance injected into system prompt, **no DB writes**. All three cache-headered (30 s).
 
 ### Frontend
@@ -51,7 +52,8 @@ A **virtual study room + community platform** connecting students with alumni. F
 - **Study Room AI sidebar** (`AiAssistant.js`): same thumbs feedback controls on every assistant message.
 - **Admin Dashboard** (`/admin`): stats, trust distribution, report queue, user management
 - **Notification bell**: `NotificationContext` opens a socket to `user_${userId}`, initial fetch via `GET /notifications`, optimistic mark-read. `<NotificationBell />` mounted in `NavBar`: bell icon + red badge, dropdown with click-through to `n.link`, mark-all-read, per-item dismiss.
-- **Public landing** (`/`): IB-first hero ("Get a 7 in IB. Together."), `<LiveStatsStrip />` pulling `/public/stats` on 60 s poll, `<TryAiWidget />` (3 IB sample chips, 200-char cap, posts to `/public/ai-try`, 429 → sign-up CTA, shows cited source pills). Copy leads with "the only AI trained on the IB curriculum" USP.
+- **Waitlist landing** (`/`): Dark-themed coming-soon page. Email + role + curriculum signup form posting to `POST /public/waitlist`. Live animated waitlist counter (`GET /public/waitlist/count`). `<LiveStatsStrip />`, `<TryAiWidget />`, features grid, testimonials. IntersectionObserver scroll reveal. `Waitlist.js` + `Waitlist.css`.
+- **Public landing** (`/home`): IB-first hero ("Get a 7 in IB. Together."), `<LiveStatsStrip />` pulling `/public/stats` on 60 s poll, `<TryAiWidget />` (3 IB sample chips, 200-char cap, posts to `/public/ai-try`, 429 → sign-up CTA, shows cited source pills). Copy leads with "the only AI trained on the IB curriculum" USP. (Moved from `/` to `/home` to make room for the waitlist page.)
 - **Mentor landing** (`/for-mentors`): separate alumni-facing page. Hero "Your IB experience is worth paying for" + projected-impact card ($24–$80/mo bounty projection, Verified Mentor credit). Reuses `<LiveStatsStrip items={MENTOR_ITEMS} />` for alumni-relevant metrics (unanswered questions first). Live unanswered-Q feed from `/public/open-questions`. Four pillars — Earn (coming soon), Verified Badge (live), Cohorts (coming soon), Email-reply (coming soon). Mentor social-proof cards + honest FAQ. CTA → `/registration?role=alumni`.
 - **Shared components**: `LiveStatsStrip` accepts a custom `items` prop so the same component drives both student and mentor stat rows. `Home.js` nav + `ForMentors.js` nav cross-link each audience.
 - **Schedule** (`/schedule`): Google Calendar OAuth
@@ -101,6 +103,7 @@ A **virtual study room + community platform** connecting students with alumni. F
 | 5 | Adaptive per-type chunking | `adaptiveChunker.js` + `embeddingSync.js` | `RAG_ADAPTIVE_CHUNKS` | Live, **on** by default |
 | 7 | Query intent classifier + per-source boosts | `queryIntent.js` | `RAG_INTENT_MODE` | Live, heuristic mode default (free) |
 | 8 | Thumbs feedback loop | `AiFeedback` model + `/ai/feedback` + `feedbackAggregates.js` | — | Live, frontend wired in `AiChat.js` + `AiAssistant.js` |
+| 9 | Post-RRF personalization boost | `ragRetriever.js` `retrieveContext()` | always-on when `userId` present | Live — user-uploaded `document` chunks get +0.025 rrfScore after RRF merge + intent boosts. Combined with pre-RRF +0.3 in `vectorSearch()`. Safe: `source === 'document'` is user-scoped only; `global_document` is a separate ENUM. |
 
 Pipeline efficiency: HyDE + intent classify kicked off in parallel with FULLTEXT search; vector search only blocks on HyDE; worst-case serial LLM calls when every flag enabled = 3 (rewrite → HyDE/intent parallel → final answer) + 1 HTTP call (reranker).
 
@@ -148,7 +151,7 @@ Pipeline efficiency: HyDE + intent classify kicked off in parallel with FULLTEXT
 
 **Notifications** (auth-scoped): `GET /notifications` (paginated), `GET /notifications/unread-count`, `PUT /notifications/:id/read`, `PUT /notifications/read-all`, `DELETE /notifications/:id`. Real-time push via Socket.io event `notification:new` to `user_${userId}` room.
 
-**Public (no auth, rate-limited):** `GET /public/stats` (live presence + DB counts), `GET /public/open-questions?limit=N` (unanswered questions, N≤6), `POST /public/ai-try` (IB preview AI, 3/day/IP, prompt ≤200 chars, no DB writes).
+**Public (no auth, rate-limited):** `GET /public/stats` (live presence + DB counts), `GET /public/open-questions?limit=N` (unanswered questions, N≤6), `POST /public/ai-try` (IB preview AI, 3/day/IP, prompt ≤200 chars, no DB writes), `GET /public/waitlist/count` (60s cached), `POST /public/waitlist` (5/hr/IP, email + role + curriculum, idempotent).
 
 **Socket.io:** `join_room` → `room_state`; `presence` → `user_joined`; `send_message` → `receive_message`; `whiteboard_draw/clear` → broadcast; `disconnect` → `user_left`; WebRTC offer/answer point-to-point routing.
 
@@ -181,6 +184,7 @@ Pipeline efficiency: HyDE + intent classify kicked off in parallel with FULLTEXT
 **SessionGoals**: userId FK, groupId FK, goal STRING, isCompleted, completedAt
 **Notifications**: userId FK, type ENUM('answer','endorsement','report_actioned'), relatedType, relatedId, content STRING(500), link, isRead (default false). Indexed on (userId, isRead) and (userId, createdAt).
 **AiFeedback**: userId FK, messageId (nullable — null for stateless `/ai/ask`), queryText STRING(1000), rating ENUM('up','down'), comment STRING(1000) nullable, clickedSources TEXT (JSON array of `{source, sourceId}`). Indexed on (userId, createdAt) and (rating, createdAt).
+**WaitlistEntries**: email STRING UNIQUE, role ENUM('student','alumni','other'), curriculum STRING nullable.
 
 ---
 
@@ -213,6 +217,24 @@ Remaining gaps: E2E study room flow (WebRTC requires browser media permissions),
 
 ## What to Implement Next
 
+### Priority Order (as of 2026-04-21)
+
+**Gate 0 — Deploy (blocker for everything)**
+1. **Deploy** — Railway (backend) + Vercel (frontend). `railway.json` and `vercel.json` already exist. Nothing is testable or shareable until a live URL exists. ~2 hrs.
+
+**Gate 0b — Waitlist activation**
+2. **Test waitlist page locally** — verify form submits, counter animates, success state renders. Then share URL in `r/IBO`, `r/alevel`, relevant Discord servers.
+3. **PostHog analytics** — add snippet to `client/public/index.html`. Key events: `waitlist_signup`, `public_ai_try_submit`. Required before scaling traffic — can't measure conversion without it.
+
+**Gate 1 — Retention proof (no money yet)**
+4. **Onboarding flow** — set subject → join/create room → first Pomodoro → first streak day. New users currently land cold with no guidance.
+5. **Spaced Repetition** — highest-value Pro-gated feature. See Next Sprint below.
+
+**Gate 2 — Revenue**
+6. **Stripe paywall** — `<ProGate>` component + `POST /billing/checkout|webhook|portal`. Gates Spaced Repetition + Recaps. `isPro`/`proExpiresAt`/`stripeCustomerId` already on Users model. ~2–3 days.
+
+---
+
 ### Next Sprint
 1. **Spaced Repetition** — exit modal captures topics → `DiaryEntries` table → SM-2 algorithm → `/review` deck (Forgot/Hard/Good/Easy, +5 XP). Service: `server/services/spacedRepetition.js`. Endpoints: `POST /diary`, `GET /diary/due`, `PUT /diary/:id/review`, `PUT /diary/:id/archive`. Pro-gated.
 
@@ -227,9 +249,87 @@ Remaining gaps: E2E study room flow (WebRTC requires browser media permissions),
 
 ---
 
+## Personalization & Monetization Strategy
+
+The core monetization strategy is to offer a **Student Pro** subscription that transforms the AI from a generic helper into a "Personal AI Tutor." This tutor has two sources of knowledge:
+
+1.  **The Shared Knowledge Base:** A high-quality, curriculum-specific database of Wiki articles, Q&A, and official resources (e.g., `GlobalDocuments`). This is the default "brain" available to all users, ensuring baseline accuracy for subjects like "IB Physics HL."
+2.  **The Personal Knowledge Base:** A private, secure space for each student's own materials—class notes, textbooks, past papers—uploaded as documents. This is what makes the AI feel personal.
+
+The Pro tier is designed to supercharge the **Personal Knowledge Base** and create a seamless, intelligent blend between the two.
+
+### Pro Tier Features (The "Personalized Feel")
+
+1.  **A Deeper Personal Knowledge Base:**
+    *   **Unlimited Document Uploads:** Free users can upload 3 documents to try it out. Pro users get unlimited space to build their AI's personal memory. This is the primary upgrade driver.
+    *   **Prioritized Recall:** The AI will always prioritize the user's own documents when answering questions. Responses can explicitly reference the user's material, e.g., *"Based on page 47 of your uploaded textbook 'Calculus 101', the answer is... "*. This makes the personalization tangible.
+    *   **Conversational Memory:** The AI remembers the last 10 conversations, allowing for natural follow-up questions without re-explaining context. The free tier remains stateless.
+
+2.  **Personalized Learning Tools:**
+    *   **Targeted Quiz Generation:** Pro users can generate quizzes based *specifically* on their uploaded documents, chat history, or topics identified as weak spots by the Spaced Repetition system.
+    *   **Spaced Repetition System:** The core daily-driver for Pro users, helping them master content through active recall. This system is inherently personal.
+
+3.  **Automated Personal Insights:**
+    *   **Weekly Progress Reports:** A Pro-exclusive email summarizing study habits (`StudySessions`), flagging potential weak spots (based on AI queries or Spaced Repetition performance), and suggesting what to review next from their *personal* and the *shared* knowledge bases.
+
+### The Free-to-Pro Funnel
+
+The free tier offers a taste of the AI using only the **Shared Knowledge Base**. The upgrade prompts are contextual and highlight the value of personalization:
+
+*   **Hit document limit:** "Upgrade to Pro to give your AI tutor unlimited memory for your textbooks and notes."
+*   **After a generic answer:** "Get answers tailored to your exact course. Upgrade to Pro and upload your class materials."
+*   **Ask a follow-up question:** "Your AI can remember this conversation. Upgrade to Pro to unlock conversational memory."
+*   **View Spaced Repetition tab:** "Master your subjects with a personalized review schedule. Upgrade to Pro to unlock Spaced Repetition."
+
+This strategy positions the Pro subscription not as an unlock of "more features," but as an investment in an AI that learns *with* and *from* the student, providing a uniquely tailored educational advantage.
+
+---
+
+## Cost-Effective RAG Architecture
+
+The entire RAG system is designed to be highly cost-effective, which is critical for making the "Personal AI Tutor" a viable and profitable Pro feature. This is achieved by being strategic about *how* and *when* expensive AI models are used.
+
+### 1. Strategic Model Selection
+
+The most significant cost factor is the choice of AI models. The system deliberately uses cost-effective models for each step:
+
+*   **Generation:** Defaults to `gpt-4o-mini`, which offers a strong balance of capability and low cost, making "unlimited" queries for Pro users economically feasible.
+*   **Embedding:** Uses `text-embedding-3-small`, one of OpenAI's most cost-efficient embedding models. Embedding a 200-page textbook costs less than a penny.
+*   **Local Fallback:** The entire stack can be pointed to a local Ollama instance (`OLLAMA_BASE_URL`), allowing for virtually free development and testing.
+
+### 2. A "Frugal" by Default RAG Pipeline
+
+The system is designed to minimize expensive LLM calls. Many advanced features are opt-in or have "free" default modes, as detailed in `server/services/ragRetriever.js`.
+
+*   **Free Heuristics:** The **Query Intent Classifier** (`queryIntent.js`) runs in a default `heuristic` mode, providing intelligent source boosting without any LLM call.
+*   **Guarded LLM Calls:** Advanced features that require an LLM call are used sparingly and are disabled by default (e.g., `RAG_HYDE_ENABLED=false`, `RAG_QUERY_REWRITE_ENABLED=false`).
+*   **Hybrid Search:** The system runs a cheap and fast database `FULLTEXT` search in parallel with the more expensive vector search, often finding high-quality results for keyword-based queries without any vector database interaction.
+
+### 3. Efficient Merging and Ranking
+
+Combining results from different sources is done without additional LLM calls.
+
+*   **Reciprocal Rank Fusion (RRF):** The `retrieveContext` function uses RRF to merge ranked lists from `FULLTEXT` and vector search. RRF is a simple, effective algorithm that **does not require an LLM call**. It elegantly combines keyword and semantic search results.
+*   **Opt-In Reranking:** The final, most precise step—using a cross-encoder to rerank candidates—is also opt-in (`RAG_RERANK_PROVIDER=off`). The system provides good results without it, making this a progressive enhancement.
+
+### 4. Cost Control via Tiered Access
+
+The monetization strategy is directly tied to this cost-effective architecture:
+
+*   **Stateless Free Tier:** The free tier uses stateless AI. Pro users get **Conversational Memory**, which is more expensive as it includes chat history in the token count. This gates the higher-cost feature.
+*   **Upload Limits:** The free tier's 3-document upload limit directly caps the one-time embedding and ongoing storage costs for non-paying users.
+
+In essence, the RAG system is built on a "freemium" model at the architectural level: it provides a strong baseline experience using the cheapest possible methods and treats expensive LLM-powered enhancements as progressive, opt-in upgrades. This ensures that the cost to serve a free user is minimal, making the Pro tier a highly profitable upgrade.
+
+---
+
 ## Business Features (Unbuilt)
 
-**Pricing:** Free ($0, 10 AI/day) | Student Pro ($5/mo or $39/yr, unlimited AI + Pro features) | Alumni (free forever) | Institution ($3–5/student/yr)
+**Pricing:**
+- **Free:** Unlimited study rooms, streaks, community access, 10 AI queries/day, 3 document uploads, stateless AI.
+- **Student Pro ($7/mo or $59/yr):** Everything in Free, plus the full **Personal AI Tutor** suite: unlimited AI queries, unlimited document uploads, conversational memory, Spaced Repetition, and personalized weekly insights.
+- **Alumni:** Free forever.
+- **Institution:** $3–5/student/yr (bulk licensing for schools).
 
 **Revenue roadmap (priority order):**
 1. **SEO meta tags + sitemap** — `react-helmet` on `/wiki/:id` + `/qa/:id`, `GET /sitemap.xml`, `public/robots.txt`
@@ -267,6 +367,7 @@ Pick one:
 - Deployed to Railway + Vercel (~2 hrs). Cannot sell a URL that doesn't exist.
 - Analytics before scale.
 - Founder conducts ~20 user interviews before adding more features. The "Pro" feature list should come from what retained students say they'd pay for, not from this document.
+- **Founder conducts ~20 user interviews before adding more features. The "Pro" feature list should be validated by what retained students say they'd pay for, using the "Personal AI Tutor" concept as the starting hypothesis.**
 
 ### The single hardest constraint
 Most consumer ed-tech fails at monetization. Student-facing apps compete with free alternatives (Discord, Quizlet, ChatGPT, Khan Academy). What differentiates StudySphere is alumni mentorship — but alumni are an **existential product risk**, not a feature. See next section.

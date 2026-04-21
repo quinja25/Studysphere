@@ -4,9 +4,11 @@ import { useState, useEffect } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import api from './api';
 import { NotificationProvider } from './contexts/NotificationContext';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 // pages
 import { Home } from './pages/Home';
+import { Waitlist } from './pages/Waitlist';
 import { Login } from './pages/Login';
 import { FindGroup } from './pages/FindGroup';
 import { Chat } from './pages/Chat';
@@ -60,10 +62,12 @@ export const App = () => {
   return (
     <HelmetProvider>
     <BrowserRouter>
+      <ErrorBoundary>
       <NotificationProvider>
       <Routes>
         {/* Public routes */}
-        <Route index element={<Home />} />
+        <Route index element={<Waitlist />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/for-mentors" element={<ForMentors />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
@@ -99,6 +103,7 @@ export const App = () => {
         <Route path="*" element={<NotFound />} />
       </Routes>
       </NotificationProvider>
+      </ErrorBoundary>
     </BrowserRouter>
     </HelmetProvider>
   );

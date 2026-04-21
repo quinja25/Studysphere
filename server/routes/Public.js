@@ -3,7 +3,7 @@ const rateLimit = require('express-rate-limit');
 const router = express.Router();
 const { Op } = require('sequelize');
 const db = require('../models');
-const { Questions, Answers } = db;
+const { Questions, Answers, WaitlistEntries } = db;
 const { chatCompletion } = require('../services/openai');
 const { retrieveContext } = require('../services/ragRetriever');
 
@@ -18,6 +18,14 @@ const aiTryLimiter = rateLimit({
     windowMs: 24 * 60 * 60 * 1000,
     max: 3,
     message: { error: 'Free preview limit reached — sign up free to keep going.', rateLimited: true },
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
+const waitlistLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000,
+    max: 5,
+    message: { error: 'Too many signup attempts. Try again later.' },
     standardHeaders: true,
     legacyHeaders: false,
 });
@@ -149,6 +157,49 @@ router.post('/ai-try', aiTryLimiter, async (req, res) => {
             return res.status(503).json({ error: 'AI preview is temporarily unavailable.' });
         }
         res.status(500).json({ error: 'Failed to get answer. Please try again.' });
+    }
+});
+
+router.get('/waitlist/count', async (req, res) => {
+    try {
+        const count = await WaitlistEntries.count();
+        res.set('Cache-Control', 'public, max-age=60');
+        res.json({ count });
+    } catch {
+        res.json({ count: 0 });
+    }
+});
+
+router.post('/waitlist', waitlistLimiter, async (req, res) => {
+    try {
+        const { email, role, curriculum } = req.body || {};
+        if (!email || typeof email !== 'string' || !email.trim()) {
+            return res.status(400).json({ error: 'Email is required.' });
+        }
+        const clean = email.trim().toLowerCase();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean)) {
+            return res.status(400).json({ error: 'Please enter a valid email address.' });
+        }
+        const validRoles = ['student', 'alumni', 'other'];
+        const cleanRole = validRoles.includes(role) ? role : 'student';
+
+        const [, created] = await WaitlistEntries.findOrCreate({
+            where: { email: clean },
+            defaults: {
+                email: clean,
+                role: cleanRole,
+                curriculum: curriculum?.trim().slice(0, 100) || null,
+            },
+        });
+
+        const count = await WaitlistEntries.count();
+        if (!created) {
+            return res.status(200).json({ alreadyRegistered: true, count });
+        }
+        res.status(201).json({ success: true, count });
+    } catch (err) {
+        console.error('Waitlist error:', err);
+        res.status(500).json({ error: 'Failed to join waitlist. Please try again.' });
     }
 });
 

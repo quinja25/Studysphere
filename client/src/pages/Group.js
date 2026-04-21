@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { NavBar } from "../components/NavBar";
 import { useParams, useNavigate } from 'react-router-dom';
 import './Group.css';
 import api from '../api';
-import io from 'socket.io-client';
 import ChatBody from '../components/ChatBody';
 import ChatFooter from '../components/ChatFooter';
 import { SlMicrophone, SlCamrecorder, SlBubble, SlClose, SlLogout, SlSizeFullscreen, SlClock, SlControlPlay, SlControlPause, SlScreenDesktop, SlPencil, SlMagicWand, SlEarphones } from "react-icons/sl";
@@ -13,35 +12,7 @@ import AmbientSound from '../components/AmbientSound';
 import { usePomodoro } from '../hooks/usePomodoro';
 import { useSessionSave } from '../hooks/useSessionSave';
 import { useChatRoom } from '../hooks/useChatRoom';
-
-// ── Constants ──────────────────────────────────────────────────────────────────
-
-const QUALITY_MAP = {
-    high:   { width: 1280, height: 720,  frameRate: 30 },
-    medium: { width: 640,  height: 480,  frameRate: 15 },
-    low:    { width: 320,  height: 240,  frameRate: 10 },
-};
-
-const getQualityLevel = (conn) => {
-    if (!conn) return 'high';
-    const { effectiveType, downlink = 10, rtt = 0 } = conn;
-    if (effectiveType === '4g' && downlink >= 2 && rtt < 200) return 'high';
-    if (effectiveType === '3g' || downlink < 2) return 'medium';
-    return 'low';
-};
-
-// ICE server config — reads TURN credentials from env vars when available.
-// Without a TURN server, peers behind symmetric NAT (school/corporate networks) may fail.
-const ICE_SERVERS = {
-    iceServers: [
-        { urls: ['stun:stun.l.google.com:19302', 'stun:stun1.l.google.com:19302'] },
-        ...(process.env.REACT_APP_TURN_URL ? [{
-            urls: process.env.REACT_APP_TURN_URL,
-            username: process.env.REACT_APP_TURN_USERNAME,
-            credential: process.env.REACT_APP_TURN_CREDENTIAL,
-        }] : []),
-    ],
-};
+import { useWebRTC } from '../hooks/useWebRTC';
 
 // ── RemoteVideo ────────────────────────────────────────────────────────────────
 // Separate component so each remote stream gets its own stable ref.
@@ -70,29 +41,17 @@ export const Group = () => {
     const localVideoRef   = useRef(null);
     const socketRef       = useRef(null);
 
-    // WebRTC refs — kept as refs because updates shouldn't cause re-renders
-    const localStreamRef     = useRef(null);
-    const peerConnectionsRef = useRef({});
-
     // Room state
-    const [userId, setUserId]               = useState(null);
-    const [group, setGroup]                 = useState(null);
-    const [userList, setUserList]           = useState([]);
-    const [joinTime, setJoinTime]           = useState(null);
-    const [videoQuality, setVideoQuality]   = useState('high');
-    const [remoteStreams, setRemoteStreams]  = useState({});
-
-    // Media controls
-    const [micOn, setMicOn]               = useState(true);
-    const [cameraOn, setCameraOn]         = useState(true);
-    const [screenShareOn, setScreenShareOn] = useState(false);
-    const [screenStream, setScreenStream] = useState(null);
+    const [userId, setUserId]       = useState(null);
+    const [group, setGroup]         = useState(null);
+    const [userList, setUserList]   = useState([]);
+    const [joinTime, setJoinTime]   = useState(null);
 
     // Sidebar visibility
-    const [showChat, setShowChat]           = useState(false);
+    const [showChat, setShowChat]             = useState(false);
     const [showWhiteboard, setShowWhiteboard] = useState(false);
-    const [showAI, setShowAI]               = useState(false);
-    const [showAmbient, setShowAmbient]     = useState(false);
+    const [showAI, setShowAI]                 = useState(false);
+    const [showAmbient, setShowAmbient]       = useState(false);
 
     // Session goals
     const [showGoalModal, setShowGoalModal] = useState(false);
@@ -119,278 +78,52 @@ export const Group = () => {
         handleSendMessage, handlePinMessage, handleDeleteMessage,
     } = useChatRoom(id, socketRef);
 
-    const isFocusMode = timerActive && timerMode === 'focus';
+    // Stable callbacks for useWebRTC so it doesn't re-run on every render
+    const handleMessage = useCallback((data) => {
+        if (data.type === 'TIMER_START' || data.type === 'TIMER_STOP') {
+            handleTimerMessage(data);
+        } else if (!data.type) {
+            addMessage(data);
+        }
+    }, [handleTimerMessage, addMessage]);
 
-    // ── Main room initialisation (WebRTC + socket) ─────────────────────────────
-    useEffect(() => {
-        let isMounted = true;
-
-        const createPeerConnection = (remoteSocketId, remoteUserId, remoteName) => {
-            const pc = new RTCPeerConnection(ICE_SERVERS);
-
-            if (localStreamRef.current) {
-                localStreamRef.current.getTracks().forEach(track => {
-                    pc.addTrack(track, localStreamRef.current);
-                });
-            }
-
-            pc.ontrack = (event) => {
-                if (!isMounted) return;
-                setRemoteStreams(prev => ({
-                    ...prev,
-                    [remoteSocketId]: { stream: event.streams[0], userId: remoteUserId, name: remoteName },
-                }));
-            };
-
-            pc.onicecandidate = (event) => {
-                if (event.candidate && socketRef.current) {
-                    socketRef.current.emit('webrtc_ice_candidate', {
-                        targetSocketId: remoteSocketId,
-                        candidate: event.candidate,
-                    });
-                }
-            };
-
-            pc.onconnectionstatechange = () => {
-                if (['failed', 'closed'].includes(pc.connectionState)) {
-                    if (isMounted) {
-                        setRemoteStreams(prev => { const n = { ...prev }; delete n[remoteSocketId]; return n; });
-                    }
-                    delete peerConnectionsRef.current[remoteSocketId];
-                }
-            };
-
-            peerConnectionsRef.current[remoteSocketId] = pc;
-            return pc;
-        };
-
-        const initRoom = async () => {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: QUALITY_MAP[videoQuality],
-                    audio: true,
-                });
-                if (!isMounted) { stream.getTracks().forEach(t => t.stop()); return; }
-                localStreamRef.current = stream;
-                if (localVideoRef.current) localVideoRef.current.srcObject = stream;
-            } catch (err) {
-                console.warn('Camera/mic unavailable — joining without media:', err.message);
-                localStreamRef.current = new MediaStream();
-            }
-
-            socketRef.current = io(process.env.REACT_APP_API_URL);
-            const socket = socketRef.current;
-
-            const localUser = (() => {
-                const raw = localStorage.getItem('userData');
-                return raw ? JSON.parse(raw) : null;
-            })();
-
-            setJoinTime(Date.now());
-            socket.emit('join_room', id);
-
-            if (localUser?.email) {
-                api.get(`/users/byEmail/${localUser.email}`).then((res) => {
-                    if (!isMounted) return;
-                    const uid = res.data.id;
-                    setUserId(uid);
-                    socket.emit('presence', { room: id, userId: uid, name: res.data.name });
-
-                    api.get(`/groupsUsers/byGroup/${id}`).then((r) => {
-                        if (!isMounted) return;
-                        setUserList(r.data);
-                        const alreadyMember = r.data.some(u => String(u.id) === String(uid));
-                        if (!alreadyMember) {
-                            api.post(`/groupsUsers/user/${uid}/group/${id}`)
-                                .then(() => api.get(`/groupsUsers/byGroup/${id}`))
-                                .then(r2 => { if (isMounted) setUserList(r2.data); })
-                                .catch(() => {});
-                        }
-                    });
-                });
-            } else {
-                api.get(`/groupsUsers/byGroup/${id}`).then((r) => {
-                    if (isMounted) setUserList(r.data);
-                });
-            }
-
-            api.get(`/groups/byID/${id}`).then((res) => {
-                if (!isMounted) return;
-                setGroup(res.data);
-            });
-
-            api.get(`/session-goals/byGroup/${id}`).then((goalsRes) => {
-                if (!isMounted) return;
-                const incomplete = goalsRes.data.find(g => !g.isCompleted && !g.carriedForward);
-                if (incomplete) setCurrentGoal({ id: incomplete.id, goal: incomplete.goal });
-                else setShowGoalModal(true);
-            }).catch(() => {});
-
-            api.get(`/chats/${id}`).then((res) => {
-                if (isMounted) loadMessages(res.data);
-            });
-
-            // ── Socket events ────────────────────────────────────────────────
-
-            socket.on('receive_message', (data) => {
-                if (String(data.room) !== String(id)) return;
-                if (data.type === 'TIMER_START' || data.type === 'TIMER_STOP') {
-                    handleTimerMessage(data);
-                } else if (!data.type) {
-                    addMessage(data);
-                }
-            });
-
-            socket.on('room_state', async (users) => {
-                for (const user of users) {
-                    if (!user.userId || !isMounted) continue;
-                    try {
-                        const pc = createPeerConnection(user.socketId, user.userId, user.name);
-                        const offer = await pc.createOffer();
-                        await pc.setLocalDescription(offer);
-                        socket.emit('webrtc_offer', { targetSocketId: user.socketId, offer });
-                    } catch (err) {
-                        console.error('Error creating WebRTC offer:', err);
-                    }
-                }
-            });
-
-            socket.on('user_joined', (user) => {
-                if (!isMounted) return;
-                setUserList(prev =>
-                    prev.some(u => String(u.id) === String(user.id))
-                        ? prev
-                        : [...prev, { id: user.id, name: user.name }]
-                );
-            });
-
-            socket.on('webrtc_offer', async ({ offer, fromSocketId, fromUserId, fromName }) => {
-                if (!isMounted) return;
-                try {
-                    const pc = createPeerConnection(fromSocketId, fromUserId, fromName);
-                    await pc.setRemoteDescription(new RTCSessionDescription(offer));
-                    const answer = await pc.createAnswer();
-                    await pc.setLocalDescription(answer);
-                    socket.emit('webrtc_answer', { targetSocketId: fromSocketId, answer });
-                } catch (err) {
-                    console.error('Error handling WebRTC offer:', err);
-                }
-            });
-
-            socket.on('webrtc_answer', async ({ answer, fromSocketId }) => {
-                const pc = peerConnectionsRef.current[fromSocketId];
-                if (!pc) return;
-                try {
-                    await pc.setRemoteDescription(new RTCSessionDescription(answer));
-                } catch (err) {
-                    console.error('Error setting remote description:', err);
-                }
-            });
-
-            socket.on('webrtc_ice_candidate', async ({ candidate, fromSocketId }) => {
-                const pc = peerConnectionsRef.current[fromSocketId];
-                if (!pc || !candidate) return;
-                try {
-                    await pc.addIceCandidate(new RTCIceCandidate(candidate));
-                } catch { /* safe to ignore during teardown */ }
-            });
-
-            socket.on('user_left', ({ id: leftId, socketId: leftSocketId }) => {
-                if (!isMounted) return;
-                const pc = peerConnectionsRef.current[leftSocketId];
-                if (pc) { pc.close(); delete peerConnectionsRef.current[leftSocketId]; }
-                setRemoteStreams(prev => { const n = { ...prev }; delete n[leftSocketId]; return n; });
-                setUserList(prev => prev.filter(u => String(u.id) !== String(leftId)));
-            });
-        };
-
-        initRoom();
-
-        return () => {
-            isMounted = false;
-            Object.values(peerConnectionsRef.current).forEach(pc => pc.close());
-            peerConnectionsRef.current = {};
-            if (localStreamRef.current) {
-                localStreamRef.current.getTracks().forEach(t => t.stop());
-                localStreamRef.current = null;
-            }
-            const socket = socketRef.current;
-            if (socket) {
-                socket.off('receive_message');
-                socket.off('room_state');
-                socket.off('user_joined');
-                socket.off('user_left');
-                socket.off('webrtc_offer');
-                socket.off('webrtc_answer');
-                socket.off('webrtc_ice_candidate');
-                socket.disconnect();
-            }
-        };
-    }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
-
-    // ── Network-adaptive video quality ─────────────────────────────────────────
-    useEffect(() => {
-        const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-        if (!conn) return;
-        setVideoQuality(getQualityLevel(conn));
-        const handleChange = () => setVideoQuality(getQualityLevel(conn));
-        conn.addEventListener('change', handleChange);
-        return () => conn.removeEventListener('change', handleChange);
+    const handleUserJoined = useCallback((user) => {
+        setUserList(prev =>
+            prev.some(u => String(u.id) === String(user.id))
+                ? prev
+                : [...prev, { id: user.id, name: user.name }]
+        );
     }, []);
 
+    const handleUserLeft = useCallback((leftId) => {
+        setUserList(prev => prev.filter(u => String(u.id) !== String(leftId)));
+    }, []);
+
+    const handleGoalLoaded = useCallback((goal, showModal) => {
+        if (goal) setCurrentGoal(goal);
+        if (showModal) setShowGoalModal(true);
+    }, []);
+
+    const {
+        remoteStreams,
+        videoQuality,
+        micOn, cameraOn, screenShareOn,
+        toggleMic, toggleCamera, toggleScreenShare,
+    } = useWebRTC(id, socketRef, localVideoRef, {
+        onJoin:          setJoinTime,
+        onUserResolved:  setUserId,
+        onGroupLoaded:   setGroup,
+        onUserListUpdate: setUserList,
+        onUserJoined:    handleUserJoined,
+        onUserLeft:      handleUserLeft,
+        onGoalLoaded:    handleGoalLoaded,
+        onMessagesLoaded: loadMessages,
+        onMessage:       handleMessage,
+    });
+
+    const isFocusMode = timerActive && timerMode === 'focus';
+
     // ── Media controls ─────────────────────────────────────────────────────────
-
-    const toggleMic = () => {
-        localStreamRef.current?.getAudioTracks().forEach(t => { t.enabled = !micOn; });
-        setMicOn(prev => !prev);
-    };
-
-    const toggleCamera = () => {
-        localStreamRef.current?.getVideoTracks().forEach(t => { t.enabled = !cameraOn; });
-        setCameraOn(prev => !prev);
-    };
-
-    const toggleScreenShare = async () => {
-        if (screenShareOn) {
-            screenStream?.getTracks().forEach(t => t.stop());
-            const cameraTrack = localStreamRef.current?.getVideoTracks()[0] || null;
-            Object.values(peerConnectionsRef.current).forEach(pc => {
-                const sender = pc.getSenders().find(s => s.track?.kind === 'video');
-                if (sender) sender.replaceTrack(cameraTrack);
-            });
-            if (localVideoRef.current && localStreamRef.current) {
-                localVideoRef.current.srcObject = localStreamRef.current;
-            }
-            setScreenShareOn(false);
-            setScreenStream(null);
-        } else {
-            try {
-                const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-                const screenTrack = stream.getVideoTracks()[0];
-                Object.values(peerConnectionsRef.current).forEach(pc => {
-                    const sender = pc.getSenders().find(s => s.track?.kind === 'video');
-                    if (sender) sender.replaceTrack(screenTrack);
-                });
-                if (localVideoRef.current) localVideoRef.current.srcObject = stream;
-                screenTrack.onended = () => {
-                    const cameraTrack = localStreamRef.current?.getVideoTracks()[0] || null;
-                    Object.values(peerConnectionsRef.current).forEach(pc => {
-                        const sender = pc.getSenders().find(s => s.track?.kind === 'video');
-                        if (sender) sender.replaceTrack(cameraTrack);
-                    });
-                    if (localVideoRef.current && localStreamRef.current) {
-                        localVideoRef.current.srcObject = localStreamRef.current;
-                    }
-                    setScreenShareOn(false);
-                    setScreenStream(null);
-                };
-                setScreenStream(stream);
-                setScreenShareOn(true);
-            } catch (err) {
-                console.error('Error sharing screen:', err);
-            }
-        }
-    };
 
     const toggleFullScreen = () => {
         if (!document.fullscreenElement) {

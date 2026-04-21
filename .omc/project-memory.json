@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1776408032407,
-  "projectRoot": "/Users/jaeyongjung/Studysphere",
+  "lastScanned": 1776776947035,
+  "projectRoot": "C:\\Users\\jaeyo\\Projects\\StudySphere",
   "techStack": {
     "languages": [],
     "frameworks": [],
@@ -35,18 +35,19 @@
     "client": {
       "path": "client",
       "purpose": null,
-      "fileCount": 4,
-      "lastAccessed": 1776408032371,
+      "fileCount": 6,
+      "lastAccessed": 1776776946921,
       "keyFiles": [
         "package-lock.json",
-        "package.json"
+        "package.json",
+        "vercel.json"
       ]
     },
     "e2e": {
       "path": "e2e",
       "purpose": null,
       "fileCount": 3,
-      "lastAccessed": 1776408032371,
+      "lastAccessed": 1776776946923,
       "keyFiles": [
         "package-lock.json",
         "package.json",
@@ -56,113 +57,102 @@
     "server": {
       "path": "server",
       "purpose": null,
-      "fileCount": 8,
-      "lastAccessed": 1776408032371,
+      "fileCount": 10,
+      "lastAccessed": 1776776946924,
       "keyFiles": [
         "jest.config.js",
         "package-lock.json",
         "package.json",
-        "seed.js",
-        "server.js"
+        "railway.json",
+        "seed.js"
       ]
     },
-    "client/build": {
-      "path": "client/build",
+    "client\\build": {
+      "path": "client\\build",
       "purpose": "Build output",
       "fileCount": 7,
-      "lastAccessed": 1776408032372,
+      "lastAccessed": 1776776946929,
       "keyFiles": [
         "asset-manifest.json",
         "favicon.ico",
         "index.html"
       ]
     },
-    "client/node_modules": {
-      "path": "client/node_modules",
+    "client\\node_modules": {
+      "path": "client\\node_modules",
       "purpose": "Dependencies",
       "fileCount": 1,
-      "lastAccessed": 1776408032378,
+      "lastAccessed": 1776776946933,
       "keyFiles": []
     },
-    "client/public": {
-      "path": "client/public",
+    "client\\public": {
+      "path": "client\\public",
       "purpose": "Public files",
       "fileCount": 6,
-      "lastAccessed": 1776408032379,
+      "lastAccessed": 1776776946933,
       "keyFiles": [
         "favicon.ico",
         "index.html",
         "logo192.png"
       ]
     },
-    "client/src": {
-      "path": "client/src",
+    "client\\src": {
+      "path": "client\\src",
       "purpose": "Source code",
       "fileCount": 11,
-      "lastAccessed": 1776408032380,
+      "lastAccessed": 1776776946934,
       "keyFiles": [
+        "api.js",
         "App.css",
-        "App.js",
-        "App.test.js"
+        "App.js"
       ]
     },
-    "e2e/node_modules": {
-      "path": "e2e/node_modules",
+    "e2e\\node_modules": {
+      "path": "e2e\\node_modules",
       "purpose": "Dependencies",
       "fileCount": 1,
-      "lastAccessed": 1776408032380,
+      "lastAccessed": 1776776946935,
       "keyFiles": []
     },
-    "e2e/tests": {
-      "path": "e2e/tests",
+    "e2e\\tests": {
+      "path": "e2e\\tests",
       "purpose": "Test files",
       "fileCount": 3,
-      "lastAccessed": 1776408032381,
+      "lastAccessed": 1776776946935,
       "keyFiles": [
         "auth.spec.js",
         "groups.spec.js",
         "navigation.spec.js"
       ]
     },
-    "server/config": {
-      "path": "server/config",
+    "server\\config": {
+      "path": "server\\config",
       "purpose": "Configuration files",
       "fileCount": 2,
-      "lastAccessed": 1776408032381,
+      "lastAccessed": 1776776946939,
       "keyFiles": [
         "config.js",
         "config.json"
       ]
     },
-    "server/data": {
-      "path": "server/data",
+    "server\\data": {
+      "path": "server\\data",
       "purpose": "Data files",
       "fileCount": 1,
-      "lastAccessed": 1776408032381,
+      "lastAccessed": 1776776946939,
       "keyFiles": [
         "ibSubjects.js"
       ]
     },
-    "server/migrations": {
-      "path": "server/migrations",
+    "server\\migrations": {
+      "path": "server\\migrations",
       "purpose": "Database migrations",
       "fileCount": 12,
-      "lastAccessed": 1776408032381,
+      "lastAccessed": 1776776946940,
       "keyFiles": [
         "20260304050000-update-chats-schema.js",
         "20260304060000-add-public-password-to-groups.js",
         "20260304070000-backfill-group-leaders.js"
-      ]
-    },
-    "server/models": {
-      "path": "server/models",
-      "purpose": "Data models",
-      "fileCount": 25,
-      "lastAccessed": 1776408032381,
-      "keyFiles": [
-        "AiMessages.js",
-        "AnswerVotes.js",
-        "Answers.js"
       ]
     }
   },
@@ -264,6 +254,12 @@
       "type": "file"
     },
     {
+      "path": "server\\routes\\Public.js",
+      "accessCount": 5,
+      "lastAccessed": 1776778651114,
+      "type": "file"
+    },
+    {
       "path": "server/tests/routes/groupsUsers.test.js",
       "accessCount": 4,
       "lastAccessed": 1776396578321,
@@ -336,6 +332,24 @@
       "type": "directory"
     },
     {
+      "path": ".claude\\settings.local.json",
+      "accessCount": 3,
+      "lastAccessed": 1776477490189,
+      "type": "file"
+    },
+    {
+      "path": "",
+      "accessCount": 3,
+      "lastAccessed": 1776778315947,
+      "type": "directory"
+    },
+    {
+      "path": "server\\services\\ragRetriever.js",
+      "accessCount": 3,
+      "lastAccessed": 1776778651178,
+      "type": "file"
+    },
+    {
       "path": "client/src/pages/SearchAlumni.js",
       "accessCount": 2,
       "lastAccessed": 1776396499590,
@@ -363,12 +377,6 @@
       "path": "client\\src",
       "accessCount": 1,
       "lastAccessed": 1776165694953,
-      "type": "directory"
-    },
-    {
-      "path": "",
-      "accessCount": 1,
-      "lastAccessed": 1776165695718,
       "type": "directory"
     },
     {
@@ -435,6 +443,18 @@
       "path": "client/src/components/ConfirmModal.js",
       "accessCount": 1,
       "lastAccessed": 1776409715016,
+      "type": "file"
+    },
+    {
+      "path": ".claude\\settings.json",
+      "accessCount": 1,
+      "lastAccessed": 1776477009074,
+      "type": "file"
+    },
+    {
+      "path": "client\\src\\pages\\Home.js",
+      "accessCount": 1,
+      "lastAccessed": 1776778293682,
       "type": "file"
     }
   ],

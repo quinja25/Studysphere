@@ -528,6 +528,17 @@ async function retrieveContext(query, options = {}) {
             if (delta) r.rrfScore += delta;
         }
     }
+
+    // Post-RRF personalization boost: user-uploaded documents should rank above platform
+    // content of equal relevance. The vector search already boosts similarity pre-RRF;
+    // this additional post-RRF nudge ensures they win ties after rank fusion.
+    // 'document' sourceType = user's personal doc (global_document = separate sourceType).
+    if (options.userId) {
+        for (const r of results) {
+            if (r.source === 'document') r.rrfScore += 0.025;
+        }
+    }
+
     results.sort((a, b) => b.rrfScore - a.rrfScore);
 
     // Rerank (opt-in via RAG_RERANK_PROVIDER): hand the top N candidates to a
