@@ -18,8 +18,6 @@ import { CreateGroup } from './pages/CreateGroup';
 import { Registration } from './pages/Registration';
 import { Lobby } from './pages/Lobby';
 import { Schedule } from './pages/Schedule';
-import { SearchAlumni } from './pages/SearchAlumni';
-import { AlumniProfile } from './pages/AlumniProfile';
 import { Marketplace } from './pages/Marketplace';
 import { Wiki } from './pages/Wiki';
 import { QABoard } from './pages/QABoard';
@@ -28,7 +26,6 @@ import { ForgotPassword } from './pages/ForgotPassword';
 import { ResetPassword } from './pages/ResetPassword';
 import VerifyEmail from './pages/VerifyEmail';
 import { AiChat } from './pages/AiChat';
-import { ForMentors } from './pages/ForMentors';
 import { NotFound } from './pages/NotFound';
 
 // Redirect to /login if not authenticated
@@ -68,7 +65,6 @@ export const App = () => {
         {/* Public routes */}
         <Route index element={<Waitlist />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/for-mentors" element={<ForMentors />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -87,8 +83,6 @@ export const App = () => {
         <Route path="/chat" element={<ProtectedRoute><Chat /></ProtectedRoute>} />
         <Route path="/group/:id" element={<ProtectedRoute><Group /></ProtectedRoute>} />
         <Route path="/schedule" element={<ProtectedRoute><Schedule /></ProtectedRoute>} />
-        <Route path="/search-alumni" element={<ProtectedRoute><SearchAlumni /></ProtectedRoute>} />
-        <Route path="/alumni/:id" element={<ProtectedRoute><AlumniProfile /></ProtectedRoute>} />
         <Route path="/marketplace" element={<ProtectedRoute><Marketplace /></ProtectedRoute>} />
         <Route path="/ai-chat" element={<ProtectedRoute><AiChat /></ProtectedRoute>} />
 

@@ -2,7 +2,7 @@
 
 ## What is StudySphere?
 
-An **AI-powered Q&A and study platform** for IB/A-Level students. The core product is a RAG-based AI tutor trained on curriculum-specific content (wiki articles, Q&A, past papers, uploaded notes) that answers subject questions with cited sources. Layered on top: community Q&A, alumni mentorship, study rooms (video + Pomodoro), gamified XP/streaks, and a resources marketplace.
+An **AI-powered Q&A and study platform** for IB/A-Level students. The core product is a RAG-based AI tutor trained on curriculum-specific content (wiki articles, Q&A, past papers, uploaded notes) that answers subject questions with cited sources. Layered on top: community Q&A, study rooms (video + Pomodoro), gamified XP/streaks, and a resources marketplace.
 
 **The primary differentiator is the AI**: it's scoped to the IB/A-Level curriculum, references the user's own uploaded documents, and improves via a community knowledge base — something generic ChatGPT cannot replicate.
 
@@ -44,7 +44,7 @@ An **AI-powered Q&A and study platform** for IB/A-Level students. The core produ
 ### Frontend
 - **Auth**: Login, Register (email + Google OAuth), ForgotPassword + ResetPassword, `/verify-email` page
 - **AI Chat** (`/ai-chat`): standalone RAG chat, source cards, provider badge, per-message thumbs feedback, ConfirmModal on doc delete, docType badge on cited uploaded documents — **primary AI surface**
-- **Q&A / Wiki / Marketplace / Alumni**: full CRUD UIs, AI Suggest, tag pills, XP debt mechanic, endorsements, reports
+- **Q&A / Wiki / Marketplace**: full CRUD UIs, AI Suggest, tag pills, XP debt mechanic, reports
 - **Study Room** (`/group/:id`): WebRTC video, screen share, Pomodoro timer (socket-synced), chat sidebar, whiteboard, AI assistant sidebar (`AiAssistant.js` — same RAG + feedback controls as AI Chat), exit modal, Session Goals
 - **Lobby** (`/lobby`): rooms list, streak reminder
 - **Dashboard** (`/dashboard`): profile editing, XP bar, streak card, weekly goal ring, My Groups tab, Recaps tab
@@ -53,7 +53,6 @@ An **AI-powered Q&A and study platform** for IB/A-Level students. The core produ
 - **Notification bell**: `NotificationContext` + socket, `<NotificationBell />` in NavBar — badge, dropdown, mark-read
 - **Waitlist** (`/`): dark coming-soon page, animated counter, `<LiveStatsStrip />`, `<TryAiWidget />`
 - **Public landing** (`/home`): IB-first hero, `<TryAiWidget />` (3 IB chips, posts to `/public/ai-try`)
-- **Mentor landing** (`/for-mentors`): alumni value prop, live unanswered-Q feed, CTA → `/registration?role=alumni`
 - **ConfirmModal**: replaces all `window.confirm()` calls
 
 ---
@@ -207,24 +206,11 @@ Remaining gaps: E2E study room (WebRTC needs browser media permissions), `/diary
 **Pricing:**
 - **Free:** 10 AI queries/day, 3 document uploads, stateless AI, unlimited rooms + streaks
 - **Student Pro ($7/mo or $59/yr):** Unlimited AI queries + documents, conversational memory, Spaced Repetition, weekly progress email
-- **Alumni:** Free forever
 - **Institution:** $3–5/student/yr
 
 **Pro is "Personal AI Tutor"**: the free tier uses only the shared knowledge base; Pro adds the student's own uploaded documents with prioritized recall and conversational memory. Upgrade prompts trigger at: document limit hit, generic AI answer, follow-up question attempt, Spaced Repetition tab view.
 
-**Revenue roadmap:** (1) Deploy → (2) PostHog analytics → (3) Spaced Repetition (primary daily-use Pro feature) → (4) Stripe paywall → (5) Referral system → (6) Bounty system (Stripe Connect, pays alumni per accepted answer) → (7) Institutional portal.
-
----
-
-## Alumni Retention Strategy
-
-Alumni need a selfish reason to stay — altruism doesn't scale. The core value prop for mentors is **a verifiable mentorship credential**, not a favor. Answering a few questions/week builds a public profile ("Helped 47 IB students in Physics HL") linkable on LinkedIn — a real differentiator for early-career grads (22-25) that no other platform offers outside formal programs.
-
-**Sequencing:**
-1. **Credential first** — LinkedIn-verified badge + public profile with contribution metrics. Free to operate, no revenue dependency.
-2. **Bounties second** — Stripe Connect payouts funded by Pro subscription revenue. Don't build until paying students exist.
-
-**Key principle:** Document uploads are a student behavior, not an alumni ask. Mentors answer questions — that's the atomic unit of value.
+**Revenue roadmap:** (1) Deploy → (2) PostHog analytics → (3) Spaced Repetition (primary daily-use Pro feature) → (4) Stripe paywall → (5) Referral system → (6) Institutional portal.
 
 ---
 

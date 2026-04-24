@@ -41,7 +41,6 @@ export const NavBar = () => {
                 {isLoggedIn && (
                     <>
                         <Link to="/find-group" className="navbar-link">Find Group</Link>
-                        <Link to="/search-alumni" className="navbar-link">Find Alumni</Link>
                         <Link to="/marketplace" className="navbar-link">Marketplace</Link>
                         <Link to="/wiki" className="navbar-link">Wiki</Link>
                         <Link to="/qa" className="navbar-link">Q&A</Link>

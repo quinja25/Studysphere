@@ -78,7 +78,6 @@ const setupServer = async () => {
     const userRouter = require('./routes/Users');
     const groupUserRouter = require('./routes/GroupsUsers');
     const postsRouter = require('./routes/Posts');
-    const endorsementsRouter = require('./routes/Endorsements');
     const resourcesRouter = require('./routes/Resources');
     const wikiRouter = require('./routes/Wiki');
     const qaRouter = require('./routes/QA');
@@ -99,7 +98,6 @@ const setupServer = async () => {
     app.use('/users', userRouter);
     app.use('/groupsUsers', groupUserRouter);
     app.use('/posts', postsRouter);
-    app.use('/endorsements', endorsementsRouter);
     app.use('/resources', resourcesRouter);
     app.use('/wiki', wikiRouter);
     app.use('/qa', qaRouter);

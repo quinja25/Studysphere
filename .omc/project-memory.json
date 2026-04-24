@@ -158,6 +158,12 @@
   },
   "hotPaths": [
     {
+      "path": "CLAUDE.md",
+      "accessCount": 23,
+      "lastAccessed": 1777041138097,
+      "type": "file"
+    },
+    {
       "path": "client/src/pages/Dashboard.js",
       "accessCount": 15,
       "lastAccessed": 1776397968964,
@@ -170,15 +176,15 @@
       "type": "directory"
     },
     {
-      "path": "CLAUDE.md",
+      "path": "server/server.js",
       "accessCount": 13,
-      "lastAccessed": 1777040641404,
+      "lastAccessed": 1777041396219,
       "type": "file"
     },
     {
-      "path": "server/server.js",
+      "path": "client/src/App.js",
       "accessCount": 10,
-      "lastAccessed": 1776409542418,
+      "lastAccessed": 1777041394616,
       "type": "file"
     },
     {
@@ -284,12 +290,6 @@
       "type": "directory"
     },
     {
-      "path": "client/src/App.js",
-      "accessCount": 4,
-      "lastAccessed": 1776409552497,
-      "type": "file"
-    },
-    {
       "path": "client/src/api.js",
       "accessCount": 4,
       "lastAccessed": 1776409552718,
@@ -347,6 +347,12 @@
       "path": "server\\services\\ragRetriever.js",
       "accessCount": 3,
       "lastAccessed": 1776778651178,
+      "type": "file"
+    },
+    {
+      "path": "client/src/components/NavBar.js",
+      "accessCount": 3,
+      "lastAccessed": 1777041411425,
       "type": "file"
     },
     {
@@ -431,12 +437,6 @@
       "path": "server/routes/Endorsements.js",
       "accessCount": 1,
       "lastAccessed": 1776409560095,
-      "type": "file"
-    },
-    {
-      "path": "client/src/components/NavBar.js",
-      "accessCount": 1,
-      "lastAccessed": 1776409562643,
       "type": "file"
     },
     {
