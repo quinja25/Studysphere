@@ -10,10 +10,10 @@ import './ForMentors.css';
 const useScrollReveal = () => {
     useEffect(() => {
         const observer = new IntersectionObserver(
-            (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); }),
+            (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('v2-revealed'); }),
             { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
         );
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        document.querySelectorAll('.v2-reveal').forEach(el => observer.observe(el));
         return () => observer.disconnect();
     }, []);
 };
@@ -56,7 +56,7 @@ const SAMPLE_MENTORS = [
     {
         init: 'AK', color: '#6366f1',
         name: 'Arjun K.',
-        uni: 'MIT ’23 · CS',
+        uni: "MIT ‘23 · CS",
         metric: '47 IB students helped',
         lines: '12 accepted answers · 3 wiki articles · 14 endorsements',
         tags: ['IB Maths AA HL', 'DSA', 'Python'],
@@ -64,7 +64,7 @@ const SAMPLE_MENTORS = [
     {
         init: 'SM', color: '#0ea5e9',
         name: 'Sofia M.',
-        uni: 'Johns Hopkins ’22 · Pre-Med',
+        uni: "Johns Hopkins '22 · Pre-Med",
         metric: '63 IB students helped',
         lines: '8 accepted answers on IB Bio HL · top resource: "MCAT Bio Blueprint"',
         tags: ['IB Bio HL', 'IB Chem HL', 'MCAT'],
@@ -72,7 +72,7 @@ const SAMPLE_MENTORS = [
     {
         init: 'YL', color: '#10b981',
         name: 'Yara L.',
-        uni: 'Oxford ’24 · PPE',
+        uni: "Oxford '24 · PPE",
         metric: '22 IB students helped',
         lines: '5 accepted answers on IB Econ HL · 2 university prep sessions hosted',
         tags: ['IB Econ HL', 'TOK', 'Oxford apps'],
@@ -154,7 +154,7 @@ export const ForMentors = () => {
     const pageDesc = 'Answer IB questions from current students on your commute. Earn bounties, build a recruiter-visible Verified Mentor profile, and help the next cohort crush their exams.';
 
     return (
-        <div className="home for-mentors">
+        <div className="v2-home for-mentors">
             <Helmet>
                 <title>{pageTitle}</title>
                 <meta name="description" content={pageDesc} />
@@ -167,23 +167,22 @@ export const ForMentors = () => {
                 <meta name="twitter:title" content={pageTitle} />
                 <meta name="twitter:description" content={pageDesc} />
             </Helmet>
-            <div className="bg-grid" />
 
             {/* ── Navbar ── */}
-            <nav className="home-nav">
-                <div className="home-nav-inner">
-                    <Link to="/" className="home-logo">
-                        <img src={Logo} alt="" className="home-logo-img" />
+            <nav className="v2-nav">
+                <div className="v2-nav-inner">
+                    <Link to="/" className="v2-logo">
+                        <img src={Logo} alt="" className="v2-logo-img" />
                     </Link>
-                    <div className="home-nav-links">
+                    <div className="v2-nav-links">
                         <a href="#why">Why mentor</a>
                         <a href="#live">Live questions</a>
                         <a href="#mentors">Mentors</a>
                         <Link to="/">For Students</Link>
                     </div>
-                    <div className="home-nav-actions">
-                        <Link to="/login" className="btn-ghost">Log in</Link>
-                        <Link to="/registration?role=alumni" className="btn-primary">
+                    <div className="v2-nav-actions">
+                        <Link to="/login" className="v2-btn-ghost">Log in</Link>
+                        <Link to="/registration?role=alumni" className="v2-btn-primary">
                             Apply as Mentor
                         </Link>
                     </div>
@@ -191,50 +190,52 @@ export const ForMentors = () => {
             </nav>
 
             {/* ── Hero ── */}
-            <section className="hero fm-hero">
-                <div className="hero-glow" />
-                <div className="hero-content">
-                    <div className="hero-eyebrow reveal">For alumni — IB, A-Level, top universities</div>
-                    <h1 className="hero-headline reveal">
-                        Your IB experience is<br />
-                        <span className="gradient-text">worth paying for.</span>
-                    </h1>
-                    <p className="hero-sub reveal">
-                        Answer real IB questions from current students. Build a recruiter-visible
-                        mentor profile. Earn bounties on your commute. Zero schedule commitment.
-                    </p>
-                    <div className="hero-ctas reveal">
-                        <Link to="/registration?role=alumni" className="btn-primary btn-lg">
-                            Apply as Mentor →
-                        </Link>
-                        <a href="#live" className="btn-ghost btn-lg">See live questions</a>
+            <section className="v2-hero fm-hero">
+                <div className="v2-hero-noise" />
+                <div className="v2-hero-inner">
+                    <div className="v2-hero-copy">
+                        <div className="v2-eyebrow v2-reveal">For alumni — IB, A-Level, top universities</div>
+                        <h1 className="v2-headline v2-reveal">
+                            Your IB experience is<br />
+                            <span className="v2-gradient">worth paying for.</span>
+                        </h1>
+                        <p className="v2-hero-sub v2-reveal">
+                            Answer real IB questions from current students. Build a recruiter-visible
+                            mentor profile. Earn bounties on your commute. Zero schedule commitment.
+                        </p>
+                        <div className="v2-hero-ctas v2-reveal">
+                            <Link to="/registration?role=alumni" className="v2-btn-primary v2-btn-lg">
+                                Apply as Mentor →
+                            </Link>
+                            <a href="#live" className="v2-btn-ghost v2-btn-lg">See live questions</a>
+                        </div>
                     </div>
-                </div>
 
-                <div className="fm-hero-card reveal">
-                    <div className="fm-hero-card-header">
-                        <span className="fm-hero-dot" />
-                        <span className="fm-hero-card-label">Your projected impact</span>
-                    </div>
-                    <div className="fm-hero-card-row">
-                        <span className="fm-hero-card-label">Answers / week</span>
-                        <span className="fm-hero-card-val">~3</span>
-                    </div>
-                    <div className="fm-hero-card-row">
-                        <span className="fm-hero-card-label">Students reached / month</span>
-                        <span className="fm-hero-card-val">~12</span>
-                    </div>
-                    <div className="fm-hero-card-row">
-                        <span className="fm-hero-card-label">Bounty earnings / month</span>
-                        <span className="fm-hero-card-val fm-hero-card-accent">$24–$80</span>
-                        <span className="fm-hero-card-tag">coming soon</span>
-                    </div>
-                    <div className="fm-hero-card-row">
-                        <span className="fm-hero-card-label">LinkedIn-ready credit</span>
-                        <span className="fm-hero-card-val">Verified Mentor</span>
-                    </div>
-                    <div className="fm-hero-card-foot">
-                        Based on typical mentor activity across partner schools.
+                    <div className="fm-hero-card v2-reveal">
+                        <div className="fm-hero-card-header">
+                            <span className="fm-hero-dot" />
+                            <span className="fm-hero-card-label">Your projected impact</span>
+                        </div>
+                        <div className="fm-hero-card-row">
+                            <span className="fm-hero-card-label">Answers / week</span>
+                            <span className="fm-hero-card-val">~3</span>
+                        </div>
+                        <div className="fm-hero-card-row">
+                            <span className="fm-hero-card-label">Students reached / month</span>
+                            <span className="fm-hero-card-val">~12</span>
+                        </div>
+                        <div className="fm-hero-card-row">
+                            <span className="fm-hero-card-label">Bounty earnings / month</span>
+                            <span className="fm-hero-card-val fm-hero-card-accent">$24–$80</span>
+                            <span className="fm-hero-card-tag">coming soon</span>
+                        </div>
+                        <div className="fm-hero-card-row">
+                            <span className="fm-hero-card-label">LinkedIn-ready credit</span>
+                            <span className="fm-hero-card-val">Verified Mentor</span>
+                        </div>
+                        <div className="fm-hero-card-foot">
+                            Based on typical mentor activity across partner schools.
+                        </div>
                     </div>
                 </div>
             </section>
@@ -244,25 +245,25 @@ export const ForMentors = () => {
 
             {/* ── Live unanswered questions feed ── */}
             <section className="fm-section" id="live">
-                <div className="section-eyebrow reveal">Right now on StudySphere</div>
-                <h2 className="section-title reveal">Questions waiting for someone like you</h2>
-                <p className="fm-sub reveal">
+                <div className="v2-section-label v2-reveal">Right now on StudySphere</div>
+                <h2 className="v2-section-title v2-reveal">Questions waiting for someone like you</h2>
+                <p className="fm-sub v2-reveal">
                     Pulled live from the Q&amp;A board — no login required to browse.
                 </p>
-                <div className="reveal">
+                <div className="v2-reveal">
                     <OpenQuestionsFeed />
                 </div>
             </section>
 
             {/* ── Why mentor ── */}
             <section className="fm-section" id="why">
-                <div className="section-eyebrow reveal">Why mentor here</div>
-                <h2 className="section-title reveal">
+                <div className="v2-section-label v2-reveal">Why mentor here</div>
+                <h2 className="v2-section-title v2-reveal">
                     A mentor platform built for<br />the 20 minutes you have
                 </h2>
                 <div className="fm-pillars">
                     {PILLARS.map((p, i) => (
-                        <div key={i} className="fm-pillar reveal" style={{ transitionDelay: `${i * 60}ms` }}>
+                        <div key={i} className="fm-pillar v2-reveal" style={{ transitionDelay: `${i * 60}ms` }}>
                             <div className="fm-pillar-icon">{p.icon}</div>
                             <div className="fm-pillar-row">
                                 <h3 className="fm-pillar-title">{p.title}</h3>
@@ -278,11 +279,11 @@ export const ForMentors = () => {
 
             {/* ── Mentors ── */}
             <section className="fm-section" id="mentors">
-                <div className="section-eyebrow reveal">Mentors already on the platform</div>
-                <h2 className="section-title reveal">You'll be in good company</h2>
+                <div className="v2-section-label v2-reveal">Mentors already on the platform</div>
+                <h2 className="v2-section-title v2-reveal">You'll be in good company</h2>
                 <div className="fm-mentors">
                     {SAMPLE_MENTORS.map((m, i) => (
-                        <div key={i} className="fm-mentor reveal" style={{ transitionDelay: `${i * 80}ms` }}>
+                        <div key={i} className="fm-mentor v2-reveal" style={{ transitionDelay: `${i * 80}ms` }}>
                             <div className="fm-mentor-head">
                                 <div className="fm-mentor-avatar" style={{ background: m.color }}>
                                     {m.init}
@@ -305,24 +306,24 @@ export const ForMentors = () => {
 
             {/* ── FAQ ── */}
             <section className="fm-section fm-faq-section">
-                <div className="section-eyebrow reveal">Honest answers</div>
-                <h2 className="section-title reveal">What mentors actually ask</h2>
+                <div className="v2-section-label v2-reveal">Honest answers</div>
+                <h2 className="v2-section-title v2-reveal">What mentors actually ask</h2>
                 <div className="fm-faq">
-                    <details className="fm-faq-item reveal">
+                    <details className="fm-faq-item v2-reveal">
                         <summary>How much time does this take?</summary>
                         <p>
                             As little as 10 minutes a week. Most mentors answer 1–3 questions on their
                             commute. No scheduled sessions, no meeting commitments.
                         </p>
                     </details>
-                    <details className="fm-faq-item reveal">
+                    <details className="fm-faq-item v2-reveal">
                         <summary>Is there a vetting process?</summary>
                         <p>
                             Yes. We verify your university via LinkedIn OAuth and your IB subjects
                             against your public profile. Unverified accounts can't earn bounties.
                         </p>
                     </details>
-                    <details className="fm-faq-item reveal">
+                    <details className="fm-faq-item v2-reveal">
                         <summary>When do paid bounties launch?</summary>
                         <p>
                             Stripe Connect is in build. First 50 mentors get early access and a
@@ -330,7 +331,7 @@ export const ForMentors = () => {
                             Mentor badge.
                         </p>
                     </details>
-                    <details className="fm-faq-item reveal">
+                    <details className="fm-faq-item v2-reveal">
                         <summary>Do I have to be from a top university?</summary>
                         <p>
                             No. We prioritize mentors who actually took the IB / A-Level curriculum and
@@ -342,31 +343,33 @@ export const ForMentors = () => {
             </section>
 
             {/* ── CTA Banner ── */}
-            <section className="cta-banner reveal">
-                <div className="cta-glow" />
-                <h2 className="cta-title">Your first answer is one reply away.</h2>
-                <p className="cta-sub">
-                    Join as a mentor, and a student will have your help within hours — not weeks.
-                </p>
-                <Link to="/registration?role=alumni" className="btn-primary btn-xl">
-                    Apply as Mentor →
-                </Link>
+            <section className="v2-cta">
+                <div className="v2-cta-inner v2-reveal">
+                    <div className="v2-cta-glow" />
+                    <h2 className="v2-cta-title">Your first answer is one reply away.</h2>
+                    <p className="v2-cta-sub">
+                        Join as a mentor, and a student will have your help within hours — not weeks.
+                    </p>
+                    <Link to="/registration?role=alumni" className="v2-btn-primary v2-btn-xl">
+                        Apply as Mentor →
+                    </Link>
+                </div>
             </section>
 
             {/* ── Footer ── */}
-            <footer className="home-footer">
-                <div className="footer-inner">
-                    <div className="home-logo">
-                        <img src={Logo} alt="" className="home-logo-img" />
-                    </div>
-                    <div className="footer-links">
+            <footer className="v2-footer">
+                <div className="v2-footer-inner">
+                    <Link to="/" className="v2-logo">
+                        <img src={Logo} alt="" className="v2-logo-img" />
+                    </Link>
+                    <div className="v2-footer-links">
                         <Link to="/">For Students</Link>
                         <a href="#why">Why mentor</a>
                         <a href="#live">Live questions</a>
                         <Link to="/login">Log In</Link>
                         <Link to="/registration?role=alumni">Apply as Mentor</Link>
                     </div>
-                    <div className="footer-copy">© {new Date().getFullYear()} StudySphere. All rights reserved.</div>
+                    <div className="v2-footer-copy">© {new Date().getFullYear()} StudySphere. All rights reserved.</div>
                 </div>
             </footer>
         </div>

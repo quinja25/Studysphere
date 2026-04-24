@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1776776947035,
+  "lastScanned": 1777038122104,
   "projectRoot": "C:\\Users\\jaeyo\\Projects\\StudySphere",
   "techStack": {
     "languages": [],
@@ -36,7 +36,7 @@
       "path": "client",
       "purpose": null,
       "fileCount": 6,
-      "lastAccessed": 1776776946921,
+      "lastAccessed": 1777038122055,
       "keyFiles": [
         "package-lock.json",
         "package.json",
@@ -47,7 +47,7 @@
       "path": "e2e",
       "purpose": null,
       "fileCount": 3,
-      "lastAccessed": 1776776946923,
+      "lastAccessed": 1777038122056,
       "keyFiles": [
         "package-lock.json",
         "package.json",
@@ -58,7 +58,7 @@
       "path": "server",
       "purpose": null,
       "fileCount": 10,
-      "lastAccessed": 1776776946924,
+      "lastAccessed": 1777038122057,
       "keyFiles": [
         "jest.config.js",
         "package-lock.json",
@@ -71,7 +71,7 @@
       "path": "client\\build",
       "purpose": "Build output",
       "fileCount": 7,
-      "lastAccessed": 1776776946929,
+      "lastAccessed": 1777038122058,
       "keyFiles": [
         "asset-manifest.json",
         "favicon.ico",
@@ -82,14 +82,14 @@
       "path": "client\\node_modules",
       "purpose": "Dependencies",
       "fileCount": 1,
-      "lastAccessed": 1776776946933,
+      "lastAccessed": 1777038122061,
       "keyFiles": []
     },
     "client\\public": {
       "path": "client\\public",
       "purpose": "Public files",
       "fileCount": 6,
-      "lastAccessed": 1776776946933,
+      "lastAccessed": 1777038122063,
       "keyFiles": [
         "favicon.ico",
         "index.html",
@@ -100,7 +100,7 @@
       "path": "client\\src",
       "purpose": "Source code",
       "fileCount": 11,
-      "lastAccessed": 1776776946934,
+      "lastAccessed": 1777038122065,
       "keyFiles": [
         "api.js",
         "App.css",
@@ -111,14 +111,14 @@
       "path": "e2e\\node_modules",
       "purpose": "Dependencies",
       "fileCount": 1,
-      "lastAccessed": 1776776946935,
+      "lastAccessed": 1777038122066,
       "keyFiles": []
     },
     "e2e\\tests": {
       "path": "e2e\\tests",
       "purpose": "Test files",
       "fileCount": 3,
-      "lastAccessed": 1776776946935,
+      "lastAccessed": 1777038122068,
       "keyFiles": [
         "auth.spec.js",
         "groups.spec.js",
@@ -129,7 +129,7 @@
       "path": "server\\config",
       "purpose": "Configuration files",
       "fileCount": 2,
-      "lastAccessed": 1776776946939,
+      "lastAccessed": 1777038122070,
       "keyFiles": [
         "config.js",
         "config.json"
@@ -139,7 +139,7 @@
       "path": "server\\data",
       "purpose": "Data files",
       "fileCount": 1,
-      "lastAccessed": 1776776946939,
+      "lastAccessed": 1777038122071,
       "keyFiles": [
         "ibSubjects.js"
       ]
@@ -148,7 +148,7 @@
       "path": "server\\migrations",
       "purpose": "Database migrations",
       "fileCount": 12,
-      "lastAccessed": 1776776946940,
+      "lastAccessed": 1777038122071,
       "keyFiles": [
         "20260304050000-update-chats-schema.js",
         "20260304060000-add-public-password-to-groups.js",
@@ -168,6 +168,12 @@
       "accessCount": 13,
       "lastAccessed": 1776409804103,
       "type": "directory"
+    },
+    {
+      "path": "CLAUDE.md",
+      "accessCount": 13,
+      "lastAccessed": 1777040641404,
+      "type": "file"
     },
     {
       "path": "server/server.js",
@@ -197,12 +203,6 @@
       "path": "client/src/pages/AlumniProfile.js",
       "accessCount": 9,
       "lastAccessed": 1776398856284,
-      "type": "file"
-    },
-    {
-      "path": "CLAUDE.md",
-      "accessCount": 8,
-      "lastAccessed": 1776165840456,
       "type": "file"
     },
     {
@@ -375,9 +375,15 @@
     },
     {
       "path": "client\\src",
-      "accessCount": 1,
-      "lastAccessed": 1776165694953,
+      "accessCount": 2,
+      "lastAccessed": 1777039492364,
       "type": "directory"
+    },
+    {
+      "path": "client\\src\\pages\\Home.js",
+      "accessCount": 2,
+      "lastAccessed": 1777039510988,
+      "type": "file"
     },
     {
       "path": "server/tests/routes/chats.test.js",
@@ -449,12 +455,6 @@
       "path": ".claude\\settings.json",
       "accessCount": 1,
       "lastAccessed": 1776477009074,
-      "type": "file"
-    },
-    {
-      "path": "client\\src\\pages\\Home.js",
-      "accessCount": 1,
-      "lastAccessed": 1776778293682,
       "type": "file"
     }
   ],

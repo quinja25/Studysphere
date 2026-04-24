@@ -1,13 +1,8 @@
 /* Page-specific tweaks for /for-mentors.
    Inherits base vars, buttons, nav, hero layout, and reveal animation from Home.css. */
 
-.for-mentors .hero-headline {
-    /* slightly tighter line-height for the longer alumni headline */
+.for-mentors .v2-headline {
     line-height: 1.05;
-}
-
-.fm-hero {
-    align-items: center;
 }
 
 /* ── Projected-impact card (replaces MockStudyRoom in hero visual) ── */
@@ -101,11 +96,11 @@
     max-width: 1100px;
     margin: 0 auto;
 }
-.fm-section .section-eyebrow,
-.fm-section .section-title {
+.fm-section .v2-section-label,
+.fm-section .v2-section-title {
     text-align: center;
 }
-.fm-section .section-title {
+.fm-section .v2-section-title {
     margin-bottom: 32px;
 }
 .fm-sub {
