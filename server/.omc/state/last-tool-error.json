@@ -1,7 +1,7 @@
 {
   "tool_name": "Bash",
-  "tool_input_preview": "{\"command\":\"npm test -- --testPathPattern=\\\"aiFeedback.test.js|feedbackAggregates.test.js\\\" --no-coverage 2>&1\",\"timeout\":60000}",
-  "error": "Exit code 1\n\n> server@1.0.0 test\n> jest --forceExit --runInBand --testPathPattern=aiFeedback.test.js|feedbackAggregates.test.js --no-coverage\n\ntestPathPattern:\n\n  Option \"testPathPattern\" was replaced by \"--testPathPatterns\". \"--testPathPatterns\" is only available as a command-line option.\n  \n  Please update your configuration.\n\n  CLI Options Documentation:\n  https://jestjs.io/docs/cli",
-  "timestamp": "2026-04-17T07:47:33.430Z",
-  "retry_count": 4
+  "tool_input_preview": "{\"command\":\"cd C:/Users/jaeyo/Projects/StudySphere/server && node -e \\\"const { PDFParse } = require('pdf-parse'); const fs = require('fs'); const buf = fs.readFileSync(String.raw\\\\`C:\\\\Users\\\\jaeyo\\\\O...",
+  "error": "Exit code 1\nC:\\Users\\jaeyo\\Projects\\StudySphere\\server\\node_modules\\pdf-parse\\dist\\pdf-parse\\cjs\\index.cjs:1\r\n\"use strict\";var t,e,i,s,n,r,a,o,l,h,c,d,u,p,g=t=>{throw TypeError(t)},m=(t,e,i)=>e.has(t)||g(\"Cannot \"+i),f=(t,e,i)=>(m(t,e,\"read from private field\"),i?i.call(t):e.get(t)),b=(t,e,i)=>e.has(t)?g(\"Cannot add the same private member more than once\"):e instanceof WeakSet?e.add(t):e.set(t,i),v=(t,e,i,s)=>(m(t,e,\"write to private field\"),s?s.call(t,i):e.set(t,i),i),y=(t,e,i)=>(m(t,e,\"access ...",
+  "timestamp": "2026-04-30T02:00:06.514Z",
+  "retry_count": 5
 }

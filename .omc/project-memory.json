@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1777380418527,
-  "projectRoot": "/Users/jaeyongjung/Studysphere",
+  "lastScanned": 1777513519388,
+  "projectRoot": "C:\\Users\\jaeyo\\Projects\\StudySphere",
   "techStack": {
     "languages": [],
     "frameworks": [],
@@ -32,18 +32,11 @@
   },
   "customNotes": [],
   "directoryMap": {
-    "_alumni": {
-      "path": "_alumni",
-      "purpose": null,
-      "fileCount": 0,
-      "lastAccessed": 1777380418511,
-      "keyFiles": []
-    },
     "client": {
       "path": "client",
       "purpose": null,
-      "fileCount": 5,
-      "lastAccessed": 1777380418512,
+      "fileCount": 6,
+      "lastAccessed": 1777513519321,
       "keyFiles": [
         "package-lock.json",
         "package.json",
@@ -54,7 +47,7 @@
       "path": "e2e",
       "purpose": null,
       "fileCount": 3,
-      "lastAccessed": 1777380418512,
+      "lastAccessed": 1777513519322,
       "keyFiles": [
         "package-lock.json",
         "package.json",
@@ -64,8 +57,8 @@
     "server": {
       "path": "server",
       "purpose": null,
-      "fileCount": 9,
-      "lastAccessed": 1777380418512,
+      "fileCount": 10,
+      "lastAccessed": 1777513519323,
       "keyFiles": [
         "jest.config.js",
         "package-lock.json",
@@ -74,103 +67,99 @@
         "seed.js"
       ]
     },
-    "client/build": {
-      "path": "client/build",
+    "_alumni": {
+      "path": "_alumni",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1777513519324,
+      "keyFiles": []
+    },
+    "client\\build": {
+      "path": "client\\build",
       "purpose": "Build output",
       "fileCount": 7,
-      "lastAccessed": 1777380418513,
+      "lastAccessed": 1777513519325,
       "keyFiles": [
         "asset-manifest.json",
         "favicon.ico",
         "index.html"
       ]
     },
-    "client/node_modules": {
-      "path": "client/node_modules",
+    "client\\node_modules": {
+      "path": "client\\node_modules",
       "purpose": "Dependencies",
       "fileCount": 1,
-      "lastAccessed": 1777380418515,
+      "lastAccessed": 1777513519328,
       "keyFiles": []
     },
-    "client/public": {
-      "path": "client/public",
+    "client\\public": {
+      "path": "client\\public",
       "purpose": "Public files",
       "fileCount": 6,
-      "lastAccessed": 1777380418515,
+      "lastAccessed": 1777513519329,
       "keyFiles": [
         "favicon.ico",
         "index.html",
         "logo192.png"
       ]
     },
-    "client/src": {
-      "path": "client/src",
+    "client\\src": {
+      "path": "client\\src",
       "purpose": "Source code",
       "fileCount": 11,
-      "lastAccessed": 1777380418515,
+      "lastAccessed": 1777513519331,
       "keyFiles": [
+        "api.js",
         "App.css",
-        "App.js",
-        "App.test.js"
+        "App.js"
       ]
     },
-    "e2e/node_modules": {
-      "path": "e2e/node_modules",
+    "e2e\\node_modules": {
+      "path": "e2e\\node_modules",
       "purpose": "Dependencies",
       "fileCount": 1,
-      "lastAccessed": 1777380418515,
+      "lastAccessed": 1777513519333,
       "keyFiles": []
     },
-    "e2e/tests": {
-      "path": "e2e/tests",
+    "e2e\\tests": {
+      "path": "e2e\\tests",
       "purpose": "Test files",
       "fileCount": 3,
-      "lastAccessed": 1777380418515,
+      "lastAccessed": 1777513519334,
       "keyFiles": [
         "auth.spec.js",
         "groups.spec.js",
         "navigation.spec.js"
       ]
     },
-    "server/config": {
-      "path": "server/config",
+    "server\\config": {
+      "path": "server\\config",
       "purpose": "Configuration files",
       "fileCount": 2,
-      "lastAccessed": 1777380418515,
+      "lastAccessed": 1777513519336,
       "keyFiles": [
         "config.js",
         "config.json"
       ]
     },
-    "server/data": {
-      "path": "server/data",
+    "server\\data": {
+      "path": "server\\data",
       "purpose": "Data files",
       "fileCount": 1,
-      "lastAccessed": 1777380418516,
+      "lastAccessed": 1777513519337,
       "keyFiles": [
         "ibSubjects.js"
       ]
     },
-    "server/migrations": {
-      "path": "server/migrations",
+    "server\\migrations": {
+      "path": "server\\migrations",
       "purpose": "Database migrations",
       "fileCount": 12,
-      "lastAccessed": 1777380418516,
+      "lastAccessed": 1777513519337,
       "keyFiles": [
         "20260304050000-update-chats-schema.js",
         "20260304060000-add-public-password-to-groups.js",
         "20260304070000-backfill-group-leaders.js"
-      ]
-    },
-    "server/models": {
-      "path": "server/models",
-      "purpose": "Data models",
-      "fileCount": 27,
-      "lastAccessed": 1777380418516,
-      "keyFiles": [
-        "AiFeedback.js",
-        "AiMessages.js",
-        "AnswerVotes.js"
       ]
     }
   },
@@ -179,6 +168,24 @@
       "path": "CLAUDE.md",
       "accessCount": 7,
       "lastAccessed": 1777383105247,
+      "type": "file"
+    },
+    {
+      "path": "download_economics.py",
+      "accessCount": 5,
+      "lastAccessed": 1777513612063,
+      "type": "file"
+    },
+    {
+      "path": "server\\services\\embeddingSync.js",
+      "accessCount": 3,
+      "lastAccessed": 1777513655723,
+      "type": "file"
+    },
+    {
+      "path": "past-paper-downloader.md",
+      "accessCount": 2,
+      "lastAccessed": 1777513612041,
       "type": "file"
     },
     {
@@ -221,6 +228,42 @@
       "path": "server/services/embeddingSync.js",
       "accessCount": 1,
       "lastAccessed": 1777382794717,
+      "type": "file"
+    },
+    {
+      "path": "download_biology.py",
+      "accessCount": 1,
+      "lastAccessed": 1777472140892,
+      "type": "file"
+    },
+    {
+      "path": "server\\services\\documentProcessor.js",
+      "accessCount": 1,
+      "lastAccessed": 1777513596295,
+      "type": "file"
+    },
+    {
+      "path": "server\\routes",
+      "accessCount": 1,
+      "lastAccessed": 1777513650956,
+      "type": "directory"
+    },
+    {
+      "path": "server\\routes\\GlobalDocuments.js",
+      "accessCount": 1,
+      "lastAccessed": 1777513654918,
+      "type": "file"
+    },
+    {
+      "path": "server\\models\\GlobalDocuments.js",
+      "accessCount": 1,
+      "lastAccessed": 1777513655975,
+      "type": "file"
+    },
+    {
+      "path": "server\\scripts\\ingest-past-papers.js",
+      "accessCount": 1,
+      "lastAccessed": 1777513727388,
       "type": "file"
     }
   ],

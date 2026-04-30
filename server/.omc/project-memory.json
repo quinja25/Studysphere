@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1776429240142,
-  "projectRoot": "/Users/jaeyongjung/Studysphere/server",
+  "lastScanned": 1777517696189,
+  "projectRoot": "C:\\Users\\jaeyo\\Projects\\StudySphere\\server",
   "techStack": {
     "languages": [
       {
@@ -49,6 +49,7 @@
     "isMonorepo": false,
     "workspaces": [],
     "mainDirectories": [
+      "scripts",
       "tests"
     ],
     "gitBranches": {
@@ -62,7 +63,7 @@
       "path": "config",
       "purpose": "Configuration files",
       "fileCount": 2,
-      "lastAccessed": 1776429240127,
+      "lastAccessed": 1777517696154,
       "keyFiles": [
         "config.js",
         "config.json"
@@ -72,7 +73,7 @@
       "path": "data",
       "purpose": "Data files",
       "fileCount": 1,
-      "lastAccessed": 1776429240127,
+      "lastAccessed": 1777517696155,
       "keyFiles": [
         "ibSubjects.js"
       ]
@@ -81,7 +82,7 @@
       "path": "middlewares",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1776429240128,
+      "lastAccessed": 1777517696164,
       "keyFiles": [
         "AdminMiddleware.js",
         "AuthMiddleware.js"
@@ -91,7 +92,7 @@
       "path": "migrations",
       "purpose": "Database migrations",
       "fileCount": 12,
-      "lastAccessed": 1776429240129,
+      "lastAccessed": 1777517696164,
       "keyFiles": [
         "20260304050000-update-chats-schema.js",
         "20260304060000-add-public-password-to-groups.js",
@@ -104,12 +105,12 @@
       "path": "models",
       "purpose": "Data models",
       "fileCount": 27,
-      "lastAccessed": 1776429240129,
+      "lastAccessed": 1777517696165,
       "keyFiles": [
         "AiFeedback.js",
         "AiMessages.js",
-        "AnswerVotes.js",
         "Answers.js",
+        "AnswerVotes.js",
         "Chats.js"
       ]
     },
@@ -117,20 +118,33 @@
       "path": "routes",
       "purpose": "Route handlers",
       "fileCount": 19,
-      "lastAccessed": 1776429240129,
+      "lastAccessed": 1777517696165,
       "keyFiles": [
         "Admin.js",
         "Ai.js",
         "AiFeedback.js",
         "Chats.js",
-        "Endorsements.js"
+        "GlobalDocuments.js"
+      ]
+    },
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 5,
+      "lastAccessed": 1777517696166,
+      "keyFiles": [
+        "ingest-past-papers.js",
+        "rag-eval-results.json",
+        "rag-eval.js",
+        "test-pdf-extract.js",
+        "test-pdf-raw.js"
       ]
     },
     "services": {
       "path": "services",
       "purpose": "Business logic services",
       "fileCount": 12,
-      "lastAccessed": 1776429240129,
+      "lastAccessed": 1777517696166,
       "keyFiles": [
         "adaptiveChunker.js",
         "documentProcessor.js",
@@ -143,7 +157,7 @@
       "path": "socket",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1776429240129,
+      "lastAccessed": 1777517696166,
       "keyFiles": [
         "handlers.js"
       ]
@@ -152,44 +166,44 @@
       "path": "tests",
       "purpose": "Test files",
       "fileCount": 0,
-      "lastAccessed": 1776429240130,
+      "lastAccessed": 1777517696167,
       "keyFiles": []
     },
     "uploads": {
       "path": "uploads",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1776429240130,
+      "lastAccessed": 1777517696167,
       "keyFiles": [
         "all-dp-subjects-list-en.pdf"
       ]
     },
-    "tests/helpers": {
-      "path": "tests/helpers",
+    "tests\\helpers": {
+      "path": "tests\\helpers",
       "purpose": "Helper functions",
       "fileCount": 2,
-      "lastAccessed": 1776429240131,
+      "lastAccessed": 1777517696168,
       "keyFiles": [
         "authHelpers.js",
         "mockModels.js"
       ]
     },
-    "tests/routes": {
-      "path": "tests/routes",
+    "tests\\routes": {
+      "path": "tests\\routes",
       "purpose": "Route handlers",
       "fileCount": 17,
-      "lastAccessed": 1776429240131,
+      "lastAccessed": 1777517696168,
       "keyFiles": [
         "admin.test.js",
         "ai.test.js",
         "aiFeedback.test.js"
       ]
     },
-    "tests/services": {
-      "path": "tests/services",
+    "tests\\services": {
+      "path": "tests\\services",
       "purpose": "Business logic services",
       "fileCount": 9,
-      "lastAccessed": 1776429240131,
+      "lastAccessed": 1777517696169,
       "keyFiles": [
         "adaptiveChunker.test.js",
         "embeddingService.test.js",
@@ -208,6 +222,12 @@
       "path": "tests/routes/public.test.js",
       "accessCount": 7,
       "lastAccessed": 1776431448480,
+      "type": "file"
+    },
+    {
+      "path": "scripts\\ingest-past-papers.js",
+      "accessCount": 5,
+      "lastAccessed": 1777515199976,
       "type": "file"
     },
     {
@@ -233,6 +253,18 @@
       "accessCount": 2,
       "lastAccessed": 1776778709694,
       "type": "directory"
+    },
+    {
+      "path": "services\\ragRetriever.js",
+      "accessCount": 2,
+      "lastAccessed": 1777516491333,
+      "type": "file"
+    },
+    {
+      "path": "scripts\\rag-eval.js",
+      "accessCount": 2,
+      "lastAccessed": 1777516573794,
+      "type": "file"
     },
     {
       "path": "",
@@ -307,12 +339,6 @@
       "type": "file"
     },
     {
-      "path": "services\\ragRetriever.js",
-      "accessCount": 1,
-      "lastAccessed": 1776778699691,
-      "type": "file"
-    },
-    {
       "path": "services",
       "accessCount": 1,
       "lastAccessed": 1776778702552,
@@ -322,6 +348,24 @@
       "path": "models\\ContentEmbeddings.js",
       "accessCount": 1,
       "lastAccessed": 1776778716335,
+      "type": "file"
+    },
+    {
+      "path": "scripts\\test-pdf-extract.js",
+      "accessCount": 1,
+      "lastAccessed": 1777514378406,
+      "type": "file"
+    },
+    {
+      "path": "scripts\\test-pdf-raw.js",
+      "accessCount": 1,
+      "lastAccessed": 1777514446909,
+      "type": "file"
+    },
+    {
+      "path": "services\\openai.js",
+      "accessCount": 1,
+      "lastAccessed": 1777516490720,
       "type": "file"
     }
   ],

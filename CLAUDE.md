@@ -350,7 +350,8 @@ Remaining gaps: E2E study room (WebRTC needs browser media permissions), `/diary
 **Gate 2 — Revenue**: Stripe paywall — `<ProGate>` component + `POST /billing/checkout|webhook|portal`. `isPro`/`proExpiresAt`/`stripeCustomerId` already on Users model.
 
 **Backlog:**
-- Global document library — `GlobalDocuments` model, admin upload, `indexGlobalDocument()` in `embeddingSync.js`, add to retriever with +0.2 bonus
+- Global document library — `GlobalDocuments` model, admin upload, `indexGlobalDocument()` in `embeddingSync.js`, add to retriever with +0.2 bonus ✅ **Done** — 191 IB Economics past papers (2010–2025, May + November) ingested into `GlobalDocuments` via `server/scripts/ingest-past-papers.js`. 5,623 chunks stored in `chunksJson`. Embeddings not yet generated — run `POST /ai/reindex` to activate RAG. pdf-parse downgraded to v1.1.1 to fix API incompatibility.
+- RAG eval harness — `server/scripts/rag-eval.js`, 20 IB Economics golden questions, baseline GPT-4o-mini answers recorded in `server/scripts/rag-eval-results.json`. Run `--rag` after reindex to get RAG answers, then `--compare` to diff.
 - Per-user doc persistence — wire `GET /ai/documents` into `/ai-chat` (frontend only)
 - Feedback-driven RAG scoring — nightly job wiring `feedbackAggregates` into RRF prior
 
