@@ -59,208 +59,23 @@ An **AI-powered Q&A and study platform** for IB/A-Level students. The core produ
 
 ## RAG System
 
-### Overview
+> Full documentation: **[rag.md](rag.md)** — pipeline phases, chunking strategies, scoring, known issues, recommended fixes, and past paper ingestion guide.
+>
+> UX flows: **[ux-flows.md](ux-flows.md)** — all user-facing flows from visitor → student → admin.
 
-The RAG pipeline has three phases: **ingestion** (content → chunks → embeddings → MySQL), **caching** (in-memory normalized vectors + IVF index), and **retrieval** (hybrid FULLTEXT + vector search → RRF merge → rerank → top 5 chunks injected into LLM prompt).
+Hybrid FULLTEXT + vector search → RRF merge → optional rerank → top 5 chunks injected into LLM prompt. Three phases: ingestion (`embeddingSync.js` + `adaptiveChunker.js`), caching (in-memory normalized vectors + IVF index in `embeddingService.js`), retrieval (`ragRetriever.js`).
 
-### Phase 1 — Content Ingestion (`embeddingSync.js`)
+**Key files:** `embeddingService.js`, `embeddingSync.js`, `adaptiveChunker.js`, `documentProcessor.js`, `ragRetriever.js`, `rerank.js`, `hyde.js`, `queryRewriter.js`, `queryIntent.js`, `feedbackAggregates.js` — all in `server/services/`. Provider abstracted in `openai.js`.
 
-When content is created or updated (wiki article, Q&A, post, resource, document):
+**Shipped upgrades** (all behind env flags, cost-zero defaults): cross-encoder reranker, query rewriter, HyDE, adaptive chunking (on by default), intent classifier, thumbs feedback loop, post-RRF personalization boost.
 
-1. **`getContentText(sourceType, sourceId)`** fetches the raw record from the DB and builds `{ text, prefix, subject, record }`. For Q&A, it includes the best accepted/voted answer alongside the question so a student's query matches the question text but retrieves the answer.
-2. **Chunking** — if `RAG_ADAPTIVE_CHUNKS=true` (default), `adaptiveChunker.chunkContent()` applies type-aware splitting. Otherwise `chunkText()` does flat sliding-window at ~150 tokens with 50-token overlap. Each chunk gets a prefix like `"Wiki Article: Enzyme Kinetics\nSubject: Biology"`.
-3. **`createEmbeddingBatch(chunks)`** sends all chunks in one API call to OpenAI (`text-embedding-3-small`) → returns 1536-dim vectors.
-4. **`ContentEmbeddings.bulkCreate()`** stores each chunk text + serialized Float32Array BLOB in MySQL.
-5. **`invalidateVectorIndex()`** marks the in-memory cache as stale for lazy rebuild.
+**191 IB Economics past papers** ingested via `server/scripts/ingest-past-papers.js` (5,623 chunks in `GlobalDocuments.chunksJson`). Embeddings not yet generated — run `POST /ai/reindex`.
 
-**Past papers follow a different path** — `documentProcessor.js` handles chunking *before* `embeddingSync`:
-- PDF buffer → `pdf-parse` → raw text + page count
-- `chunkPastPaper()` splits by question boundaries using regex detection (`Q1.`, `(a)`, `Part (b)`, etc.)
-- Extracts **mark allocation** (`[4 marks]`) and **IB command terms** (31 terms: Analyse, Calculate, Evaluate, etc.)
-- Each chunk is prefixed with paper title, subject, question label, marks, and command term
-- Short questions (<800 chars) = one chunk; long ones split at 200 tokens
-- Pre-computed chunks are passed to `indexDocument()` (user uploads) or `indexGlobalDocument()` (admin library, stores `chunksJson` for reindexing without re-reading the file)
+**Per-subject ingest scripts** for Chemistry, Physics, Biology, Mathematics in `server/scripts/ingest-<subject>.js`. All use shared `ingest-common.js` module with MCQ chunker, structured question chunker, IB PDF text cleaning, and mark scheme handling. See `rag.md` "Past Paper Ingestion Guide" for usage and how to add new subjects.
 
-**Textbooks** use `chunkTextbook()` — detects section headers (Chapter/Section/Unit patterns, ALL-CAPS headings), chunks each section independently at 300 tokens (denser than default), prefixes with book title + section header.
+**Fixed (previously known gaps):** `global_document` added to exam intent boost (`queryIntent.js`), `CHARS_PER_TOKEN` standardized to 4 (`adaptiveChunker.js`), `cleanPDFText()` wired into `documentProcessor.js` for all user PDF uploads, `POST /ai/quiz` works without `groupId` (standalone AI Chat).
 
-### Phase 2 — In-Memory Cache + IVF Index (`embeddingService.js`)
-
-On the first query after startup (or after any content write):
-
-1. **`_loadCache()`** loads all `ContentEmbeddings` rows, deserializes BLOBs → Float32Arrays, **normalizes each to unit length** so `dot(a, b) === cosine_similarity(a, b)` with no per-query norm math.
-2. If corpus ≥ `RAG_IVF_MIN_ROWS` (500) → **`_buildIVFAsync()`** runs k-means clustering:
-   - k = clamp(√n, 4, 256), 3 passes of Lloyd's algorithm
-   - Runs via `setImmediate` between passes so the event loop stays responsive
-   - Brute-force queries continue while IVF builds
-3. After IVF: queries score k centroids, probe top 15% of clusters, score only ~15% of vectors. Performance:
-
-   | Corpus size | No cache (DB) | Cache only | Cache + IVF |
-   |-------------|---------------|------------|-------------|
-   | 1,000 rows  | ~50ms         | ~2ms       | ~0.5ms      |
-   | 10,000 rows | ~250ms        | ~10ms      | ~2ms        |
-   | 50,000 rows | ~1,300ms      | ~50ms      | ~8ms        |
-
-### Phase 3 — Query-Time Retrieval (`ragRetriever.js` → `retrieveContext()`)
-
-```
-                    ┌─── HyDE (optional) ──────────────┐
-                    │  Generate hypothetical answer     │
-    User query ─────┤  to improve embedding quality     │
-                    │                                   │
-                    ├─── Intent Classification ─────────┤  All 3 run
-                    │  Heuristic or LLM: which source   │  in parallel
-                    │  types are most relevant?         │
-                    │                                   │
-                    ├─── FULLTEXT Search ───────────────┤
-                    │  4 parallel SQL queries:          │
-                    │  Wiki, Q&A, Posts, Resources      │
-                    └───────────────────────────────────┘
-                                    │
-                                    ▼
-                    ┌─── Vector Search ─────────────────┐
-                    │  Embed query (or HyDE answer)     │
-                    │  → findSimilar() via cache/IVF    │
-                    │  Includes user docs + global docs │
-                    └───────────────────────────────────┘
-                                    │
-                                    ▼
-                    ┌─── RRF Merge (k=60) ─────────────┐
-                    │  Reciprocal Rank Fusion:          │
-                    │  score = Σ 1/(60 + rank)          │
-                    │  per list a doc appears in        │
-                    │  Eliminates score scale mismatch  │
-                    └───────────────────────────────────┘
-                                    │
-                                    ▼
-                    ┌─── Post-RRF Boosts ───────────────┐
-                    │  + intent boosts (per source type) │
-                    │  + 0.025 for user's own documents  │
-                    └───────────────────────────────────┘
-                                    │
-                                    ▼
-                    ┌─── Rerank (optional) ─────────────┐
-                    │  Cross-encoder (Cohere/Ollama)    │
-                    │  on top 20 candidates             │
-                    │  Uses ORIGINAL query, not HyDE    │
-                    └───────────────────────────────────┘
-                                    │
-                                    ▼
-                          Top 5 chunks → LLM prompt
-```
-
-**Step by step:**
-
-1. **Extract keywords** — strip stop words + short words from the query for FULLTEXT search.
-2. **Parallel launch** — HyDE (skipped for queries >120 chars — already keyword-rich), intent classification, and 4 FULLTEXT searches (`searchWiki`, `searchQA`, `searchPosts`, `searchResources`) all fire simultaneously via `Promise.all`.
-3. **FULLTEXT results** get `normalizeScore()`: raw FULLTEXT relevance (capped to 0–1) + recency bonus (+0.1 if <30 days) + log-scaled views/likes/downloads + accepted answer (+0.3) + alumni author (+0.15) + subject match (+0.3). Capped at 2.0. Each search function does FULLTEXT with JOIN for author, falls back to LIKE if FULLTEXT indexes aren't available.
-4. **Vector search** — embeds the HyDE hypothetical answer (or original query if HyDE is off/skipped), calls `findSimilar()` on the in-memory cache. Augments query with room subject/major for better embedding neighborhood. Filters by `userId` (user docs), excludes `global_document` for non-Pro users. User-uploaded docs get +0.3 similarity boost pre-RRF.
-5. **Vector deduplication** — multiple chunks from the same source document are concatenated in chunk-index order (not discarded), preserving more context for the LLM.
-6. **RRF merge** — both ranked lists are fused by rank position: `score = Σ 1/(60 + rank + 1)` across every list a document appears in. Documents appearing in *both* lists receive contributions from both, naturally boosting results strong in keyword AND semantic matching. This eliminates the score-scale mismatch between FULLTEXT (0–2 range) and vector similarity (0–1 range).
-7. **Intent boosts** — classifier output (e.g. "this is a past paper question") applies per-source-type score deltas to RRF results.
-8. **Personalization boost** — user-uploaded docs (`sourceType='document'`) get +0.025 post-RRF when `userId` is present.
-9. **Rerank** (opt-in via `RAG_RERANK_PROVIDER`) — cross-encoder rescores the top `RAG_RERANK_CANDIDATES` (20) candidates using the **original** user query (not the HyDE hypothetical), then slices to `RAG_MAX_CHUNKS` (5).
-10. **Return top 5** chunks to the LLM system prompt.
-
-### Key Design Decisions
-
-- **FULLTEXT catches what vectors miss** — exact keyword matches (formula names, IB terminology like "SN2 mechanism") that embedding models sometimes fumble on.
-- **Vectors catch what FULLTEXT misses** — semantic paraphrases ("rate of reaction" matches "speed of chemical process").
-- **RRF over raw score merging** — FULLTEXT and vector scores have incompatible scales; RRF uses only rank positions, eliminating this mismatch entirely.
-- **HyDE skipped for long queries** — queries >120 chars are already keyword-rich; the hypothetical answer adds overhead with little retrieval lift.
-- **Global docs are Pro-gated** — `excludeSourceTypes: ['global_document']` in vector search for non-Pro users.
-- **Compound Q&A chunks** — questions are indexed with their best answer included so that a student's query (which semantically matches the question) also retrieves the answer content.
-- **Resources never expose paid content** — only `title + description` are indexed, never the full `content` field.
-
-### Key Files
-
-| File | Responsibility |
-|------|---------------|
-| `server/services/embeddingService.js` | `chunkText()`, `findSimilar()` (in-memory cache + IVF), `embedText()`, BLOB serialization, `invalidateVectorIndex()` |
-| `server/services/embeddingSync.js` | `indexContent()`, `removeContent()`, `reindexAll()`, `indexDocument()`, `indexGlobalDocument()`; uses adaptive chunker |
-| `server/services/adaptiveChunker.js` | `chunkContent(sourceType, record)` — type-aware chunks for wiki, Q&A, posts, resources |
-| `server/services/documentProcessor.js` | `processDocument(buffer, meta)` — PDF extraction + type-specific chunking (textbook headers, past paper questions, generic notes) |
-| `server/services/ragRetriever.js` | `retrieveContext()` — parallel HyDE + intent + FULLTEXT + vector, RRF merge, boosts, rerank |
-| `server/services/rerank.js` | `rerank(query, chunks)` — Cohere or Ollama cross-encoder, opt-in |
-| `server/services/hyde.js` | `generateHypotheticalAnswer()` — opt-in HyDE, skipped for queries >120 chars |
-| `server/services/queryRewriter.js` | `rewriteQuery(message, history)` — conversational query rewrite, opt-in |
-| `server/services/queryIntent.js` | `classifyQuery()` — heuristic (free) or LLM mode, returns per-source-type boosts |
-| `server/services/feedbackAggregates.js` | `sourceTypeStats()`, `sourcePerformance()` — aggregate thumbs feedback for future scoring |
-| `server/services/openai.js` | `chatCompletion()`, `createEmbedding()`, `createEmbeddingBatch()` — provider-abstracted (OpenAI or Ollama) |
-| `server/models/UserDocuments.js` | Per-user uploaded docs: `docType ENUM('textbook','past_paper','notes','other')` |
-| `server/models/GlobalDocuments.js` | Admin-curated library: adds `curriculum`, `fileSize`, `chunksJson` for reindexing without original file |
-| `server/routes/Ai.js` | `/ai/chat`, `/ai/ask`, `/ai/quiz`, `/ai/suggest`, `/ai/sources`, `/ai/reindex`, `/ai/upload-document`, `/ai/documents` |
-| `server/routes/AiFeedback.js` | `/ai/feedback` POST/my/stats |
-| `server/routes/GlobalDocuments.js` | Admin: `GET/POST/DELETE /admin/documents` — upload PDF, list, delete with embedding cleanup |
-
-### Scoring Summary
-
-| Bonus | Value | Where Applied |
-|-------|-------|---------------|
-| Recency (<30 days) | +0.1 | `normalizeScore()` pre-RRF |
-| Views (log-scaled, cap 1000) | +0.0 to +0.1 | `normalizeScore()` pre-RRF |
-| Likes (log-scaled, cap 100) | +0.0 to +0.1 | `normalizeScore()` pre-RRF |
-| Downloads (log-scaled, cap 1000) | +0.0 to +0.1 | `normalizeScore()` pre-RRF |
-| Accepted answer | +0.3 | `normalizeScore()` pre-RRF |
-| Alumni author on answer | +0.15 | `normalizeScore()` pre-RRF |
-| Subject match | +0.3 | `normalizeScore()` pre-RRF |
-| User-uploaded document | +0.3 | `vectorSearch()` pre-RRF (similarity boost) |
-| User-uploaded document | +0.025 | `retrieveContext()` post-RRF |
-| Intent classification | variable | `retrieveContext()` post-RRF |
-| RRF fusion constant | k=60 | `retrieveContext()` merge step |
-
-### Adding a New Content Type
-
-1. Add case to `getContentText()` in `embeddingSync.js` — fetch record, return `{ text, prefix, subject, record }`.
-2. Add to `reindexAll()` sources array.
-3. Add to `sourceType` ENUM in `ContentEmbeddings` model + create migration.
-4. Add FULLTEXT search function in `ragRetriever.js` (follow `searchWiki` pattern).
-5. Add to `retrieveContext()` `Promise.all` alongside existing searches.
-6. Hook CRUD routes with `indexContent(type, id)` / `removeContent(type, id)`.
-
-### RAG Env Vars
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `OPENAI_API_KEY` | — | OpenAI API key (required unless using Ollama) |
-| `OLLAMA_BASE_URL` | — | Local Ollama URL; set to use `llama3.2` + `nomic-embed-text` |
-| `OLLAMA_MODEL` | `llama3.2` | Ollama chat model |
-| `OLLAMA_EMBED_MODEL` | `nomic-embed-text` | Ollama embedding model |
-| `AI_DAILY_TOKEN_LIMIT` | `50000` | Per-user daily token budget |
-| `RAG_MAX_CHUNKS` | `5` | Max chunks returned to LLM prompt |
-| `RAG_CHUNK_SIZE` | `150` | Default chunk size in tokens |
-| `RAG_CHUNK_OVERLAP` | `50` | Overlap between chunks in tokens |
-| `RAG_SIMILARITY_THRESHOLD` | `0.5` | Min cosine similarity for vector results |
-| `RAG_IVF_MIN_ROWS` | `500` | Corpus size to trigger IVF index build |
-| `RAG_IVF_NPROBE` | `0` (auto) | Clusters to probe; 0 = 15% of k, min 3 |
-| `RAG_ADAPTIVE_CHUNKS` | `true` | Use type-aware chunking vs flat sliding window |
-| `RAG_RERANK_PROVIDER` | `off` | `cohere`, `ollama`, or `off` |
-| `RAG_RERANK_CANDIDATES` | `20` | Candidates passed to reranker before slicing |
-| `COHERE_API_KEY` | — | Required when `RAG_RERANK_PROVIDER=cohere` |
-| `RAG_QUERY_REWRITE_ENABLED` | `false` | Conversational query rewriting |
-| `RAG_HYDE_ENABLED` | `false` | Hypothetical Document Embeddings |
-| `RAG_INTENT_MODE` | `heuristic` | `heuristic` (free), `llm`, or `off` |
-
----
-
-## RAG Upgrade Paths
-
-**Shipped (all behind env flags; default flags keep cost at zero):**
-
-| # | Upgrade | Files | Flag | Status |
-|---|---------|-------|------|--------|
-| 1 | Cross-encoder reranker | `rerank.js` | `RAG_RERANK_PROVIDER` | Live, off by default |
-| 2 | Conversational query rewriter | `queryRewriter.js` | `RAG_QUERY_REWRITE_ENABLED` | Live, off by default |
-| 3 | HyDE | `hyde.js` | `RAG_HYDE_ENABLED` | Live, off by default, skipped for queries > 120 chars |
-| 5 | Adaptive per-type chunking | `adaptiveChunker.js` | `RAG_ADAPTIVE_CHUNKS` | Live, **on** by default |
-| 7 | Query intent classifier + boosts | `queryIntent.js` | `RAG_INTENT_MODE` | Live, heuristic default (free) |
-| 8 | Thumbs feedback loop | `AiFeedback` + `feedbackAggregates.js` | — | Live |
-| 9 | Post-RRF personalization boost | `ragRetriever.js` | always-on when `userId` present | Live |
-
-**Not yet shipped:**
-- **pgvector migration** — swap MySQL BLOB → Postgres `vector(1536)` + HNSW index. Defer until corpus > 50k chunks (~3–5 days).
-- **Embedding model upgrade** — `text-embedding-3-small` → `text-embedding-3-large`. Defer until reranker + rewrite + HyDE are all enabled and still saturating (~6.5× cost).
-- **Feedback-driven scoring** — wire `feedbackAggregates.sourcePerformance()` into RRF as a nightly prior.
-- **RAG eval harness** — `server/scripts/rag-eval.js`, 20 golden-pair queries, measures recall@5 + MRR.
+**Remaining gaps** (see `rag.md` "Known Issues"): no subject-specific chunking in generic pipeline, question regexes biased toward humanities for user uploads, no mark scheme detection on user uploads, Resources/Posts lack subject in prefix (models don't have subject field).
 
 ---
 

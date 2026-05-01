@@ -13,7 +13,7 @@ const SIGNALS = {
 
 // ── Boost tables ─────────────────────────────────────────────────────────────
 const BOOST_TABLE = {
-    exam:    { document: 0.25, resource: 0.1, wiki: -0.05 },
+    exam:    { document: 0.25, global_document: 0.25, resource: 0.1, wiki: -0.05 },
     code:    { answer: 0.2, post: 0.1, wiki: -0.05 },
     howto:   { answer: 0.15, post: 0.1, wiki: 0.05 },
     concept: { wiki: 0.2, answer: 0.05, post: -0.05 },

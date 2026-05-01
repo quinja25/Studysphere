@@ -274,11 +274,6 @@ export const Dashboard = () => {
                                 >
                                     {userData.isPublic ? 'Public' : 'Private'}
                                 </button>
-                                {isAlumni && (
-                                    <button className="dash-btn dash-btn-outline" onClick={() => navigate(`/alumni/${userId}`)}>
-                                        View Public Profile
-                                    </button>
-                                )}
                             </div>
                         </div>
                         <div className="dash-stats-sidebar">
@@ -521,9 +516,6 @@ export const Dashboard = () => {
                                     <div className="dash-quick-actions">
                                         {isStudent && (
                                             <>
-                                                <button className="dash-btn dash-btn-primary" onClick={() => navigate('/search-alumni')}>
-                                                    Find Peers & Mentors
-                                                </button>
                                                 <button className="dash-btn dash-btn-outline" onClick={() => navigate('/marketplace')}>
                                                     Marketplace
                                                 </button>
@@ -536,9 +528,6 @@ export const Dashboard = () => {
                                                 </button>
                                                 <button className="dash-btn dash-btn-alumni" onClick={() => navigate('/qa')}>
                                                     Q&A Board
-                                                </button>
-                                                <button className="dash-btn dash-btn-outline" onClick={() => navigate('/search-alumni')}>
-                                                    Find Students
                                                 </button>
                                             </>
                                         )}

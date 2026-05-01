@@ -1,7 +1,7 @@
 'use strict';
 
-// 1 token ≈ 3 chars (spec-defined approximation for this module)
-const CHARS_PER_TOKEN = 3;
+// 1 token ≈ 4 chars (OpenAI-recommended approximation for English text)
+const CHARS_PER_TOKEN = 4;
 
 const DEFAULT_CHUNK_SIZE = 150;   // tokens
 const DEFAULT_OVERLAP    = 50;    // tokens

@@ -255,14 +255,22 @@ describe('POST /ai/quiz', () => {
         expect(res.status).toBe(401);
     });
 
-    it('returns 400 when groupId is missing', async () => {
+    it('generates a quiz without groupId using user profile subject', async () => {
         const token = generateAccessToken(1);
+        db.Users.findByPk.mockResolvedValue({ ...freshUser, subject: 'Biology', save: jest.fn() });
+        const quizJson = JSON.stringify({
+            questions: [
+                { question: 'What is mitosis?', options: ['A) Cell division', 'B) Photosynthesis', 'C) Respiration', 'D) Osmosis'], correctIndex: 0, explanation: 'Mitosis is cell division' },
+            ],
+        });
+        chatCompletion.mockResolvedValueOnce({ content: quizJson, tokens: 50 });
         const res = await request(app)
             .post('/ai/quiz')
             .set('Authorization', `Bearer ${token}`)
-            .send({});
-        expect(res.status).toBe(400);
-        expect(res.body.error).toMatch(/groupId/i);
+            .send({ topic: 'Mitosis', numQuestions: 1, difficulty: 'easy' });
+        expect(res.status).toBe(200);
+        expect(res.body).toHaveProperty('quiz');
+        expect(Array.isArray(res.body.quiz)).toBe(true);
     });
 
     it('returns 403 when not a group member', async () => {

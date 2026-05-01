@@ -148,7 +148,7 @@ export const FindGroup = () => {
                                     <h3 className='groupName'>{group.groupName}</h3>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                         {group.isPublic ? <SlLockOpen title="Public" /> : <SlLock title="Private" />}
-                                        {currentUser && String(group.leader) === String(currentUser.name) && (
+                                        {currentUser && String(group.leader) === String(currentUser.id) && (
                                             <SlTrash
                                                 className="delete-icon"
                                                 onClick={(e) => { e.stopPropagation(); handleDeleteGroup(group.id); }}

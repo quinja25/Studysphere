@@ -1,5 +1,6 @@
 const pdfParse = require('pdf-parse');
 const { chunkText } = require('./embeddingService');
+const { cleanPDFText } = require('../scripts/ingest-common');
 
 // IB command terms — used to annotate past paper chunk prefixes
 const IB_COMMAND_TERMS = [
@@ -188,7 +189,8 @@ function chunkPastPaper(rawText, title, subject) {
  * @returns {{ chunks: string[], pages: number }}
  */
 async function processDocument(buffer, { title, subject, docType }) {
-    const { text, pages } = await extractPDFText(buffer);
+    const { text: rawText, pages } = await extractPDFText(buffer);
+    const text = cleanPDFText(rawText);
 
     let chunks;
     switch (docType) {

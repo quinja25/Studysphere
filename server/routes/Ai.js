@@ -235,46 +235,52 @@ router.post('/quiz', validateToken, async (req, res) => {
         const { groupId, topic, difficulty, numQuestions } = req.body;
         const userId = req.user.id;
 
-        if (!groupId) {
-            return res.status(400).json({ error: 'groupId is required' });
+        let user, group;
+
+        if (groupId) {
+            const JoinTable = db.Groups_Users || db.UserGroup;
+            const membership = await JoinTable.findOne({
+                where: { UserId: userId, GroupId: groupId }
+            });
+            if (!membership) {
+                return res.status(403).json({ error: 'You must be a member of this group' });
+            }
+
+            [user, group] = await Promise.all([
+                Users.findByPk(userId),
+                Groups.findByPk(groupId),
+            ]);
+            if (!user) return res.status(404).json({ error: 'User not found' });
+            if (!group) return res.status(404).json({ error: 'Group not found' });
+        } else {
+            user = await Users.findByPk(userId);
+            if (!user) return res.status(404).json({ error: 'User not found' });
         }
 
-        // Verify membership
-        const JoinTable = db.Groups_Users || db.UserGroup;
-        const membership = await JoinTable.findOne({
-            where: { UserId: userId, GroupId: groupId }
-        });
-        if (!membership) {
-            return res.status(403).json({ error: 'You must be a member of this group' });
-        }
-
-        // Fetch user and group in parallel
-        const [user, group] = await Promise.all([
-            Users.findByPk(userId),
-            Groups.findByPk(groupId),
-        ]);
-        if (!user) return res.status(404).json({ error: 'User not found' });
-        if (!group) return res.status(404).json({ error: 'Group not found' });
         await ensureDailyCredits(user);
         if (user.aiCreditsUsed >= DAILY_TOKEN_LIMIT) {
             return res.status(429).json({ error: 'Daily AI credit limit reached.' });
         }
 
-        // Get recent context from chat + AI history
-        const recentChats = await Chats.findAll({
-            where: { GroupId: groupId },
-            order: [['createdAt', 'DESC']],
-            limit: 20,
-        });
-        const aiHistory = await AiMessages.findAll({
-            where: { groupId },
-            order: [['createdAt', 'DESC']],
-            limit: 10,
-        });
+        let recentChats = [];
+        let aiHistory = [];
 
-        const subjectInfo = [group.subject, group.major, group.gradeLevel]
-            .filter(Boolean)
-            .join(', ');
+        if (groupId) {
+            recentChats = await Chats.findAll({
+                where: { GroupId: groupId },
+                order: [['createdAt', 'DESC']],
+                limit: 20,
+            });
+            aiHistory = await AiMessages.findAll({
+                where: { groupId },
+                order: [['createdAt', 'DESC']],
+                limit: 10,
+            });
+        }
+
+        const subjectInfo = group
+            ? [group.subject, group.major, group.gradeLevel].filter(Boolean).join(', ')
+            : user.subject || '';
 
         const count = Math.min(Math.max(parseInt(numQuestions) || 3, 1), 5);
         const diff = ['easy', 'medium', 'hard'].includes(difficulty) ? difficulty : 'medium';
@@ -288,8 +294,9 @@ router.post('/quiz', validateToken, async (req, res) => {
         }
 
         // RAG — retrieve relevant knowledge base content + user's uploaded documents for quiz generation
-        const ragChunks = await retrieveContext(topic || group.subject || '', {
-            subject: group.subject,
+        const quizSubject = (group ? group.subject : user.subject) || '';
+        const ragChunks = await retrieveContext(topic || quizSubject, {
+            subject: quizSubject,
             userId,
             maxChunks: 3,
         });
@@ -331,12 +338,12 @@ router.post('/quiz', validateToken, async (req, res) => {
 
         // Save as AI messages for history
         const userMsg = await AiMessages.create({
-            groupId, userId, role: 'user',
+            groupId: groupId || null, userId, role: 'user',
             content: `[Quiz Request] ${count} ${diff} questions${topic ? ` on "${topic}"` : ''}`,
             tokens: 0,
         });
         const assistantMsg = await AiMessages.create({
-            groupId, userId, role: 'assistant',
+            groupId: groupId || null, userId, role: 'assistant',
             content: `[Quiz] Generated ${quiz.length} questions`,
             tokens: aiResponse.tokens,
         });

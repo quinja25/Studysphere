@@ -31,7 +31,7 @@ describe('heuristic mode', () => {
     it('detects exam intent from "past paper" signal', async () => {
         const result = await classifyQuery('Can I see a past paper for IB Physics?');
         expect(result.intent).toBe('exam');
-        expect(result.boosts).toEqual({ document: 0.25, resource: 0.1, wiki: -0.05 });
+        expect(result.boosts).toEqual({ document: 0.25, global_document: 0.25, resource: 0.1, wiki: -0.05 });
         expect(result.confidence).toBeGreaterThan(0);
     });
 

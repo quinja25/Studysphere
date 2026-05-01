@@ -166,8 +166,20 @@
   "hotPaths": [
     {
       "path": "CLAUDE.md",
-      "accessCount": 7,
-      "lastAccessed": 1777383105247,
+      "accessCount": 12,
+      "lastAccessed": 1777621355400,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/Ai.js",
+      "accessCount": 11,
+      "lastAccessed": 1777620453360,
+      "type": "file"
+    },
+    {
+      "path": "server/services/documentProcessor.js",
+      "accessCount": 8,
+      "lastAccessed": 1777619879357,
       "type": "file"
     },
     {
@@ -177,9 +189,33 @@
       "type": "file"
     },
     {
+      "path": "client/src/pages/Waitlist.js",
+      "accessCount": 5,
+      "lastAccessed": 1777620290923,
+      "type": "file"
+    },
+    {
       "path": "download_chemistry_retry.py",
       "accessCount": 4,
       "lastAccessed": 1777613121518,
+      "type": "file"
+    },
+    {
+      "path": "server/services/queryIntent.js",
+      "accessCount": 4,
+      "lastAccessed": 1777619874857,
+      "type": "file"
+    },
+    {
+      "path": "server/services/adaptiveChunker.js",
+      "accessCount": 4,
+      "lastAccessed": 1777619875317,
+      "type": "file"
+    },
+    {
+      "path": "client/src/pages/AiChat.js",
+      "accessCount": 4,
+      "lastAccessed": 1777620260802,
       "type": "file"
     },
     {
@@ -201,6 +237,18 @@
       "type": "file"
     },
     {
+      "path": "server/scripts/ingest-past-papers.js",
+      "accessCount": 3,
+      "lastAccessed": 1777619109233,
+      "type": "file"
+    },
+    {
+      "path": "server/services/embeddingSync.js",
+      "accessCount": 3,
+      "lastAccessed": 1777619780796,
+      "type": "file"
+    },
+    {
       "path": "download_chemistry.py",
       "accessCount": 2,
       "lastAccessed": 1777610366541,
@@ -213,9 +261,33 @@
       "type": "file"
     },
     {
-      "path": "server/services/documentProcessor.js",
-      "accessCount": 1,
-      "lastAccessed": 1777382740126,
+      "path": "server/services/embeddingService.js",
+      "accessCount": 2,
+      "lastAccessed": 1777616380718,
+      "type": "file"
+    },
+    {
+      "path": "server/services/ragRetriever.js",
+      "accessCount": 2,
+      "lastAccessed": 1777616385473,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/GlobalDocuments.js",
+      "accessCount": 2,
+      "lastAccessed": 1777616388857,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/Admin.js",
+      "accessCount": 2,
+      "lastAccessed": 1777616493884,
+      "type": "file"
+    },
+    {
+      "path": "client/src/api.js",
+      "accessCount": 2,
+      "lastAccessed": 1777619830725,
       "type": "file"
     },
     {
@@ -228,30 +300,6 @@
       "path": "server/models/GlobalDocuments.js",
       "accessCount": 1,
       "lastAccessed": 1777382741164,
-      "type": "file"
-    },
-    {
-      "path": "server/routes/GlobalDocuments.js",
-      "accessCount": 1,
-      "lastAccessed": 1777382741292,
-      "type": "file"
-    },
-    {
-      "path": "server/services/ragRetriever.js",
-      "accessCount": 1,
-      "lastAccessed": 1777382794111,
-      "type": "file"
-    },
-    {
-      "path": "server/services/embeddingService.js",
-      "accessCount": 1,
-      "lastAccessed": 1777382794623,
-      "type": "file"
-    },
-    {
-      "path": "server/services/embeddingSync.js",
-      "accessCount": 1,
-      "lastAccessed": 1777382794717,
       "type": "file"
     },
     {
@@ -288,6 +336,132 @@
       "path": "server\\scripts\\ingest-past-papers.js",
       "accessCount": 1,
       "lastAccessed": 1777513727388,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/Users.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616372554,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/Groups.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616373046,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/GroupsUsers.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616373519,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/Chats.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616373986,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/AiFeedback.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616374978,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/Posts.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616375153,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/Wiki.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616379976,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/QA.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616380516,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/Resources.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616380913,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/Recaps.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616381407,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/Streaks.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616381889,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/Notifications.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616382347,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/Public.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616383158,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/ReportsRoute.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616388423,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/SessionGoals.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616389281,
+      "type": "file"
+    },
+    {
+      "path": "server/routes/Subjects.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616389688,
+      "type": "file"
+    },
+    {
+      "path": "server/services/hyde.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616391009,
+      "type": "file"
+    },
+    {
+      "path": "server/server.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616403690,
+      "type": "file"
+    },
+    {
+      "path": "client/src/components/Chat.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616404158,
+      "type": "file"
+    },
+    {
+      "path": "server/socket/handlers.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616422315,
+      "type": "file"
+    },
+    {
+      "path": "client/src/components/ChatBar.js",
+      "accessCount": 1,
+      "lastAccessed": 1777616439554,
       "type": "file"
     }
   ],

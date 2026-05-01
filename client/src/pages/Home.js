@@ -80,7 +80,6 @@ export const Home = () => {
                     <div className="v2-nav-links">
                         <a href="#features">Features</a>
                         <a href="#try-ai">Try the AI</a>
-                        <Link to="/for-mentors">For Mentors</Link>
                     </div>
                     <div className="v2-nav-actions">
                         <Link to="/login" className="v2-btn-ghost">Log in</Link>
@@ -192,7 +191,6 @@ export const Home = () => {
                     <img src={Logo} alt="StudySphere" className="v2-logo-img" style={{ height: 28, opacity: 0.6 }} />
                     <div className="v2-footer-links">
                         <a href="#features">Features</a>
-                        <Link to="/for-mentors">For Mentors</Link>
                         <Link to="/login">Log In</Link>
                         <Link to="/registration">Sign Up</Link>
                     </div>

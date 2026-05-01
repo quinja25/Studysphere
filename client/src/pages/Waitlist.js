@@ -128,7 +128,6 @@ export const Waitlist = () => {
                     <div className="wl-nav-links">
                         <a href="#features">Features</a>
                         <a href="#try-ai">Try the AI</a>
-                        <Link to="/for-mentors">For Mentors</Link>
                     </div>
                     <div className="wl-nav-actions">
                         <Link to="/login" className="wl-btn-ghost">Log in</Link>
@@ -314,7 +313,6 @@ export const Waitlist = () => {
                     <img src={Logo} alt="StudySphere" className="wl-logo-img" style={{ height: 26, opacity: 0.5 }} />
                     <div className="wl-footer-links">
                         <a href="#features">Features</a>
-                        <Link to="/for-mentors">For Mentors</Link>
                         <Link to="/login">Log In</Link>
                     </div>
                     <div className="wl-footer-copy">© {new Date().getFullYear()} StudySphere</div>
