@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1777513519388,
+  "lastScanned": 1777609825354,
   "projectRoot": "C:\\Users\\jaeyo\\Projects\\StudySphere",
   "techStack": {
     "languages": [],
@@ -36,7 +36,7 @@
       "path": "client",
       "purpose": null,
       "fileCount": 6,
-      "lastAccessed": 1777513519321,
+      "lastAccessed": 1777609825312,
       "keyFiles": [
         "package-lock.json",
         "package.json",
@@ -47,7 +47,7 @@
       "path": "e2e",
       "purpose": null,
       "fileCount": 3,
-      "lastAccessed": 1777513519322,
+      "lastAccessed": 1777609825313,
       "keyFiles": [
         "package-lock.json",
         "package.json",
@@ -58,7 +58,7 @@
       "path": "server",
       "purpose": null,
       "fileCount": 10,
-      "lastAccessed": 1777513519323,
+      "lastAccessed": 1777609825313,
       "keyFiles": [
         "jest.config.js",
         "package-lock.json",
@@ -71,14 +71,14 @@
       "path": "_alumni",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1777513519324,
+      "lastAccessed": 1777609825314,
       "keyFiles": []
     },
     "client\\build": {
       "path": "client\\build",
       "purpose": "Build output",
       "fileCount": 7,
-      "lastAccessed": 1777513519325,
+      "lastAccessed": 1777609825314,
       "keyFiles": [
         "asset-manifest.json",
         "favicon.ico",
@@ -89,14 +89,14 @@
       "path": "client\\node_modules",
       "purpose": "Dependencies",
       "fileCount": 1,
-      "lastAccessed": 1777513519328,
+      "lastAccessed": 1777609825316,
       "keyFiles": []
     },
     "client\\public": {
       "path": "client\\public",
       "purpose": "Public files",
       "fileCount": 6,
-      "lastAccessed": 1777513519329,
+      "lastAccessed": 1777609825317,
       "keyFiles": [
         "favicon.ico",
         "index.html",
@@ -107,7 +107,7 @@
       "path": "client\\src",
       "purpose": "Source code",
       "fileCount": 11,
-      "lastAccessed": 1777513519331,
+      "lastAccessed": 1777609825317,
       "keyFiles": [
         "api.js",
         "App.css",
@@ -118,14 +118,14 @@
       "path": "e2e\\node_modules",
       "purpose": "Dependencies",
       "fileCount": 1,
-      "lastAccessed": 1777513519333,
+      "lastAccessed": 1777609825318,
       "keyFiles": []
     },
     "e2e\\tests": {
       "path": "e2e\\tests",
       "purpose": "Test files",
       "fileCount": 3,
-      "lastAccessed": 1777513519334,
+      "lastAccessed": 1777609825318,
       "keyFiles": [
         "auth.spec.js",
         "groups.spec.js",
@@ -136,7 +136,7 @@
       "path": "server\\config",
       "purpose": "Configuration files",
       "fileCount": 2,
-      "lastAccessed": 1777513519336,
+      "lastAccessed": 1777609825319,
       "keyFiles": [
         "config.js",
         "config.json"
@@ -146,7 +146,7 @@
       "path": "server\\data",
       "purpose": "Data files",
       "fileCount": 1,
-      "lastAccessed": 1777513519337,
+      "lastAccessed": 1777609825319,
       "keyFiles": [
         "ibSubjects.js"
       ]
@@ -155,7 +155,7 @@
       "path": "server\\migrations",
       "purpose": "Database migrations",
       "fileCount": 12,
-      "lastAccessed": 1777513519337,
+      "lastAccessed": 1777609825320,
       "keyFiles": [
         "20260304050000-update-chats-schema.js",
         "20260304060000-add-public-password-to-groups.js",
@@ -172,8 +172,14 @@
     },
     {
       "path": "download_economics.py",
-      "accessCount": 5,
-      "lastAccessed": 1777513612063,
+      "accessCount": 6,
+      "lastAccessed": 1777609936468,
+      "type": "file"
+    },
+    {
+      "path": "download_chemistry_retry.py",
+      "accessCount": 4,
+      "lastAccessed": 1777613121518,
       "type": "file"
     },
     {
@@ -184,8 +190,26 @@
     },
     {
       "path": "past-paper-downloader.md",
+      "accessCount": 3,
+      "lastAccessed": 1777609929912,
+      "type": "file"
+    },
+    {
+      "path": "download_physics_retry.py",
+      "accessCount": 3,
+      "lastAccessed": 1777613136588,
+      "type": "file"
+    },
+    {
+      "path": "download_chemistry.py",
       "accessCount": 2,
-      "lastAccessed": 1777513612041,
+      "lastAccessed": 1777610366541,
+      "type": "file"
+    },
+    {
+      "path": "download_physics.py",
+      "accessCount": 2,
+      "lastAccessed": 1777610367001,
       "type": "file"
     },
     {
