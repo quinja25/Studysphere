@@ -1,0 +1,3 @@
+# OMC runtime files (ephemeral, not needed in git)
+.omc/sessions/
+.omc/state/

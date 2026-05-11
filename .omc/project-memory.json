@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1777609825354,
+  "lastScanned": 1778504990376,
   "projectRoot": "C:\\Users\\jaeyo\\Projects\\StudySphere",
   "techStack": {
     "languages": [],
@@ -36,7 +36,7 @@
       "path": "client",
       "purpose": null,
       "fileCount": 6,
-      "lastAccessed": 1777609825312,
+      "lastAccessed": 1778504990298,
       "keyFiles": [
         "package-lock.json",
         "package.json",
@@ -47,18 +47,27 @@
       "path": "e2e",
       "purpose": null,
       "fileCount": 3,
-      "lastAccessed": 1777609825313,
+      "lastAccessed": 1778504990300,
       "keyFiles": [
         "package-lock.json",
         "package.json",
         "playwright.config.js"
       ]
     },
+    "file-paths_files": {
+      "path": "file-paths_files",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1778504990302,
+      "keyFiles": [
+        "v8c78df7c7c0f484497ecbca7046644da1771523124516"
+      ]
+    },
     "server": {
       "path": "server",
       "purpose": null,
       "fileCount": 10,
-      "lastAccessed": 1777609825313,
+      "lastAccessed": 1778504990303,
       "keyFiles": [
         "jest.config.js",
         "package-lock.json",
@@ -71,14 +80,14 @@
       "path": "_alumni",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1777609825314,
+      "lastAccessed": 1778504990303,
       "keyFiles": []
     },
     "client\\build": {
       "path": "client\\build",
       "purpose": "Build output",
       "fileCount": 7,
-      "lastAccessed": 1777609825314,
+      "lastAccessed": 1778504990329,
       "keyFiles": [
         "asset-manifest.json",
         "favicon.ico",
@@ -89,14 +98,14 @@
       "path": "client\\node_modules",
       "purpose": "Dependencies",
       "fileCount": 1,
-      "lastAccessed": 1777609825316,
+      "lastAccessed": 1778504990343,
       "keyFiles": []
     },
     "client\\public": {
       "path": "client\\public",
       "purpose": "Public files",
       "fileCount": 6,
-      "lastAccessed": 1777609825317,
+      "lastAccessed": 1778504990351,
       "keyFiles": [
         "favicon.ico",
         "index.html",
@@ -107,7 +116,7 @@
       "path": "client\\src",
       "purpose": "Source code",
       "fileCount": 11,
-      "lastAccessed": 1777609825317,
+      "lastAccessed": 1778504990354,
       "keyFiles": [
         "api.js",
         "App.css",
@@ -118,14 +127,14 @@
       "path": "e2e\\node_modules",
       "purpose": "Dependencies",
       "fileCount": 1,
-      "lastAccessed": 1777609825318,
+      "lastAccessed": 1778504990358,
       "keyFiles": []
     },
     "e2e\\tests": {
       "path": "e2e\\tests",
       "purpose": "Test files",
       "fileCount": 3,
-      "lastAccessed": 1777609825318,
+      "lastAccessed": 1778504990360,
       "keyFiles": [
         "auth.spec.js",
         "groups.spec.js",
@@ -136,7 +145,7 @@
       "path": "server\\config",
       "purpose": "Configuration files",
       "fileCount": 2,
-      "lastAccessed": 1777609825319,
+      "lastAccessed": 1778504990367,
       "keyFiles": [
         "config.js",
         "config.json"
@@ -146,7 +155,7 @@
       "path": "server\\data",
       "purpose": "Data files",
       "fileCount": 1,
-      "lastAccessed": 1777609825319,
+      "lastAccessed": 1778504990368,
       "keyFiles": [
         "ibSubjects.js"
       ]
@@ -155,7 +164,7 @@
       "path": "server\\migrations",
       "purpose": "Database migrations",
       "fileCount": 12,
-      "lastAccessed": 1777609825320,
+      "lastAccessed": 1778504990370,
       "keyFiles": [
         "20260304050000-update-chats-schema.js",
         "20260304060000-add-public-password-to-groups.js",

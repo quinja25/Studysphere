@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<!-- saved from url=(0058)https://arrib.cc/Download%20past%20papers%20by%20subjects/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Past Paper Downloader</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; max-width: 1000px; }
+    h1 { margin-bottom: 8px; }
+    .container { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .panel {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 16px;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    label { display: block; margin: 6px 0; }
+    button {
+      margin-top: 20px;
+      padding: 10px 16px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #status {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      background: #f7f7f7;
+      padding: 12px;
+      border-radius: 8px;
+    }
+    #explanation {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      background: #b9cff0;
+      padding: 12px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <script>if (!window.location.pathname.endsWith("/")) {window.location.pathname = window.location.pathname+"/"}</script>
+  <h1>IB Past Paper Downloader</h1>
+  <p>Select the subjects and exam sessions you want, then download only matching papers.</p>
+
+  <div class="container">
+    <div class="panel">
+      <h3>Subjects</h3>
+      <div id="subjects"><label><input type="checkbox" value="Economics" id="subjects-0"> Economics</label><label><input type="checkbox" value="Geography" id="subjects-1"> Geography</label><label><input type="checkbox" value="History_route_1" id="subjects-2"> History_route_1</label><label><input type="checkbox" value="Business_and_management" id="subjects-3"> Business_and_management</label><label><input type="checkbox" value="History_route_2" id="subjects-4"> History_route_2</label><label><input type="checkbox" value="Psychology" id="subjects-5"> Psychology</label><label><input type="checkbox" value="ITGS" id="subjects-6"> ITGS</label><label><input type="checkbox" value="Social_and_cultural_anthropology" id="subjects-7"> Social_and_cultural_anthropology</label><label><input type="checkbox" value="Philosophy" id="subjects-8"> Philosophy</label><label><input type="checkbox" value="Swedish_A1" id="subjects-9"> Swedish_A1</label><label><input type="checkbox" value="Chinese_A1" id="subjects-10"> Chinese_A1</label><label><input type="checkbox" value="Hungarian_A1" id="subjects-11"> Hungarian_A1</label><label><input type="checkbox" value="Turkish_A1" id="subjects-12"> Turkish_A1</label><label><input type="checkbox" value="French_A1" id="subjects-13"> French_A1</label><label><input type="checkbox" value="Bengali_A1" id="subjects-14"> Bengali_A1</label><label><input type="checkbox" value="Polish_A1" id="subjects-15"> Polish_A1</label><label><input type="checkbox" value="Mongolian_A1" id="subjects-16"> Mongolian_A1</label><label><input type="checkbox" value="Latvian_A1" id="subjects-17"> Latvian_A1</label><label><input type="checkbox" value="English_A1" id="subjects-18"> English_A1</label><label><input type="checkbox" value="Arabic_A1" id="subjects-19"> Arabic_A1</label><label><input type="checkbox" value="Punjabi_A1" id="subjects-20"> Punjabi_A1</label><label><input type="checkbox" value="Serbian_A1" id="subjects-21"> Serbian_A1</label><label><input type="checkbox" value="Lithuanian_A1" id="subjects-22"> Lithuanian_A1</label><label><input type="checkbox" value="Finnish_A1" id="subjects-23"> Finnish_A1</label><label><input type="checkbox" value="Estonian_A1" id="subjects-24"> Estonian_A1</label><label><input type="checkbox" value="Japanese_A1" id="subjects-25"> Japanese_A1</label><label><input type="checkbox" value="Croatian_A1" id="subjects-26"> Croatian_A1</label><label><input type="checkbox" value="Bulgarian_A1" id="subjects-27"> Bulgarian_A1</label><label><input type="checkbox" value="Hebrew_A1" id="subjects-28"> Hebrew_A1</label><label><input type="checkbox" value="Portuguese_A1" id="subjects-29"> Portuguese_A1</label><label><input type="checkbox" value="German_A1" id="subjects-30"> German_A1</label><label><input type="checkbox" value="Swahili_A1" id="subjects-31"> Swahili_A1</label><label><input type="checkbox" value="Norwegian_A1" id="subjects-32"> Norwegian_A1</label><label><input type="checkbox" value="Telugu_A1" id="subjects-33"> Telugu_A1</label><label><input type="checkbox" value="Slovene_A1" id="subjects-34"> Slovene_A1</label><label><input type="checkbox" value="Vietnamese_A1" id="subjects-35"> Vietnamese_A1</label><label><input type="checkbox" value="Persian_A1" id="subjects-36"> Persian_A1</label><label><input type="checkbox" value="Sesotho_A1" id="subjects-37"> Sesotho_A1</label><label><input type="checkbox" value="Spanish_A1" id="subjects-38"> Spanish_A1</label><label><input type="checkbox" value="Nepali_A1" id="subjects-39"> Nepali_A1</label><label><input type="checkbox" value="Tajik_A1" id="subjects-40"> Tajik_A1</label><label><input type="checkbox" value="Modern_Greek_A1" id="subjects-41"> Modern_Greek_A1</label><label><input type="checkbox" value="Macedonian_A1" id="subjects-42"> Macedonian_A1</label><label><input type="checkbox" value="Indonesian_A1" id="subjects-43"> Indonesian_A1</label><label><input type="checkbox" value="Romanian_A1" id="subjects-44"> Romanian_A1</label><label><input type="checkbox" value="Welsh_A1" id="subjects-45"> Welsh_A1</label><label><input type="checkbox" value="Danish_A1" id="subjects-46"> Danish_A1</label><label><input type="checkbox" value="Marathi_A1" id="subjects-47"> Marathi_A1</label><label><input type="checkbox" value="Chichewa_A1" id="subjects-48"> Chichewa_A1</label><label><input type="checkbox" value="Bosnian_A1" id="subjects-49"> Bosnian_A1</label><label><input type="checkbox" value="Korean_A1" id="subjects-50"> Korean_A1</label><label><input type="checkbox" value="Urdu_A1" id="subjects-51"> Urdu_A1</label><label><input type="checkbox" value="Dzongkha_A1" id="subjects-52"> Dzongkha_A1</label><label><input type="checkbox" value="Hindi_A1" id="subjects-53"> Hindi_A1</label><label><input type="checkbox" value="Dutch_A1" id="subjects-54"> Dutch_A1</label><label><input type="checkbox" value="Thai_A1" id="subjects-55"> Thai_A1</label><label><input type="checkbox" value="Icelandic_A1" id="subjects-56"> Icelandic_A1</label><label><input type="checkbox" value="Zulu_A1" id="subjects-57"> Zulu_A1</label><label><input type="checkbox" value="Pilipino_A1" id="subjects-58"> Pilipino_A1</label><label><input type="checkbox" value="Russian_A1" id="subjects-59"> Russian_A1</label><label><input type="checkbox" value="Ndebele_A1" id="subjects-60"> Ndebele_A1</label><label><input type="checkbox" value="Italian_A1" id="subjects-61"> Italian_A1</label><label><input type="checkbox" value="Malay_A1" id="subjects-62"> Malay_A1</label><label><input type="checkbox" value="Ukrainian_A1" id="subjects-63"> Ukrainian_A1</label><label><input type="checkbox" value="Oriya_A1" id="subjects-64"> Oriya_A1</label><label><input type="checkbox" value="Catalan_A1" id="subjects-65"> Catalan_A1</label><label><input type="checkbox" value="Czech_A1" id="subjects-66"> Czech_A1</label><label><input type="checkbox" value="Amharic_A1" id="subjects-67"> Amharic_A1</label><label><input type="checkbox" value="Albanian_A1" id="subjects-68"> Albanian_A1</label><label><input type="checkbox" value="Khmer_A1" id="subjects-69"> Khmer_A1</label><label><input type="checkbox" value="Greenlandic_A1" id="subjects-70"> Greenlandic_A1</label><label><input type="checkbox" value="Georgian_A1" id="subjects-71"> Georgian_A1</label><label><input type="checkbox" value="Azerbaijani_A1" id="subjects-72"> Azerbaijani_A1</label><label><input type="checkbox" value="Kinyarwanda_A1" id="subjects-73"> Kinyarwanda_A1</label><label><input type="checkbox" value="Belarusian_A1" id="subjects-74"> Belarusian_A1</label><label><input type="checkbox" value="Lao_A1" id="subjects-75"> Lao_A1</label><label><input type="checkbox" value="Tibetan_A1" id="subjects-76"> Tibetan_A1</label><label><input type="checkbox" value="Slovak_A1" id="subjects-77"> Slovak_A1</label><label><input type="checkbox" value="Shona_A1" id="subjects-78"> Shona_A1</label><label><input type="checkbox" value="Burmese_A1" id="subjects-79"> Burmese_A1</label><label><input type="checkbox" value="Sinhalese_A1" id="subjects-80"> Sinhalese_A1</label><label><input type="checkbox" value="Italian_ab_initio" id="subjects-81"> Italian_ab_initio</label><label><input type="checkbox" value="Mandarin_ab_initio" id="subjects-82"> Mandarin_ab_initio</label><label><input type="checkbox" value="Spanish_ab_initio" id="subjects-83"> Spanish_ab_initio</label><label><input type="checkbox" value="Mandarin_B" id="subjects-84"> Mandarin_B</label><label><input type="checkbox" value="Spanish_B" id="subjects-85"> Spanish_B</label><label><input type="checkbox" value="English_A2" id="subjects-86"> English_A2</label><label><input type="checkbox" value="Japanese_B" id="subjects-87"> Japanese_B</label><label><input type="checkbox" value="Japanese_ab_initio" id="subjects-88"> Japanese_ab_initio</label><label><input type="checkbox" value="Hebrew_B" id="subjects-89"> Hebrew_B</label><label><input type="checkbox" value="German_ab_initio" id="subjects-90"> German_ab_initio</label><label><input type="checkbox" value="Malay_ab_initio" id="subjects-91"> Malay_ab_initio</label><label><input type="checkbox" value="Japanese_A2" id="subjects-92"> Japanese_A2</label><label><input type="checkbox" value="Portuguese_B" id="subjects-93"> Portuguese_B</label><label><input type="checkbox" value="Spanish_A2" id="subjects-94"> Spanish_A2</label><label><input type="checkbox" value="Modern_Greek_A2" id="subjects-95"> Modern_Greek_A2</label><label><input type="checkbox" value="German_A2" id="subjects-96"> German_A2</label><label><input type="checkbox" value="German_B" id="subjects-97"> German_B</label><label><input type="checkbox" value="Indonesian_B" id="subjects-98"> Indonesian_B</label><label><input type="checkbox" value="Norwegian_B" id="subjects-99"> Norwegian_B</label><label><input type="checkbox" value="French_ab_initio" id="subjects-100"> French_ab_initio</label><label><input type="checkbox" value="Latin" id="subjects-101"> Latin</label><label><input type="checkbox" value="French_B" id="subjects-102"> French_B</label><label><input type="checkbox" value="Arabic_A2" id="subjects-103"> Arabic_A2</label><label><input type="checkbox" value="Arabic_ab_initio" id="subjects-104"> Arabic_ab_initio</label><label><input type="checkbox" value="Hindi_B" id="subjects-105"> Hindi_B</label><label><input type="checkbox" value="Swedish_B" id="subjects-106"> Swedish_B</label><label><input type="checkbox" value="Thai_A2" id="subjects-107"> Thai_A2</label><label><input type="checkbox" value="Swahili_ab_initio" id="subjects-108"> Swahili_ab_initio</label><label><input type="checkbox" value="Korean_B" id="subjects-109"> Korean_B</label><label><input type="checkbox" value="Dutch_A2" id="subjects-110"> Dutch_A2</label><label><input type="checkbox" value="Arabic_B" id="subjects-111"> Arabic_B</label><label><input type="checkbox" value="Classical_Greek" id="subjects-112"> Classical_Greek</label><label><input type="checkbox" value="Italian_B" id="subjects-113"> Italian_B</label><label><input type="checkbox" value="French_A2" id="subjects-114"> French_A2</label><label><input type="checkbox" value="English_B" id="subjects-115"> English_B</label><label><input type="checkbox" value="Chinese_A2" id="subjects-116"> Chinese_A2</label><label><input type="checkbox" value="Danish_B" id="subjects-117"> Danish_B</label><label><input type="checkbox" value="Pilipino_A2" id="subjects-118"> Pilipino_A2</label><label><input type="checkbox" value="Finnish_B" id="subjects-119"> Finnish_B</label><label><input type="checkbox" value="Portuguese_A2" id="subjects-120"> Portuguese_A2</label><label><input type="checkbox" value="Dutch_B" id="subjects-121"> Dutch_B</label><label><input type="checkbox" value="Russian_ab_initio" id="subjects-122"> Russian_ab_initio</label><label><input type="checkbox" value="English_ab_initio" id="subjects-123"> English_ab_initio</label><label><input type="checkbox" value="Russian_B" id="subjects-124"> Russian_B</label><label><input type="checkbox" value="Swedish_A2" id="subjects-125"> Swedish_A2</label><label><input type="checkbox" value="Cantonese_B" id="subjects-126"> Cantonese_B</label><label><input type="checkbox" value="Mathematical_studies" id="subjects-127"> Mathematical_studies</label><label><input type="checkbox" value="Further_mathematics" id="subjects-128"> Further_mathematics</label><label><input type="checkbox" value="Mathematics" id="subjects-129"> Mathematics</label><label><input type="checkbox" value="Computer_science" id="subjects-130"> Computer_science</label><label><input type="checkbox" value="Chemistry" id="subjects-131"> Chemistry</label><label><input type="checkbox" value="Physics" id="subjects-132"> Physics</label><label><input type="checkbox" value="Biology" id="subjects-133"> Biology</label><label><input type="checkbox" value="Design_technology" id="subjects-134"> Design_technology</label><label><input type="checkbox" value="Environmental_systems_and_societies" id="subjects-135"> Environmental_systems_and_societies</label><label><input type="checkbox" value="Music_listening" id="subjects-136"> Music_listening</label><label><input type="checkbox" value="Afrikaans_A1" id="subjects-137"> Afrikaans_A1</label><label><input type="checkbox" value="Siswati_A1" id="subjects-138"> Siswati_A1</label><label><input type="checkbox" value="Swahili_B" id="subjects-139"> Swahili_B</label><label><input type="checkbox" value="Indonesian_ab_initio" id="subjects-140"> Indonesian_ab_initio</label><label><input type="checkbox" value="Malay_B" id="subjects-141"> Malay_B</label><label><input type="checkbox" value="Tamil_B" id="subjects-142"> Tamil_B</label><label><input type="checkbox" value="Sports_exercise_and_health_science" id="subjects-143"> Sports_exercise_and_health_science</label><label><input type="checkbox" value="English_A_Literature" id="subjects-144"> English_A_Literature</label><label><input type="checkbox" value="Spanish_A_Literature" id="subjects-145"> Spanish_A_Literature</label><label><input type="checkbox" value="Spanish_A_Language_and_literature" id="subjects-146"> Spanish_A_Language_and_literature</label><label><input type="checkbox" value="Hebrew_A_Literature" id="subjects-147"> Hebrew_A_Literature</label><label><input type="checkbox" value="Amharic_A_Literature" id="subjects-148"> Amharic_A_Literature</label><label><input type="checkbox" value="Georgian_A_Literature" id="subjects-149"> Georgian_A_Literature</label><label><input type="checkbox" value="Burmese_A_Literature" id="subjects-150"> Burmese_A_Literature</label><label><input type="checkbox" value="Danish_A_Literature" id="subjects-151"> Danish_A_Literature</label><label><input type="checkbox" value="Somali_A_Literature" id="subjects-152"> Somali_A_Literature</label><label><input type="checkbox" value="Korean_A_Literature" id="subjects-153"> Korean_A_Literature</label><label><input type="checkbox" value="German_A_Literature" id="subjects-154"> German_A_Literature</label><label><input type="checkbox" value="Chinese_A_Language_and_literature" id="subjects-155"> Chinese_A_Language_and_literature</label><label><input type="checkbox" value="Korean_A_Language_and_literature" id="subjects-156"> Korean_A_Language_and_literature</label><label><input type="checkbox" value="Indonesian_A_Literature" id="subjects-157"> Indonesian_A_Literature</label><label><input type="checkbox" value="Ndebele_A_Literature" id="subjects-158"> Ndebele_A_Literature</label><label><input type="checkbox" value="Icelandic_A_Literature" id="subjects-159"> Icelandic_A_Literature</label><label><input type="checkbox" value="Japanese_A_Literature" id="subjects-160"> Japanese_A_Literature</label><label><input type="checkbox" value="English_A_Language_and_literature" id="subjects-161"> English_A_Language_and_literature</label><label><input type="checkbox" value="Thai_A_Language_and_literature" id="subjects-162"> Thai_A_Language_and_literature</label><label><input type="checkbox" value="Polish_A_Literature" id="subjects-163"> Polish_A_Literature</label><label><input type="checkbox" value="Chinese_A_Literature" id="subjects-164"> Chinese_A_Literature</label><label><input type="checkbox" value="Italian_A_Literature" id="subjects-165"> Italian_A_Literature</label><label><input type="checkbox" value="Belarusian_A_Literature" id="subjects-166"> Belarusian_A_Literature</label><label><input type="checkbox" value="Hindi_A_Literature" id="subjects-167"> Hindi_A_Literature</label><label><input type="checkbox" value="Japanese_A_Language_and_literature" id="subjects-168"> Japanese_A_Language_and_literature</label><label><input type="checkbox" value="Serbian_A_Literature" id="subjects-169"> Serbian_A_Literature</label><label><input type="checkbox" value="Kazakh_A_Literature" id="subjects-170"> Kazakh_A_Literature</label><label><input type="checkbox" value="Czech_A_Literature" id="subjects-171"> Czech_A_Literature</label><label><input type="checkbox" value="Lao_A_Literature" id="subjects-172"> Lao_A_Literature</label><label><input type="checkbox" value="Modern_Greek_A_Language_and_literature" id="subjects-173"> Modern_Greek_A_Language_and_literature</label><label><input type="checkbox" value="Russian_A_Language_and_literature" id="subjects-174"> Russian_A_Language_and_literature</label><label><input type="checkbox" value="French_A_Language_and_literature" id="subjects-175"> French_A_Language_and_literature</label><label><input type="checkbox" value="French_A_Literature" id="subjects-176"> French_A_Literature</label><label><input type="checkbox" value="Thai_A_Literature" id="subjects-177"> Thai_A_Literature</label><label><input type="checkbox" value="Vietmanese_A_Language_and_literature" id="subjects-178"> Vietmanese_A_Language_and_literature</label><label><input type="checkbox" value="Welsh_A_Literature" id="subjects-179"> Welsh_A_Literature</label><label><input type="checkbox" value="Malayalam_A_Literature" id="subjects-180"> Malayalam_A_Literature</label><label><input type="checkbox" value="Indonesian_A_Language_and_literature" id="subjects-181"> Indonesian_A_Language_and_literature</label><label><input type="checkbox" value="Portuguese_A_Literature" id="subjects-182"> Portuguese_A_Literature</label><label><input type="checkbox" value="Romanian_A_Literature" id="subjects-183"> Romanian_A_Literature</label><label><input type="checkbox" value="Azerbaijani_A_Literature" id="subjects-184"> Azerbaijani_A_Literature</label><label><input type="checkbox" value="Italian_A_Language_and_literature" id="subjects-185"> Italian_A_Language_and_literature</label><label><input type="checkbox" value="Dutch_A_Literature" id="subjects-186"> Dutch_A_Literature</label><label><input type="checkbox" value="Filipino_A_Literature" id="subjects-187"> Filipino_A_Literature</label><label><input type="checkbox" value="German_A_Language_and_literature" id="subjects-188"> German_A_Language_and_literature</label><label><input type="checkbox" value="Arabic_A_Language_and_literature" id="subjects-189"> Arabic_A_Language_and_literature</label><label><input type="checkbox" value="Literature_and_performance" id="subjects-190"> Literature_and_performance</label><label><input type="checkbox" value="Slovak_A_Literature" id="subjects-191"> Slovak_A_Literature</label><label><input type="checkbox" value="Portuguese_A_Language_and_literature" id="subjects-192"> Portuguese_A_Language_and_literature</label><label><input type="checkbox" value="Marathi_A_Literature" id="subjects-193"> Marathi_A_Literature</label><label><input type="checkbox" value="Khmer_A_Literature" id="subjects-194"> Khmer_A_Literature</label><label><input type="checkbox" value="Turkish_A_Literature" id="subjects-195"> Turkish_A_Literature</label><label><input type="checkbox" value="Bulgarian_A_Literature" id="subjects-196"> Bulgarian_A_Literature</label><label><input type="checkbox" value="Malagasy_A_Literature" id="subjects-197"> Malagasy_A_Literature</label><label><input type="checkbox" value="Bosnian_A_Literature" id="subjects-198"> Bosnian_A_Literature</label><label><input type="checkbox" value="Yoruba_A_Literature" id="subjects-199"> Yoruba_A_Literature</label><label><input type="checkbox" value="Hungarian_A_Literature" id="subjects-200"> Hungarian_A_Literature</label><label><input type="checkbox" value="Slovene_A_Literature" id="subjects-201"> Slovene_A_Literature</label><label><input type="checkbox" value="Mongolian_A_Literature" id="subjects-202"> Mongolian_A_Literature</label><label><input type="checkbox" value="Sesotho_A_Literature" id="subjects-203"> Sesotho_A_Literature</label><label><input type="checkbox" value="Swedish_A_Literature" id="subjects-204"> Swedish_A_Literature</label><label><input type="checkbox" value="Modern_Greek_A_Literature" id="subjects-205"> Modern_Greek_A_Literature</label><label><input type="checkbox" value="Urdu_A_Literature" id="subjects-206"> Urdu_A_Literature</label><label><input type="checkbox" value="Kinyarwanda_A_Literature" id="subjects-207"> Kinyarwanda_A_Literature</label><label><input type="checkbox" value="Telugu_A_Literature" id="subjects-208"> Telugu_A_Literature</label><label><input type="checkbox" value="Lithuanian_A_Literature" id="subjects-209"> Lithuanian_A_Literature</label><label><input type="checkbox" value="Catalan_A_Literature" id="subjects-210"> Catalan_A_Literature</label><label><input type="checkbox" value="Norwegian_A_Literature" id="subjects-211"> Norwegian_A_Literature</label><label><input type="checkbox" value="Dzongkha_A_Literature" id="subjects-212"> Dzongkha_A_Literature</label><label><input type="checkbox" value="Swedish_A_Language_and_literature" id="subjects-213"> Swedish_A_Language_and_literature</label><label><input type="checkbox" value="Macedonian_A_Literature" id="subjects-214"> Macedonian_A_Literature</label><label><input type="checkbox" value="Bengali_A_Literature" id="subjects-215"> Bengali_A_Literature</label><label><input type="checkbox" value="Chichewa_A_Literature" id="subjects-216"> Chichewa_A_Literature</label><label><input type="checkbox" value="Tajik_A_Literature" id="subjects-217"> Tajik_A_Literature</label><label><input type="checkbox" value="Armenian_A_Literature" id="subjects-218"> Armenian_A_Literature</label><label><input type="checkbox" value="Arabic_A_Literature" id="subjects-219"> Arabic_A_Literature</label><label><input type="checkbox" value="Malay_A_Literature" id="subjects-220"> Malay_A_Literature</label><label><input type="checkbox" value="Kurdish_A_Literature" id="subjects-221"> Kurdish_A_Literature</label><label><input type="checkbox" value="Persian_A_Literature" id="subjects-222"> Persian_A_Literature</label><label><input type="checkbox" value="Bemba_A_Literature" id="subjects-223"> Bemba_A_Literature</label><label><input type="checkbox" value="Zulu_A_Literature" id="subjects-224"> Zulu_A_Literature</label><label><input type="checkbox" value="Norwegian_A_Language_and_literature" id="subjects-225"> Norwegian_A_Language_and_literature</label><label><input type="checkbox" value="Tamil_A_Literature" id="subjects-226"> Tamil_A_Literature</label><label><input type="checkbox" value="Nepali_A_Literature" id="subjects-227"> Nepali_A_Literature</label><label><input type="checkbox" value="Russian_A_Literature" id="subjects-228"> Russian_A_Literature</label><label><input type="checkbox" value="Vietnamese_A_Literature" id="subjects-229"> Vietnamese_A_Literature</label><label><input type="checkbox" value="Latvian_A_Literature" id="subjects-230"> Latvian_A_Literature</label><label><input type="checkbox" value="Tibetan_A_Literature" id="subjects-231"> Tibetan_A_Literature</label><label><input type="checkbox" value="Dutch_A_Language_and_literature" id="subjects-232"> Dutch_A_Language_and_literature</label><label><input type="checkbox" value="Shona_A_Literature" id="subjects-233"> Shona_A_Literature</label><label><input type="checkbox" value="Finnish_A_Literature" id="subjects-234"> Finnish_A_Literature</label><label><input type="checkbox" value="Estonian_A_Literature" id="subjects-235"> Estonian_A_Literature</label><label><input type="checkbox" value="Kiswahili_A_Literature" id="subjects-236"> Kiswahili_A_Literature</label><label><input type="checkbox" value="Setswana_A_Literature" id="subjects-237"> Setswana_A_Literature</label><label><input type="checkbox" value="Albanian_A_Literature" id="subjects-238"> Albanian_A_Literature</label><label><input type="checkbox" value="Ukrainian_A_Literature" id="subjects-239"> Ukrainian_A_Literature</label><label><input type="checkbox" value="Croatian_A_Literature" id="subjects-240"> Croatian_A_Literature</label><label><input type="checkbox" value="Chinese_B" id="subjects-241"> Chinese_B</label><label><input type="checkbox" value="Dutch_ab_initio" id="subjects-242"> Dutch_ab_initio</label><label><input type="checkbox" value="Kiswahili_B" id="subjects-243"> Kiswahili_B</label><label><input type="checkbox" value="Kiswahili_ab_initio" id="subjects-244"> Kiswahili_ab_initio</label><label><input type="checkbox" value="Danish_ab_initio" id="subjects-245"> Danish_ab_initio</label><label><input type="checkbox" value="Swedish_ab_initio" id="subjects-246"> Swedish_ab_initio</label><label><input type="checkbox" value="Business_management" id="subjects-247"> Business_management</label><label><input type="checkbox" value="History" id="subjects-248"> History</label><label><input type="checkbox" value="Digital_society" id="subjects-249"> Digital_society</label><label><input type="checkbox" value="World_religions" id="subjects-250"> World_religions</label><label><input type="checkbox" value="Global_politics" id="subjects-251"> Global_politics</label><label><input type="checkbox" value="Mathematics_analysis_and_approaches" id="subjects-252"> Mathematics_analysis_and_approaches</label><label><input type="checkbox" value="Mathematics_applications_and_interpretation" id="subjects-253"> Mathematics_applications_and_interpretation</label><label><input type="checkbox" value="N24_History" id="subjects-254"> N24_History</label><label><input type="checkbox" value="Afrikaans_A_Literature" id="subjects-255"> Afrikaans_A_Literature</label><label><input type="checkbox" value="Siswati_A_Literature" id="subjects-256"> Siswati_A_Literature</label><label><input type="checkbox" value="Luganda_A_Literature" id="subjects-257"> Luganda_A_Literature</label><label><input type="checkbox" value="Punjabi_A_Literature" id="subjects-258"> Punjabi_A_Literature</label><label><input type="checkbox" value="Guarani_A_Literature" id="subjects-259"> Guarani_A_Literature</label><label><input type="checkbox" value="Sinhala_A_Literature" id="subjects-260"> Sinhala_A_Literature</label><label><input type="checkbox" value="Dhivehi_A_Literature" id="subjects-261"> Dhivehi_A_Literature</label><label><input type="checkbox" value="Swahili_A_Literature" id="subjects-262"> Swahili_A_Literature</label><label><input type="checkbox" value="Irish_A_Literature" id="subjects-263"> Irish_A_Literature</label><label><input type="checkbox" value="Sinhalese_A_Literature" id="subjects-264"> Sinhalese_A_Literature</label><label><input type="checkbox" value="Maori_A_Literature" id="subjects-265"> Maori_A_Literature</label><label><input type="checkbox" value="Tigrinya_A_Literature" id="subjects-266"> Tigrinya_A_Literature</label><label><input type="checkbox" value="Igbo_A_Literature" id="subjects-267"> Igbo_A_Literature</label><label><input type="checkbox" value="Assyrian_A_Literature" id="subjects-268"> Assyrian_A_Literature</label><label><input type="checkbox" value="Nature_of_science" id="subjects-269"> Nature_of_science</label><label><input type="checkbox" value="Music___listening" id="subjects-270"> Music___listening</label><label><input type="checkbox" value="Faroese_A_Literature" id="subjects-271"> Faroese_A_Literature</label><label><input type="checkbox" value="Brazilian_social_studies" id="subjects-272"> Brazilian_social_studies</label><label><input type="checkbox" value="Greenlandic_A_literature" id="subjects-273"> Greenlandic_A_literature</label><label><input type="checkbox" value="Oromo_A_literature" id="subjects-274"> Oromo_A_literature</label><label><input type="checkbox" value="Pashto_A_Literature" id="subjects-275"> Pashto_A_Literature</label><label><input type="checkbox" value="Tigrinya_A1" id="subjects-276"> Tigrinya_A1</label><label><input type="checkbox" value="Faroese_A1" id="subjects-277"> Faroese_A1</label><label><input type="checkbox" value="Dhivehi_A1" id="subjects-278"> Dhivehi_A1</label><label><input type="checkbox" value="Pashto_A1" id="subjects-279"> Pashto_A1</label><label><input type="checkbox" value="Malayalam_A1" id="subjects-280"> Malayalam_A1</label><label><input type="checkbox" value="Peace_and_conflict_studies" id="subjects-281"> Peace_and_conflict_studies</label><label><input type="checkbox" value="Turkish_A_Language_and_literature" id="subjects-282"> Turkish_A_Language_and_literature</label><label><input type="checkbox" value="Rumantsch_A_Literature" id="subjects-283"> Rumantsch_A_Literature</label><label><input type="checkbox" value="Kannada_A_Literature" id="subjects-284"> Kannada_A_Literature</label><label><input type="checkbox" value="Galician_A_Literature" id="subjects-285"> Galician_A_Literature</label><label><input type="checkbox" value="Akan_A_Literature" id="subjects-286"> Akan_A_Literature</label><label><input type="checkbox" value="Uzbek_A_Literature" id="subjects-287"> Uzbek_A_Literature</label><label><input type="checkbox" value="Vietnamese_A_Language_and_literature" id="subjects-288"> Vietnamese_A_Language_and_literature</label><label><input type="checkbox" value="Art_history" id="subjects-289"> Art_history</label><label><input type="checkbox" value="Political_thought" id="subjects-290"> Political_thought</label><label><input type="checkbox" value="World_politics" id="subjects-291"> World_politics</label><label><input type="checkbox" value="Classical_Greek_and_Roman_studies" id="subjects-292"> Classical_Greek_and_Roman_studies</label><label><input type="checkbox" value="Oromo_A1" id="subjects-293"> Oromo_A1</label><label><input type="checkbox" value="Kurdish_A1" id="subjects-294"> Kurdish_A1</label><label><input type="checkbox" value="Tamil_A1" id="subjects-295"> Tamil_A1</label><label><input type="checkbox" value="Kannada_A1" id="subjects-296"> Kannada_A1</label><label><input type="checkbox" value="Text_and_performance" id="subjects-297"> Text_and_performance</label><label><input type="checkbox" value="Astronomy" id="subjects-298"> Astronomy</label></div>
+    </div>
+
+    <div class="panel">
+      <h3>Exam Sessions</h3>
+      <div id="sessions"><label><input type="checkbox" value="May 2010 Examination Session" id="sessions-0"> May 2010 Examination Session</label><label><input type="checkbox" value="November 2010 Examination Session" id="sessions-1"> November 2010 Examination Session</label><label><input type="checkbox" value="May 2011 Examination Session" id="sessions-2"> May 2011 Examination Session</label><label><input type="checkbox" value="November 2011 Examination Session" id="sessions-3"> November 2011 Examination Session</label><label><input type="checkbox" value="May 2012 Examination Session" id="sessions-4"> May 2012 Examination Session</label><label><input type="checkbox" value="November 2012 Examination Session" id="sessions-5"> November 2012 Examination Session</label><label><input type="checkbox" value="May 2013 Examination Session" id="sessions-6"> May 2013 Examination Session</label><label><input type="checkbox" value="November 2013 Examination Session" id="sessions-7"> November 2013 Examination Session</label><label><input type="checkbox" value="May 2014 Examination Session" id="sessions-8"> May 2014 Examination Session</label><label><input type="checkbox" value="November 2014 Examination Session" id="sessions-9"> November 2014 Examination Session</label><label><input type="checkbox" value="May 2015 Examination Session" id="sessions-10"> May 2015 Examination Session</label><label><input type="checkbox" value="November 2015 Examination Session" id="sessions-11"> November 2015 Examination Session</label><label><input type="checkbox" value="May 2016 Examination Session" id="sessions-12"> May 2016 Examination Session</label><label><input type="checkbox" value="November 2016 Examination Session" id="sessions-13"> November 2016 Examination Session</label><label><input type="checkbox" value="May 2017 Examination Session" id="sessions-14"> May 2017 Examination Session</label><label><input type="checkbox" value="November 2017 Examination Session" id="sessions-15"> November 2017 Examination Session</label><label><input type="checkbox" value="May 2018 Examination Session" id="sessions-16"> May 2018 Examination Session</label><label><input type="checkbox" value="November 2018 Examination Session" id="sessions-17"> November 2018 Examination Session</label><label><input type="checkbox" value="May 2019 Examination Session" id="sessions-18"> May 2019 Examination Session</label><label><input type="checkbox" value="November 2019 Examination Session" id="sessions-19"> November 2019 Examination Session</label><label><input type="checkbox" value="May 2020 Examination Session - CANCELLED" id="sessions-20"> May 2020 Examination Session - CANCELLED</label><label><input type="checkbox" value="November 2020 Examination Session" id="sessions-21"> November 2020 Examination Session</label><label><input type="checkbox" value="May 2021 Examination Session" id="sessions-22"> May 2021 Examination Session</label><label><input type="checkbox" value="November 2021 Examination Session" id="sessions-23"> November 2021 Examination Session</label><label><input type="checkbox" value="May 2022 Examination Session" id="sessions-24"> May 2022 Examination Session</label><label><input type="checkbox" value="November 2022 Examination Session" id="sessions-25"> November 2022 Examination Session</label><label><input type="checkbox" value="May 2023 Examination Session" id="sessions-26"> May 2023 Examination Session</label><label><input type="checkbox" value="November 2023 Examination Session" id="sessions-27"> November 2023 Examination Session</label><label><input type="checkbox" value="May 2024 Examination Session" id="sessions-28"> May 2024 Examination Session</label><label><input type="checkbox" value="November 2024 Examination Session" id="sessions-29"> November 2024 Examination Session</label><label><input type="checkbox" value="May 2025 Examination Session" id="sessions-30"> May 2025 Examination Session</label><label><input type="checkbox" value="November 2025 Examination Session" id="sessions-31"> November 2025 Examination Session</label></div>
+    </div>
+  </div>
+
+  <button id="downloadBtn">Download Selected Papers</button>
+
+  <div id="status">Ready. Select filters and click download.</div>
+
+  <div id="explanation">Some files may take much longer to download than others. If the download seems "stuck", please allow it to run.</div>
+
+  <script>
+    const SUBJECT_FILE = 'subject-names.txt';
+    const SESSION_FILE = 'exam-sessions.txt';
+    const PATH_FILE = 'file-paths.txt';
+    const SERVER_PREFIX = '/IB%20PAST%20PAPERS%20-%20YEAR/';
+
+    const statusEl = document.getElementById('status');
+
+    function setStatus(msg) {
+      statusEl.textContent = msg;
+    }
+
+    async function loadList(fileName, containerId) {
+      const res = await fetch(fileName);
+      if (!res.ok) throw new Error(`Failed to load ${fileName}`);
+
+      const text = await res.text();
+      const items = text
+        .split(/\r?\n/)
+        .map(x => x.trim())
+        .filter(Boolean);
+
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+
+      items.forEach((item, i) => {
+        const id = `${containerId}-${i}`;
+        const label = document.createElement('label');
+        label.innerHTML = `<input type="checkbox" value="${escapeHtml(item)}" id="${id}"> ${escapeHtml(item)}`;
+        container.appendChild(label);
+      });
+    }
+
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function getCheckedValues(containerId) {
+      return [...document.querySelectorAll(`#${containerId} input:checked`)]
+        .map(cb => cb.value);
+    }
+
+    function buildDownloadUrl(originalPath) {
+      if (!originalPath.startsWith('./')) {
+        throw new Error(`Unexpected path format: ${originalPath}`);
+      }
+
+      const relativePath = originalPath.slice(2); // remove './'
+      const encodedPath = relativePath
+        .split('/')
+        .map(part => encodeURIComponent(part))
+        .join('/');
+
+      return SERVER_PREFIX + encodedPath;
+    }
+
+    async function ensureDirectory(rootHandle, pathParts) {
+      let current = rootHandle;
+      for (const part of pathParts) {
+        current = await current.getDirectoryHandle(part, { create: true });
+      }
+      return current;
+    }
+
+    async function saveFile(rootHandle, relativePath, blob) {
+      const parts = relativePath.split('/');
+      const fileName = parts.pop();
+      const dirHandle = await ensureDirectory(rootHandle, parts);
+
+      const fileHandle = await dirHandle.getFileHandle(fileName, { create: true });
+      const writable = await fileHandle.createWritable();
+      await writable.write(blob);
+      await writable.close();
+    }
+
+    async function downloadMatchingFiles() {
+      const selectedSubjects = getCheckedValues('subjects');
+      const selectedSessions = getCheckedValues('sessions');
+
+      if (!selectedSubjects.length || !selectedSessions.length) {
+        alert('Please select at least one subject and one exam session.');
+        return;
+      }
+
+      if (!window.showDirectoryPicker) {
+        alert('This browser does not support the File System Access API. Use Chromium-based desktop browsers.');
+        setStatus('This browser does not support the File System Access API. Use Chromium-based desktop browsers.');
+        document.getElementById('downloadBtn').hidden = true;
+        return;
+      }
+
+      setStatus('Choose a destination folder...');
+      const rootHandle = await window.showDirectoryPicker();
+
+      setStatus('Loading file paths...');
+      const pathRes = await fetch(PATH_FILE);
+      if (!pathRes.ok) throw new Error('Failed to load file-paths.txt');
+
+      const allPaths = (await pathRes.text())
+        .split(/\r?\n/)
+        .map(x => x.trim())
+        .filter(Boolean);
+
+      const matching = allPaths.filter(path => {
+        const subjectMatch = selectedSubjects.some(s => path.includes(s));
+        const sessionMatch = selectedSessions.some(s => path.includes(s));
+        return subjectMatch && sessionMatch;
+      });
+
+      if (!matching.length) {
+        setStatus('No matching files found.');
+        document.getElementById('downloadBtn').hidden = false;
+        return;
+      }
+
+      setStatus(`Found ${matching.length} files. Starting download...`);
+
+      let completed = 0;
+      let failed = 0;
+
+      for (const originalPath of matching) {
+        try {
+          const relativePath = originalPath.slice(2); // preserve original structure
+          const url = buildDownloadUrl(originalPath);
+
+          setStatus(`Downloading ${completed + failed + 1}/${matching.length}\n${relativePath}`);
+
+          const res = await fetch(url);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+          const blob = await res.blob();
+          await saveFile(rootHandle, relativePath, blob);
+          completed++;
+        } catch (err) {
+          console.error('Failed:', originalPath, err);
+          failed++;
+        }
+      }
+
+      setStatus(
+        `Done.\n` +
+        `Downloaded: ${completed}\n` +
+        `Failed: ${failed}`
+      );
+    }
+
+    document.getElementById('downloadBtn').addEventListener('click', async () => {
+      try {
+        document.getElementById('downloadBtn').hidden = true;
+        await downloadMatchingFiles();
+      } catch (err) {
+        console.error(err);
+        setStatus(`Error: ${err.message}. Reload this page to try again.`);
+      }
+    });
+
+    (async function init() {
+      try {
+        await Promise.all([
+          loadList(SUBJECT_FILE, 'subjects'),
+          loadList(SESSION_FILE, 'sessions')
+        ]);
+        setStatus('Ready. Select filters and click download.');
+        if (!window.showDirectoryPicker) {
+          setStatus('This browser does not support the File System Access API. Use Chromium-based desktop browsers.');
+          document.getElementById('downloadBtn').hidden = true;
+          return;
+        }
+      } catch (err) {
+        console.error(err);
+        setStatus(`Initialization error: ${err.message}. Reload this page to try again.`);
+      }
+    })();
+  </script>
+<script defer="" src="./file-paths_files/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;308d8386e7fa484d9299f10cf1e2ad7d&quot;,&quot;r&quot;:1,&quot;server_timing&quot;:{&quot;name&quot;:{&quot;cfCacheStatus&quot;:true,&quot;cfEdge&quot;:true,&quot;cfExtPri&quot;:true,&quot;cfL4&quot;:true,&quot;cfOrigin&quot;:true,&quot;cfSpeedBrain&quot;:true},&quot;location_startswith&quot;:null}}" crossorigin="anonymous"></script>
+
+
+</body></html>
