@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1778504990376,
+  "lastScanned": 1778595854605,
   "projectRoot": "C:\\Users\\jaeyo\\Projects\\StudySphere",
   "techStack": {
     "languages": [],
@@ -24,7 +24,9 @@
   "structure": {
     "isMonorepo": false,
     "workspaces": [],
-    "mainDirectories": [],
+    "mainDirectories": [
+      "docs"
+    ],
     "gitBranches": {
       "defaultBranch": "main",
       "branchingStrategy": null
@@ -36,18 +38,31 @@
       "path": "client",
       "purpose": null,
       "fileCount": 6,
-      "lastAccessed": 1778504990298,
+      "lastAccessed": 1778595854546,
       "keyFiles": [
         "package-lock.json",
         "package.json",
         "vercel.json"
       ]
     },
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 5,
+      "lastAccessed": 1778595854547,
+      "keyFiles": [
+        "api.md",
+        "ml-roadmap.md",
+        "models.md",
+        "monetization.md",
+        "whats-built.md"
+      ]
+    },
     "e2e": {
       "path": "e2e",
       "purpose": null,
       "fileCount": 3,
-      "lastAccessed": 1778504990300,
+      "lastAccessed": 1778595854547,
       "keyFiles": [
         "package-lock.json",
         "package.json",
@@ -58,16 +73,23 @@
       "path": "file-paths_files",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1778504990302,
+      "lastAccessed": 1778595854548,
       "keyFiles": [
         "v8c78df7c7c0f484497ecbca7046644da1771523124516"
       ]
     },
+    "Past_Papers": {
+      "path": "Past_Papers",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1778595854548,
+      "keyFiles": []
+    },
     "server": {
       "path": "server",
       "purpose": null,
-      "fileCount": 10,
-      "lastAccessed": 1778504990303,
+      "fileCount": 11,
+      "lastAccessed": 1778595854549,
       "keyFiles": [
         "jest.config.js",
         "package-lock.json",
@@ -80,14 +102,14 @@
       "path": "_alumni",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1778504990303,
+      "lastAccessed": 1778595854549,
       "keyFiles": []
     },
     "client\\build": {
       "path": "client\\build",
       "purpose": "Build output",
       "fileCount": 7,
-      "lastAccessed": 1778504990329,
+      "lastAccessed": 1778595854550,
       "keyFiles": [
         "asset-manifest.json",
         "favicon.ico",
@@ -98,14 +120,14 @@
       "path": "client\\node_modules",
       "purpose": "Dependencies",
       "fileCount": 1,
-      "lastAccessed": 1778504990343,
+      "lastAccessed": 1778595854554,
       "keyFiles": []
     },
     "client\\public": {
       "path": "client\\public",
       "purpose": "Public files",
       "fileCount": 6,
-      "lastAccessed": 1778504990351,
+      "lastAccessed": 1778595854555,
       "keyFiles": [
         "favicon.ico",
         "index.html",
@@ -116,7 +138,7 @@
       "path": "client\\src",
       "purpose": "Source code",
       "fileCount": 11,
-      "lastAccessed": 1778504990354,
+      "lastAccessed": 1778595854555,
       "keyFiles": [
         "api.js",
         "App.css",
@@ -127,14 +149,14 @@
       "path": "e2e\\node_modules",
       "purpose": "Dependencies",
       "fileCount": 1,
-      "lastAccessed": 1778504990358,
+      "lastAccessed": 1778595854556,
       "keyFiles": []
     },
     "e2e\\tests": {
       "path": "e2e\\tests",
       "purpose": "Test files",
       "fileCount": 3,
-      "lastAccessed": 1778504990360,
+      "lastAccessed": 1778595854557,
       "keyFiles": [
         "auth.spec.js",
         "groups.spec.js",
@@ -145,7 +167,7 @@
       "path": "server\\config",
       "purpose": "Configuration files",
       "fileCount": 2,
-      "lastAccessed": 1778504990367,
+      "lastAccessed": 1778595854558,
       "keyFiles": [
         "config.js",
         "config.json"
@@ -155,28 +177,17 @@
       "path": "server\\data",
       "purpose": "Data files",
       "fileCount": 1,
-      "lastAccessed": 1778504990368,
+      "lastAccessed": 1778595854559,
       "keyFiles": [
         "ibSubjects.js"
-      ]
-    },
-    "server\\migrations": {
-      "path": "server\\migrations",
-      "purpose": "Database migrations",
-      "fileCount": 12,
-      "lastAccessed": 1778504990370,
-      "keyFiles": [
-        "20260304050000-update-chats-schema.js",
-        "20260304060000-add-public-password-to-groups.js",
-        "20260304070000-backfill-group-leaders.js"
       ]
     }
   },
   "hotPaths": [
     {
       "path": "CLAUDE.md",
-      "accessCount": 12,
-      "lastAccessed": 1777621355400,
+      "accessCount": 14,
+      "lastAccessed": 1778505486011,
       "type": "file"
     },
     {
@@ -300,6 +311,12 @@
       "type": "file"
     },
     {
+      "path": "server\\scripts\\ingest-past-papers.js",
+      "accessCount": 2,
+      "lastAccessed": 1778505475470,
+      "type": "file"
+    },
+    {
       "path": "server/models/UserDocuments.js",
       "accessCount": 1,
       "lastAccessed": 1777382740539,
@@ -339,12 +356,6 @@
       "path": "server\\models\\GlobalDocuments.js",
       "accessCount": 1,
       "lastAccessed": 1777513655975,
-      "type": "file"
-    },
-    {
-      "path": "server\\scripts\\ingest-past-papers.js",
-      "accessCount": 1,
-      "lastAccessed": 1777513727388,
       "type": "file"
     },
     {

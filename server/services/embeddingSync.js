@@ -86,8 +86,8 @@ async function reindexAll(onProgress) {
         { type: 'resource', model: Resources, where: {} },
     ];
 
-    const BATCH_SIZE = 5;
-    const BATCH_DELAY_MS = 100;
+    const BATCH_SIZE = 3;
+    const BATCH_DELAY_MS = 800;
 
     // Re-index global documents separately using stored chunksJson (no file re-read needed)
     if (GlobalDocuments) {

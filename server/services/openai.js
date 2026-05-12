@@ -66,6 +66,23 @@ async function chatCompletion(messages, options = {}) {
     };
 }
 
+async function withEmbeddingRetry(fn, maxRetries = 6) {
+    let delay = 1000;
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+        try {
+            return await fn();
+        } catch (err) {
+            const is429 = err?.status === 429 || /429|rate limit/i.test(err?.message || '');
+            if (!is429 || attempt === maxRetries) throw err;
+            const retryAfterMs = err?.headers?.['retry-after']
+                ? parseInt(err.headers['retry-after']) * 1000
+                : delay;
+            await new Promise(r => setTimeout(r, retryAfterMs));
+            delay = Math.min(delay * 2, 30000);
+        }
+    }
+}
+
 /**
  * Generate an embedding vector for a single text.
  * Uses 512-dimension Matryoshka truncation on OpenAI; Ollama uses its native dimensions.
@@ -79,11 +96,13 @@ async function createEmbedding(text) {
     if (!process.env.OLLAMA_BASE_URL) {
         params.dimensions = EMBEDDING_DIMENSIONS;
     }
-    const response = await getClient().embeddings.create(params);
-    return {
-        embedding: response.data[0].embedding,
-        tokens: response.usage?.total_tokens || 0,
-    };
+    return withEmbeddingRetry(async () => {
+        const response = await getClient().embeddings.create(params);
+        return {
+            embedding: response.data[0].embedding,
+            tokens: response.usage?.total_tokens || 0,
+        };
+    });
 }
 
 /**
@@ -98,12 +117,14 @@ async function createEmbeddingBatch(texts) {
     if (!process.env.OLLAMA_BASE_URL) {
         params.dimensions = EMBEDDING_DIMENSIONS;
     }
-    const response = await getClient().embeddings.create(params);
-    const tokensPerChunk = Math.round((response.usage?.total_tokens || 0) / texts.length);
-    return response.data.map(item => ({
-        embedding: item.embedding,
-        tokens: tokensPerChunk,
-    }));
+    return withEmbeddingRetry(async () => {
+        const response = await getClient().embeddings.create(params);
+        const tokensPerChunk = Math.round((response.usage?.total_tokens || 0) / texts.length);
+        return response.data.map(item => ({
+            embedding: item.embedding,
+            tokens: tokensPerChunk,
+        }));
+    });
 }
 
 /**

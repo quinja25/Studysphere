@@ -29,8 +29,13 @@ app.use(cors({
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
+// Stripe webhooks need the raw body — must be registered before express.json()
+app.use('/billing/webhook', express.raw({ type: 'application/json' }));
 app.use(express.json());
 app.use(require('cookie-parser')());
+
+// Serve extracted past-paper figure images (public — no auth needed to display inline)
+app.use('/figures', express.static(require('path').join(__dirname, 'uploads/global-docs/figures')));
 
 // ── Rate limiting ───────────────────────────────────────────────────────────
 // Strict limiter for auth endpoints (10 attempts per 15 min)
@@ -92,6 +97,7 @@ const setupServer = async () => {
     const notificationsRouter = require('./routes/Notifications');
     const aiFeedbackRouter = require('./routes/AiFeedback');
     const publicRouter = require('./routes/Public');
+    const billingRouter = require('./routes/Billing');
 
     app.use('/groups', groupRouter);
     app.use('/chats', chatRouter);
@@ -112,6 +118,7 @@ const setupServer = async () => {
     app.use('/notifications', notificationsRouter);
     app.use('/ai/feedback', aiFeedbackRouter);
     app.use('/public', publicRouter);
+    app.use('/billing', billingRouter);
 
     app.get('/', (req, res) => res.send('Main page'));
 

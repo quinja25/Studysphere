@@ -1,0 +1,1286 @@
+{
+  "metadata": {
+    "runAt": "2026-05-12T10:40:38.785Z",
+    "subject": "economics",
+    "totalQuestions": 20,
+    "mode": "both",
+    "judgeEnabled": true,
+    "baselineTokensUsed": 11936,
+    "ragTokensUsed": 0,
+    "judgeTokensUsed": 6000
+  },
+  "results": [
+    {
+      "id": "micro_01",
+      "topic": "Elasticity",
+      "paper": "Paper 1",
+      "level": "SL/HL",
+      "command": "Explain",
+      "query": "Explain why the price elasticity of demand for cigarettes tends to be price inelastic, and discuss the implications for government tax policy.",
+      "baseline": {
+        "answer": "**Key Definitions:**\nPrice elasticity of demand (PED) measures the responsiveness of the quantity demanded of a good to a change in its price. A PED value less than 1 indicates inelastic demand, meaning that consumers’ quantity demanded changes less proportionately compared to price changes. \n\n**Relevant Theory:**\nThe price elasticity of demand for cigarettes tends to be inelastic for several reasons. Firstly, cigarettes are considered a \"necessity\" for addicted smokers, leading to a lower sensitivity to price changes. The habit-forming nature of nicotine creates a strong dependency, meaning that even when prices rise, the demand does not significantly decrease. Secondly, there are few close substitutes for cigarettes, which limits consumer options for switching away from them in response to price increases. Additionally, smoking is often associated with lifestyle choices and social habits, which further entrenches demand irrespective of price fluctuations.\n\n**Diagram Description:**\nIn a typical demand curve diagram, the demand curve for cigarettes would be relatively steep, indicating that a change in price results in a relatively small change in quantity demanded. For example, if the price of cigarettes increased, the quantity demanded would decrease slightly, illustrating the inelastic nature of the demand.\n\n**Evaluation/Analysis:**\nThe implications of this inelastic demand for government tax policy are significant. Governments often impose high taxes on cigarettes to reduce consumption due to health concerns associated with smoking. However, because demand is inelastic, these taxes can lead to increased government revenue rather than significant reductions in smoking rates. For instance, if a tax increases the price of cigarettes, the quantity demanded may fall only slightly, allowing the government to collect substantial revenue.\n\nMoreover, high taxes can disproportionately affect lower-income smokers, who may be less able to absorb the increased costs. This raises equity concerns and may necessitate complementary policies, such as funding for smoking cessation programs or providing support for lower-income populations facing higher relative costs.\n\nIn conclusion, while the inelastic demand for cigarettes results in stable revenue from taxes, it also highlights the challenges in effectively reducing smoking rates through price mechanisms alone. Policymakers must consider both the economic and social implications of such tax policies to address public health objectives effectively.",
+        "tokens": 528,
+        "latencyMs": 5743,
+        "sources": [],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately explains the inelastic nature of cigarette demand, uses precise concepts and examples, and aligns well with the IB command term expectations."
+        }
+      },
+      "rag": {
+        "answer": "**Key Definitions:**\nPrice elasticity of demand (PED) measures the responsiveness of the quantity demanded of a good to a change in its price. A PED value of less than 1 indicates inelastic demand, meaning that consumers will not significantly reduce their quantity demanded in response to price increases. \n\n**Relevant Theory:**\nCigarettes are often considered a necessity by many consumers due to their addictive nature, which contributes to their price inelasticity. The demand for cigarettes tends to be less sensitive to price changes for several reasons: \n\n1. **Addiction:** Cigarettes contain nicotine, which creates dependence, leading consumers to prioritize their consumption despite price increases.\n2. **Lack of Close Substitutes:** While there are alternatives like nicotine patches or e-cigarettes, these do not fully substitute for the experience of smoking, making demand less sensitive to price changes.\n3. **Habitual Consumption:** For many smokers, consuming cigarettes is a habitual behavior, resulting in a consistent demand irrespective of price fluctuations.\n4. **Small Proportion of Income:** For many consumers, the cost of cigarettes represents a small proportion of their overall income, which can diminish the impact of price increases on their purchasing decisions.\n\n**Diagram Description:**\nA demand curve for cigarettes can be illustrated with a steep slope, indicating inelastic demand. The y-axis represents price, while the x-axis represents quantity demanded. A decrease in quantity demanded is minimal in response to a price increase, visually demonstrating the inelastic nature of the demand for cigarettes.\n\n**Evaluation/Analysis:**\nThe inelastic demand for cigarettes has significant implications for government tax policy. Governments often impose high taxes on cigarettes to discourage consumption due to health concerns. Since demand is inelastic, the quantity demanded does not significantly decrease as price increases, allowing governments to generate substantial tax revenue without drastically reducing consumption levels. \n\nFor example, if a government raises the tax on cigarettes, the price may increase, but due to inelastic demand, the total revenue from tobacco taxes can increase as the number of units sold does not fall significantly. However, this creates ethical considerations regarding public health, as higher prices may disproportionately affect low-income smokers, leading to potential social equity issues.\n\nIn conclusion, the price inelasticity of demand for cigarettes largely stems from addiction and habitual consumption. While this characteristic allows governments to raise significant tax revenue, it also raises ethical questions about the impacts of such policies on public health and equity.",
+        "tokens": 627,
+        "latencyMs": 13428,
+        "contextUsed": true,
+        "contextChunks": 2,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 5,
+            "chunkText": "",
+            "score": 0.14095433860927975,
+            "relevant": false
+          },
+          {
+            "sourceId": 2,
+            "chunkText": "",
+            "score": 0.13862896273229994,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 5,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately explains the inelastic nature of cigarette demand with precise concepts and examples, aligning well with IB expectations."
+        }
+      }
+    },
+    {
+      "id": "micro_02",
+      "topic": "Market Structures",
+      "paper": "Paper 1",
+      "level": "HL",
+      "command": "Evaluate",
+      "query": "Evaluate the view that firms in perfect competition are more efficient than firms operating as monopolies.",
+      "baseline": {
+        "answer": "**Key Definitions:**\n\nPerfect competition is a market structure characterized by a large number of small firms, homogeneous products, perfect information, and free entry and exit from the market. In this environment, firms are price takers, meaning they accept the market price determined by supply and demand.\n\nMonopoly, on the other hand, occurs when a single firm dominates the market, producing a unique product with no close substitutes. Monopolists are price makers, controlling the price by adjusting output levels.\n\n**Relevant Theory:**\n\nEfficiency can be categorized into productive efficiency and allocative efficiency. \n\n- **Productive Efficiency** occurs when firms produce at the lowest average cost (AC), typically at the minimum point of the average cost curve. In perfect competition, firms achieve productive efficiency in the long run as they operate at the point where price equals marginal cost (P = MC) and average cost (AC) at its minimum.\n\n- **Allocative Efficiency** is achieved when resources are distributed in a way that maximizes consumer and producer surplus, typically when P = MC. Perfectly competitive firms produce at this level, ensuring that the quantity of goods produced reflects consumer preferences.\n\nIn contrast, monopolies tend to produce less and charge a higher price (P > MC), leading to a deadweight loss in consumer surplus and a loss of allocative efficiency. Monopolists may also enjoy economies of scale, but they do not have the same pressure to minimize costs as competitive firms do.\n\n**Diagram Description:**\n\nIn a perfectly competitive market, the demand curve is perfectly elastic, and the supply curve intersects with the average cost curve at its lowest point, indicating productive efficiency. In a monopoly diagram, the downward-sloping demand curve intersects the marginal cost curve at a lower output level, resulting in higher prices and lower quantity than in perfect competition.\n\n**Evaluation/Analysis:**\n\nWhile firms in perfect competition are generally more efficient, the evaluation must consider the context. Perfect competition fosters innovation and efficiency due to competition, leading to lower prices and better services for consumers. However, monopolies may also achieve efficiencies through economies of scale, particularly in industries with high fixed costs, such as utilities. \n\nMoreover, monopolies can engage in research and development (R&D) due to higher profits, potentially leading to innovative products over time. Thus, while perfect competition is more efficient in static terms, monopolies can be beneficial in dynamic contexts.\n\nIn conclusion, while firms in perfect competition are typically more efficient in terms of productive and allocative efficiency, the benefits of monopolies in fostering innovation and economies of scale cannot be overlooked. The efficiency of a market structure may depend on industry characteristics and the timeframe considered.",
+        "tokens": 621,
+        "latencyMs": 13381,
+        "sources": [],
+        "judge": {
+          "accuracy": 4,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately describes the efficiencies of both market structures and provides specific concepts and diagrams, aligning well with IB expectations."
+        }
+      },
+      "rag": {
+        "answer": "In economics, efficiency is typically categorized into productive efficiency and allocative efficiency. Productive efficiency occurs when firms produce at the lowest point on the average cost (AC) curve, while allocative efficiency is achieved when the price of a good equals the marginal cost (MC) of production, ensuring that resources are allocated optimally.\n\nIn a perfectly competitive market, numerous firms produce identical products, leading to a scenario where no single firm can influence the market price. Firms in perfect competition are price takers and operate at the minimum of their AC curve in the long run, achieving productive efficiency. Additionally, because the price equals marginal cost (P = MC), this market structure also ensures allocative efficiency, as consumers receive goods at a price reflecting the true cost of production.\n\nIn contrast, monopolies, characterized by a single firm dominating the market, have significant market power, allowing them to set prices above marginal cost (P > MC). As a result, monopolies often produce less output than is socially optimal, leading to allocative inefficiency. Furthermore, monopolies may not achieve productive efficiency, as they do not necessarily produce at the lowest point on the AC curve due to a lack of competitive pressure to minimize costs.\n\nA diagram illustrating these concepts would show the demand curve (D) and marginal cost curve (MC) intersecting at a quantity (Q) where the price (P) equals the marginal cost in a perfectly competitive market. In contrast, in a monopoly, the demand curve would intersect the MC at a higher price and lower quantity, illustrating the inefficiency resulting from restricted output and higher prices.\n\nHowever, it is important to evaluate the context in which these market structures operate. While perfect competition is efficient in theory, real-world examples often reveal limitations such as the lack of innovation and product variety. In contrast, monopolies can benefit from economies of scale and may invest in research and development, potentially leading to technological advancements that can enhance long-term efficiency.\n\nIn conclusion, while firms in perfect competition are generally more efficient than monopolies due to their capacity to achieve both productive and allocative efficiencies, this assessment should consider the potential advantages that monopolies may provide in terms of innovation and economies of scale. Thus, the efficiency of market structures is nuanced and may vary based on industry dynamics and the specific context of the firms involved.",
+        "tokens": 591,
+        "latencyMs": 9190,
+        "contextUsed": true,
+        "contextChunks": 1,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 6,
+            "chunkText": "",
+            "score": 0.14796350308868936,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 4,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately describes the efficiencies of perfect competition and monopolies, uses precise economic concepts, and aligns well with the evaluation command term."
+        }
+      }
+    },
+    {
+      "id": "micro_03",
+      "topic": "Externalities",
+      "paper": "Paper 1",
+      "level": "SL/HL",
+      "command": "Explain",
+      "query": "Using a diagram, explain how a negative externality of production leads to market failure and suggest two government policies to correct it.",
+      "baseline": {
+        "answer": "**Key Definitions:**\n\nA negative externality of production occurs when the production of a good or service imposes costs on third parties not directly involved in the transaction. This leads to market failure, as the social cost of production exceeds the private cost borne by producers, resulting in overproduction of the good and misallocation of resources.\n\n**Relevant Theory:**\n\nIn a perfectly competitive market, the equilibrium quantity is determined where the private marginal cost (PMC) equals the private marginal benefit (PMB). However, when a negative externality is present, the social marginal cost (SMC) is higher than the PMC. This discrepancy means that producers do not take into account the external costs they impose on society, such as pollution or health issues. As a result, the market equilibrium quantity is greater than the socially optimal quantity, leading to an inefficient allocation of resources.\n\n**Diagram Description:**\n\nIn the diagram, the vertical axis represents cost and benefit, while the horizontal axis represents quantity. The private marginal cost (PMC) curve intersects the demand curve (representing PMB) at point E1, determining the equilibrium quantity Q1. The social marginal cost (SMC) curve, which lies above the PMC due to the negative externality, intersects the demand curve at point E2, indicating the socially optimal quantity Q2 (where SMC equals PMB). The area between the SMC and PMC curves from Q2 to Q1 represents the welfare loss due to overproduction.\n\n**Evaluation/Analysis:**\n\nTo correct the market failure caused by negative externalities, governments can implement the following policies:\n\n1. **Pigovian Tax**: This tax is levied on the producer equal to the external cost per unit produced. By increasing the cost of production to reflect the externality, it shifts the PMC curve upwards towards the SMC, thereby reducing the equilibrium quantity from Q1 to the socially optimal quantity Q2. This approach encourages producers to reduce output and internalize the costs of their production.\n\n2. **Regulation and Standards**: The government can impose regulations that limit the amount of negative externality produced, such as emissions standards for factories. This could involve setting a cap on pollution or requiring the adoption of cleaner technologies. By enforcing these regulations, the government can effectively reduce the negative externality and align production more closely with social welfare.\n\nBoth policies aim to correct the market failure by aligning private costs with social costs, thus moving the market closer to the socially optimal level of production. However, the effectiveness of these policies can vary based on implementation, compliance, and the specific context of the externality.",
+        "tokens": 617,
+        "latencyMs": 8561,
+        "sources": [],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 5,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately defines negative externalities, explains the concepts of PMC and SMC, describes a relevant diagram, and suggests effective government policies, fully aligning with IB expectations."
+        }
+      },
+      "rag": {
+        "answer": "**Key Definitions:**\nA negative externality of production occurs when the production of a good or service imposes costs on third parties that are not reflected in the market price. This leads to market failure, as the social cost of production exceeds the private cost borne by producers, resulting in overproduction and inefficiency.\n\n**Relevant Theory:**\nIn a perfectly competitive market, the equilibrium price and quantity are determined by the intersection of the supply and demand curves. However, when a negative externality is present, the social cost curve (which includes external costs) lies above the supply curve (which reflects only private costs). As a result, the market equilibrium (Qm) is at a higher quantity than the socially optimal level (Qs), leading to a welfare loss represented by the triangle between the two curves.\n\n**Diagram Description:**\nIn the diagram, the vertical axis represents price and the horizontal axis represents quantity. The downward-sloping demand curve (D) intersects the upward-sloping supply curve (S) at point E, determining the market equilibrium quantity (Qm) and price (Pm). The social cost curve (SC) lies above the supply curve, indicating the higher cost to society. The socially optimal quantity (Qs) is where the SC curve intersects the demand curve, resulting in a lower quantity produced, thus reducing the negative externality.\n\n**Evaluation/Analysis:**\nThe overproduction of goods with negative externalities leads to an inefficient allocation of resources and a loss of societal welfare. To correct this market failure, governments can implement various policies. \n\n1. **Pigovian Taxes:** By imposing a tax equal to the external cost per unit of the good produced, the government can internalize the externality, shifting the supply curve upwards to reflect the social cost. This would reduce the quantity produced to the socially optimal level (Qs), thus minimizing the negative impact on third parties.\n\n2. **Regulation and Standards:** The government can also impose regulations that limit the amount of negative externalities produced, such as emissions standards for factories. This approach directly restricts production levels or operational practices, pushing firms to adopt cleaner technologies or processes, thereby reducing the overall negative externality.\n\nIn conclusion, addressing negative externalities through government intervention is crucial for restoring efficiency in the market. By using instruments like taxes or regulations, the government can realign private incentives with social welfare, achieving a more optimal allocation of resources.",
+        "tokens": 644,
+        "latencyMs": 13608,
+        "contextUsed": true,
+        "contextChunks": 5,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 7,
+            "chunkText": "",
+            "score": 0.15228531185797045,
+            "relevant": false
+          },
+          {
+            "sourceId": 5,
+            "chunkText": "",
+            "score": 0.14095433860927975,
+            "relevant": false
+          },
+          {
+            "sourceId": 6,
+            "chunkText": "",
+            "score": 0.0883579292258983,
+            "relevant": false
+          },
+          {
+            "sourceId": 2,
+            "chunkText": "",
+            "score": 0.07989964586216673,
+            "relevant": false
+          },
+          {
+            "sourceId": 1,
+            "chunkText": "",
+            "score": 0.07944983774065342,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 5,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately defines negative externalities, explains the concepts with precise terminology, includes a detailed diagram description, and aligns well with IB command terms."
+        }
+      }
+    },
+    {
+      "id": "micro_04",
+      "topic": "Market Failure",
+      "paper": "Paper 1",
+      "level": "SL/HL",
+      "command": "Discuss",
+      "query": "Discuss the strengths and limitations of using a maximum price (price ceiling) to make housing more affordable.",
+      "baseline": {
+        "answer": "**Key Definitions:**\nA maximum price, or price ceiling, is a legal limit on how high a price can be charged for a product or service. In the context of housing, a price ceiling is set below the market equilibrium price to make housing more affordable for lower-income individuals.\n\n**Relevant Theory:**\nThe theory behind price ceilings is grounded in the economics of supply and demand. When a price ceiling is imposed, the intention is to make housing more accessible. However, since the ceiling is set below the equilibrium price, the quantity demanded for housing exceeds the quantity supplied, leading to a shortage. \n\n**Diagram Description:**\nIn a supply and demand graph for the housing market, the upward-sloping supply curve intersects the downward-sloping demand curve at the equilibrium price. A horizontal line representing the price ceiling is drawn below this intersection. The area between the demand and supply curves at the price ceiling level illustrates the shortage of housing, where the quantity demanded surpasses the quantity supplied.\n\n**Strengths:**\n1. **Increased Affordability:** A price ceiling directly reduces the rental costs for tenants, making housing more affordable for low-income households.\n2. **Immediate Relief:** In times of crisis or economic downturns, implementing a price ceiling can provide immediate financial relief to vulnerable populations unable to afford rising living costs.\n3. **Social Welfare:** It can enhance social equity by ensuring that a basic need, such as housing, is accessible to all, reducing homelessness and housing insecurity.\n\n**Limitations:**\n1. **Shortages:** The primary limitation is the creation of a housing shortage, as landlords may withdraw their properties from the market or reduce maintenance and investment in rental housing.\n2. **Black Markets:** Price ceilings can lead to the emergence of black markets where housing is rented at higher prices, undermining the policy’s intent.\n3. **Reduced Quality:** Landlords may cut costs in response to reduced rental income, resulting in lower-quality housing and less incentive for new housing development.\n4. **Long-term Inefficiencies:** Over time, a sustained price ceiling can discourage investment in the housing sector, leading to chronic shortages and deteriorating living conditions.\n\n**Evaluation/Analysis:**\nWhile price ceilings can provide short-term relief and increase access to housing for low-income individuals, they often result in long-term market distortions, including shortages and reduced quality of available housing. Policymakers should weigh these strengths and limitations when considering such interventions, potentially exploring alternative solutions, such as housing vouchers or subsidies that do not distort market prices, thereby aiming to improve affordability without compromising the housing supply.",
+        "tokens": 608,
+        "latencyMs": 7338,
+        "sources": [],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 5,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately addresses the strengths and limitations of price ceilings, uses precise economic concepts, and aligns well with IB command terms by discussing and evaluating the topic comprehensively."
+        }
+      },
+      "rag": {
+        "answer": "**Key Definitions:**\nA maximum price, or price ceiling, is a legally established limit on how high a price can be charged for a product or service. In the context of housing, a price ceiling is often implemented to make housing more affordable for lower-income households.\n\n**Relevant Theory:**\nThe implementation of a maximum price in the housing market aims to increase affordability by preventing landlords from charging excessively high rents. When a price ceiling is set below the market equilibrium price, it results in a quantity demanded that exceeds quantity supplied. This creates a housing shortage, as more individuals seek affordable housing than is available at the capped price.\n\n**Diagram Description:**\nIn a standard demand and supply diagram for the housing market, the demand curve slopes downwards while the supply curve slopes upwards. The intersection of these curves determines the market equilibrium price. By introducing a price ceiling below the equilibrium price, the new price level leads to a higher quantity demanded (QD) and a lower quantity supplied (QS), resulting in a shortage represented by the gap between QD and QS at the price ceiling.\n\n**Evaluation/Analysis:**\n**Strengths:**\n1. **Increased Affordability:** Price ceilings can provide immediate relief to low-income renters by lowering housing costs, enabling them to allocate their limited resources to other essential needs.\n2. **Social Equity:** By making housing more accessible, price ceilings can promote social welfare and reduce inequality by allowing disadvantaged groups to secure housing.\n\n**Limitations:**\n1. **Housing Shortages:** As previously mentioned, price ceilings often lead to a shortage of housing. Landlords may withdraw from the market, convert rental units into condominiums, or reduce maintenance of rental properties, leading to deteriorating living conditions.\n2. **Black Markets:** The existence of a price ceiling may encourage illegal transactions where landlords charge above the maximum price, undermining the intended benefits of the policy.\n3. **Long-term Investment Issues:** Price ceilings can discourage new investments in housing construction, as developers may find it unprofitable to build new housing units. This can exacerbate the housing crisis in the long term.\n\nIn conclusion, while maximum prices can provide temporary relief and increase housing affordability for some, they also lead to significant market distortions, including shortages and reduced quality of housing. Thus, policymakers must weigh these strengths and limitations carefully when considering such interventions in the housing market.",
+        "tokens": 632,
+        "latencyMs": 14098,
+        "contextUsed": true,
+        "contextChunks": 5,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 1,
+            "chunkText": "",
+            "score": 0.4727644696831703,
+            "relevant": false
+          },
+          {
+            "sourceId": 4,
+            "chunkText": "",
+            "score": 0.4727644696831703,
+            "relevant": false
+          },
+          {
+            "sourceId": 3,
+            "chunkText": "",
+            "score": 0.14721336692783227,
+            "relevant": false
+          },
+          {
+            "sourceId": 5,
+            "chunkText": "",
+            "score": 0.14095433860927975,
+            "relevant": false
+          },
+          {
+            "sourceId": 7,
+            "chunkText": "",
+            "score": 0.14047181431463548,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 5,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately addresses the question with precise definitions, relevant theory, a clear diagram description, and a thorough evaluation of strengths and limitations, aligning well with IB expectations."
+        }
+      }
+    },
+    {
+      "id": "micro_05",
+      "topic": "Oligopoly",
+      "paper": "Paper 1",
+      "level": "HL",
+      "command": "Explain",
+      "query": "Explain why firms in an oligopoly tend to engage in non-price competition rather than price competition.",
+      "baseline": {
+        "answer": "**Key Definitions:**\nOligopoly is a market structure characterized by a small number of firms that dominate the market. Firms in an oligopoly are interdependent, meaning the actions of one firm can directly affect the others. Non-price competition involves strategies that firms use to attract customers without changing prices, such as marketing, product differentiation, and customer service.\n\n**Relevant Theory:**\nFirms in an oligopoly often choose non-price competition over price competition for several reasons:\n\n1. **Price Rigidity:** In oligopolistic markets, firms are reluctant to change prices due to the potential for price wars. If one firm lowers its prices, competitors may follow suit, leading to reduced profits for all (the price war scenario). Thus, firms prefer to maintain stable prices and compete through other means.\n\n2. **Product Differentiation:** Oligopolistic firms often offer products that are differentiated from one another. This differentiation can be based on quality, features, branding, or customer service. By focusing on non-price competition, firms can create a unique identity in the market, allowing them to build brand loyalty and reduce the direct substitutability of their products.\n\n3. **Market Share Protection:** Engaging in non-price competition helps firms to protect their market share without risking the lower profit margins that can result from aggressive price competition. By improving customer loyalty through advertising or enhancing product quality, firms can build a stable customer base.\n\n4. **Long-term Strategy:** Non-price competition can foster innovation and improvements in products and services, contributing to long-term profitability. Firms that invest in research and development (R&D) or marketing can create sustainable competitive advantages.\n\n**Diagram Description:**\nA possible diagram to illustrate this concept could show the kinked demand curve model. The demand curve is relatively steep above the current price (indicating inelastic demand if a firm raises prices) and flatter below it (indicating elastic demand if a firm lowers prices). This kink reflects the interdependence of firms in an oligopoly and the reluctance to change prices, supporting the rationale for non-price competition.\n\n**Evaluation/Analysis:**\nWhile non-price competition can be beneficial, it also has limitations. It often involves significant expenditures on advertising and R&D, which may not always yield proportional returns. Additionally, excessive focus on non-price competition can lead to neglecting cost efficiencies. However, overall, firms in an oligopoly tend to prefer non-price competition as a strategy to maintain their market position, protect profits, and foster brand loyalty without the risks associated with price wars. Consequently, non-price competition becomes a pivotal strategy in oligopolistic markets, driving innovation and consumer engagement.",
+        "tokens": 618,
+        "latencyMs": 8702,
+        "sources": [],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 5,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately explains the reasons for non-price competition in oligopoly, uses precise concepts and examples, and aligns well with IB command term expectations."
+        }
+      },
+      "rag": {
+        "answer": "In an oligopoly, a market structure characterized by a few large firms that dominate the market, non-price competition is often favored over price competition due to several key reasons.\n\n**Key Definitions:**\n- **Oligopoly:** A market structure in which a small number of firms have significant market power, leading to interdependent decision-making.\n- **Non-price competition:** Strategies used by firms to attract customers without changing prices, such as advertising, product differentiation, and customer service enhancements.\n- **Price competition:** Competing on the basis of price reductions to gain market share.\n\n**Relevant Theory:**\nFirms in an oligopoly are aware that their pricing decisions significantly affect their competitors and the overall market. If one firm lowers its prices, others may follow suit to maintain market share, leading to a price war. This outcome is detrimental to all firms involved, as it can erode profit margins significantly. Consequently, firms prefer non-price competition as it allows them to maintain stable prices while still attracting customers.\n\n**Diagram Description:**\nA typical diagram illustrating oligopolistic behavior may show a kinked demand curve, which indicates that demand is more elastic for price increases (as consumers will switch to competitors) and less elastic for price decreases (as rivals are likely to match price cuts). This implies that firms have an incentive to avoid price competition to prevent potential losses in revenue.\n\n**Evaluation/Analysis:**\nFirms engage in strategies such as branding, advertising, and product innovation to differentiate their offerings. For example, a car manufacturer might invest heavily in marketing to promote a new model’s safety features rather than engage in price cuts, which would harm overall profitability. Additionally, non-price competition can lead to brand loyalty, allowing firms to sustain higher prices over time.\n\nHowever, while non-price competition can be beneficial in maintaining market stability and profitability, it can also lead to increased costs for firms, as extensive marketing campaigns and product enhancements require substantial investment. Furthermore, the effectiveness of non-price competition may vary depending on consumer preferences and market conditions.\n\nIn conclusion, firms in an oligopoly tend to engage in non-price competition to avoid the pitfalls of price wars, maintain profitability, and foster brand loyalty, making it a preferred strategy in such market structures.",
+        "tokens": 593,
+        "latencyMs": 14498,
+        "contextUsed": true,
+        "contextChunks": 4,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 4,
+            "chunkText": "",
+            "score": 0.11521281746218211,
+            "relevant": false
+          },
+          {
+            "sourceId": 3,
+            "chunkText": "",
+            "score": 0.08933498591396205,
+            "relevant": false
+          },
+          {
+            "sourceId": 7,
+            "chunkText": "",
+            "score": 0.08259343330076525,
+            "relevant": false
+          },
+          {
+            "sourceId": 3,
+            "chunkText": "",
+            "score": 0.17653069036655755,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 4,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The answer accurately explains the concepts of oligopoly and non-price competition, uses precise examples and theory, and aligns well with the IB command term expectations."
+        }
+      }
+    },
+    {
+      "id": "macro_01",
+      "topic": "Multiplier",
+      "paper": "Paper 1",
+      "level": "SL/HL",
+      "command": "Explain",
+      "query": "Using the Keynesian multiplier, explain how an initial increase in government spending of $500 million can lead to a larger increase in national income.",
+      "baseline": {
+        "answer": "**Key Definitions:**\nThe Keynesian multiplier is a concept in Keynesian economics that describes how an initial change in spending (such as government expenditure) can lead to a more than proportional change in national income (GDP). The multiplier effect occurs because one person's spending becomes another person's income, which can then be spent again.\n\n**Relevant Theory:**\nThe formula for the Keynesian multiplier (k) is given by:\n\n\\[ k = \\frac{1}{1 - MPC} \\]\n\nwhere MPC is the marginal propensity to consume, representing the proportion of additional income that households will spend on consumption. If the MPC is high, the multiplier effect will be stronger because more of each dollar received will be spent on goods and services, leading to further increases in income.\n\n**Initial Government Spending:**\nIn this scenario, an initial increase in government spending of $500 million is introduced. Assuming a marginal propensity to consume (MPC) of 0.8, we can calculate the multiplier:\n\n\\[ k = \\frac{1}{1 - 0.8} = 5 \\]\n\nThis means that for every dollar of initial spending, national income will increase by five dollars.\n\n**Calculation of Total Increase in National Income:**\nUsing the multiplier, the total increase in national income (ΔY) can be calculated as follows:\n\n\\[ ΔY = k \\times \\text{Initial Spending} \\]\n\n\\[ ΔY = 5 \\times 500 \\text{ million} = 2500 \\text{ million} \\]\n\nThus, the initial $500 million increase in government spending can lead to a total increase in national income of $2.5 billion.\n\n**Diagram Description:**\nA standard Keynesian aggregate demand and supply diagram can be used to illustrate this concept. The initial increase in government spending shifts the aggregate demand (AD) curve to the right. The new equilibrium is established at a higher level of output and income, demonstrating the multiplier effect.\n\n**Evaluation/Analysis:**\nWhile the Keynesian multiplier illustrates how government spending can boost national income, several factors may influence its effectiveness. For instance, if the economy is operating at or near full capacity, the multiplier effect may be limited as resources become scarce, leading to inflation rather than a proportional increase in output. Additionally, if the MPC is lower than expected (perhaps due to higher taxes or savings), the multiplier effect would be diminished. \n\nIn conclusion, while the Keynesian multiplier provides a framework for understanding how an initial increase in government spending can significantly increase national income, its real-world application may vary based on economic conditions, consumer behavior, and the existing state of the economy.",
+        "tokens": 625,
+        "latencyMs": 7916,
+        "sources": [],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 5,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately explains the Keynesian multiplier, provides precise calculations, and aligns well with the IB command term expectations."
+        }
+      },
+      "rag": {
+        "answer": "**Key Definitions:**\n\nThe Keynesian multiplier is a concept in macroeconomics that describes how an initial change in expenditure (such as government spending) can lead to a more than proportionate change in national income (GDP). The multiplier effect occurs because one person's spending becomes another person's income, which in turn can lead to further spending and income generation.\n\n**Relevant Theory:**\n\nAccording to Keynesian economics, when the government increases its spending, it injects money directly into the economy. This initial increase in spending leads to increased demand for goods and services. Businesses respond by increasing production to meet this demand, which can result in higher employment and wages. The new income earned by workers leads to further consumption, creating a cycle of increased spending.\n\nThe size of the multiplier (k) is calculated using the formula:\n\n\\[ k = \\frac{1}{1 - MPC} \\]\n\nwhere MPC is the marginal propensity to consume. A higher MPC means that consumers are more likely to spend additional income, leading to a larger multiplier effect.\n\n**Diagram Description:**\n\nA typical Keynesian multiplier diagram would show the initial increase in government spending shifting the aggregate demand curve to the right. As the AD curve shifts, it intersects the aggregate supply curve at a higher level of output and income, illustrating how the economy moves to a new equilibrium with increased national income.\n\n**Evaluation/Analysis:**\n\nIn the scenario of an initial increase in government spending of $500 million, the actual increase in national income will depend on the value of the multiplier. For example, if the MPC is 0.8, the multiplier would be:\n\n\\[ k = \\frac{1}{1 - 0.8} = 5 \\]\n\nThis means that the initial government spending could lead to an increase in national income of:\n\n\\[ \\text{Change in National Income} = \\text{Initial Spending} \\times k = 500 \\text{ million} \\times 5 = 2.5 \\text{ billion} \\]\n\nThus, the initial $500 million spent by the government could ultimately lead to an increase in national income of $2.5 billion.\n\nHowever, the actual effectiveness of the multiplier can be influenced by factors such as the state of the economy (e.g., whether there are idle resources), the level of consumer confidence, and external economic conditions. In a recession, for instance, the multiplier effect may be stronger due to underutilized resources and significant unemployment, while in a booming economy, increased spending might lead to inflation instead of real growth.\n\nIn conclusion, an initial increase in government spending can create a ripple effect throughout the economy, significantly boosting national income through the Keynesian multiplier effect, provided that conditions are favorable for such an increase in spending to be translated into higher consumption and production.",
+        "tokens": 722,
+        "latencyMs": 16606,
+        "contextUsed": true,
+        "contextChunks": 5,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 7,
+            "chunkText": "",
+            "score": 0.14047181431463548,
+            "relevant": false
+          },
+          {
+            "sourceId": 1,
+            "chunkText": "",
+            "score": 0.13905541160344448,
+            "relevant": false
+          },
+          {
+            "sourceId": 1,
+            "chunkText": "",
+            "score": 0.4727644696831703,
+            "relevant": false
+          },
+          {
+            "sourceId": 4,
+            "chunkText": "",
+            "score": 0.4727644696831703,
+            "relevant": false
+          },
+          {
+            "sourceId": 1,
+            "chunkText": "",
+            "score": 0.13273672840187853,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 5,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately explains the Keynesian multiplier concept, provides precise calculations, and aligns well with IB command terms by thoroughly addressing the question."
+        }
+      }
+    },
+    {
+      "id": "macro_02",
+      "topic": "Inflation",
+      "paper": "Paper 1",
+      "level": "SL/HL",
+      "command": "Evaluate",
+      "query": "Evaluate the use of higher interest rates as a policy to reduce demand-pull inflation.",
+      "baseline": {
+        "answer": "**Key Definitions:**\nDemand-pull inflation occurs when aggregate demand in an economy outpaces aggregate supply, leading to an overall increase in price levels. Higher interest rates are a monetary policy tool used by central banks to influence economic activity. By increasing the cost of borrowing and encouraging savings, higher interest rates aim to reduce consumer spending and business investment, thereby decreasing aggregate demand.\n\n**Relevant Theory:**\nThe theory behind using higher interest rates to combat demand-pull inflation centers around the interest rate transmission mechanism. When central banks raise interest rates, borrowing costs for consumers and businesses increase. This typically leads to reduced consumer spending on durable goods and lower business investment in capital. Consequently, aggregate demand shifts leftward, which can help to alleviate inflationary pressures in the economy.\n\n**Diagram Description:**\nIn a standard Aggregate Demand and Aggregate Supply (AD-AS) model, the initial equilibrium is at the intersection of the AD curve and the Short-Run Aggregate Supply (SRAS) curve. An increase in interest rates would shift the AD curve to the left (from AD1 to AD2), leading to a new equilibrium at a lower price level and potentially lower output if the economy is operating above full employment. \n\n**Evaluation/Analysis:**\nWhile increasing interest rates can be effective in reducing demand-pull inflation, there are several considerations to keep in mind:\n\n1. **Time Lags:** The impact of interest rate changes is not immediate. Consumers and businesses may take time to adjust their spending and investment decisions, meaning inflation may persist in the short term despite rate increases.\n\n2. **Economic Growth:** Higher interest rates can dampen economic growth. If rates are raised too quickly or too high, they may push the economy into recession, increasing unemployment and reducing overall output. This can create a trade-off between controlling inflation and promoting economic growth.\n\n3. **Impact on Different Sectors:** Not all sectors of the economy respond equally to interest rate changes. For instance, housing and construction are highly sensitive to interest rates, whereas essential goods may see less demand reduction. This uneven impact can complicate the effectiveness of the policy.\n\n4. **Expectations and Credibility:** If consumers and businesses expect inflation to persist, higher interest rates might not be sufficient to curb demand. Expectations play a crucial role in determining actual inflation outcomes, and thus, the credibility of the central bank is vital.\n\nIn conclusion, while higher interest rates can be a useful tool to combat demand-pull inflation, they must be employed cautiously, considering the potential negative effects on economic growth and the time lag involved in their impact. A balanced approach that considers the broader economic context and the expectations of consumers and businesses is essential for effective inflation control.",
+        "tokens": 624,
+        "latencyMs": 15849,
+        "sources": [],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 5,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately explains the mechanism of higher interest rates in combating demand-pull inflation, uses precise economic concepts, and aligns well with IB evaluation expectations."
+        }
+      },
+      "rag": {
+        "answer": "**Key Definitions:**\nDemand-pull inflation occurs when the overall demand for goods and services in an economy exceeds supply, leading to an increase in prices. Interest rates are the cost of borrowing money, typically set by a country's central bank, influencing consumer spending and business investment.\n\n**Relevant Theory:**\nHigher interest rates are a tool of contractionary monetary policy used to combat inflation. When central banks raise interest rates, borrowing becomes more expensive. This discourages consumer spending and business investments, leading to a decrease in aggregate demand. According to the Aggregate Demand and Aggregate Supply (AD-AS) model, a reduction in aggregate demand can shift the AD curve to the left, potentially lowering the price level and curbing inflation.\n\n**Diagram Description:**\nIn an AD-AS diagram, the initial equilibrium is at point E1, where AD intersects the short-run aggregate supply (SRAS) at a price level P1. If the central bank raises interest rates, the AD curve shifts left from AD1 to AD2, resulting in a new equilibrium at point E2, where the price level is lower (P2), indicating a reduction in demand-pull inflation.\n\n**Evaluation/Analysis:**\nWhile higher interest rates can effectively reduce demand-pull inflation, their effectiveness can depend on several factors. In the short term, the impact of increased interest rates may not be immediate due to time lags in consumer and business responses. Additionally, if consumers and businesses are already heavily indebted, higher interest rates might lead to increased defaults rather than decreased spending, undermining the intended effect.\n\nMoreover, higher interest rates can lead to increased unemployment as businesses scale back investment and expansion plans. This could create a recessionary environment, potentially leading to stagflation, where inflation remains high despite economic stagnation.\n\nFurthermore, the effectiveness of higher interest rates also hinges on the underlying causes of inflation. If inflation is driven by supply-side factors (cost-push inflation), such as rising production costs or supply chain disruptions, higher interest rates may do little to address these issues, as they do not directly affect supply.\n\nIn conclusion, while higher interest rates can be a viable policy tool to reduce demand-pull inflation, their effectiveness is contingent upon economic conditions and the underlying causes of inflation. Policymakers must weigh the potential trade-offs, such as increased unemployment and economic slowdown, against the goal of stabilizing prices.",
+        "tokens": 628,
+        "latencyMs": 18410,
+        "contextUsed": true,
+        "contextChunks": 5,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 2,
+            "chunkText": "",
+            "score": 0.49552893936634057,
+            "relevant": false
+          },
+          {
+            "sourceId": 4,
+            "chunkText": "",
+            "score": 0.49552893936634057,
+            "relevant": false
+          },
+          {
+            "sourceId": 6,
+            "chunkText": "",
+            "score": 0.21938257523987342,
+            "relevant": false
+          },
+          {
+            "sourceId": 1,
+            "chunkText": "",
+            "score": 0.13905541160344448,
+            "relevant": false
+          },
+          {
+            "sourceId": 2,
+            "chunkText": "",
+            "score": 0.13862896273229994,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 5,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately describes the relationship between interest rates and demand-pull inflation, uses precise economic concepts and diagrams, and aligns well with the IB command term expectations for evaluation."
+        }
+      }
+    },
+    {
+      "id": "macro_03",
+      "topic": "Unemployment",
+      "paper": "Paper 1",
+      "level": "SL/HL",
+      "command": "Explain",
+      "query": "Explain the difference between cyclical unemployment and structural unemployment, and outline one appropriate policy response for each.",
+      "baseline": {
+        "answer": "Cyclical unemployment and structural unemployment are two distinct types of unemployment that arise from different economic conditions.\n\n**Definitions:**\n- **Cyclical Unemployment:** This type of unemployment occurs due to fluctuations in the economic cycle. It rises during recessions when demand for goods and services declines, leading firms to cut back on production and lay off workers. Conversely, it decreases during periods of economic expansion as demand increases.\n  \n- **Structural Unemployment:** This form of unemployment results from changes in the economy that create a mismatch between the skills of the labor force and the skills required for available jobs. Structural unemployment can be caused by technological advancements, changes in consumer preferences, or shifts in industries.\n\n**Relevant Theory:**\nCyclical unemployment is closely linked to Keynesian economic theory, which suggests that during economic downturns, insufficient aggregate demand leads to lower production and higher unemployment. In contrast, structural unemployment aligns with classical economic theory, which emphasizes the importance of the labor market's flexibility and the need for workers to adapt to changes in the economy.\n\n**Policy Responses:**\n1. **Cyclical Unemployment:** An appropriate policy response to cyclical unemployment is the implementation of fiscal stimulus. This can include increased government spending on infrastructure projects or tax cuts to boost consumers' disposable income, thereby stimulating demand. For instance, during a recession, a government might increase spending on public works, creating jobs and increasing demand for goods and services, which can help reduce cyclical unemployment.\n\n2. **Structural Unemployment:** A suitable policy response for structural unemployment is investment in education and vocational training. By enhancing the skills of the workforce to meet the changing demands of the economy, workers can transition into new industries or roles. For example, a government program that provides retraining for workers displaced by technological changes can help them acquire the necessary skills for emerging sectors, thereby reducing structural unemployment.\n\n**Evaluation/Analysis:**\nWhile fiscal stimulus can effectively address cyclical unemployment in the short term, its success depends on timely implementation and the economy’s responsiveness to increased demand. However, it may lead to increased public debt if not managed carefully. On the other hand, investments in education and training to combat structural unemployment can have long-term benefits by enhancing productivity and adaptability of the labor force, but they require significant time and resources to develop and may not provide immediate relief for those currently unemployed. Therefore, a combination of policies may be necessary to address the multifaceted nature of unemployment effectively.",
+        "tokens": 579,
+        "latencyMs": 9370,
+        "sources": [],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 5,
+          "curriculum_alignment": 5,
+          "rationale": "The student accurately defines both types of unemployment, provides specific policy responses, and aligns well with IB command terms."
+        }
+      },
+      "rag": {
+        "answer": "Cyclical unemployment and structural unemployment are two distinct forms of unemployment that arise from different economic conditions.\n\n**Cyclical Unemployment:**\nCyclical unemployment is directly linked to the business cycle. It occurs during periods of economic downturns, such as recessions, when there is a decrease in demand for goods and services, leading to reduced production and, consequently, job losses. For example, during the 2008 financial crisis, many industries faced reduced consumer spending, resulting in layoffs as companies aimed to cut costs.\n\n**Policy Response for Cyclical Unemployment:**\nAn appropriate policy response to cyclical unemployment is expansionary monetary policy. This can include lowering interest rates to encourage borrowing and investment, stimulating consumer spending, and thereby creating jobs. By increasing the money supply, central banks aim to boost aggregate demand, which can help reduce cyclical unemployment during economic downturns.\n\n**Structural Unemployment:**\nStructural unemployment, on the other hand, arises from changes in the economy that create a mismatch between the skills of the labor force and the requirements of the job market. This can occur due to technological advancements or shifts in consumer preferences that render certain skills obsolete. For instance, the rise of automation in manufacturing has led to a decline in demand for low-skill labor, resulting in structural unemployment for those workers who lack the skills needed for new jobs.\n\n**Policy Response for Structural Unemployment:**\nA suitable policy response for structural unemployment is government-funded retraining programs. These programs aim to equip displaced workers with new skills that are in demand in the current job market. For example, a government might invest in vocational training for workers affected by automation, enabling them to transition into higher-skilled positions in emerging industries, such as technology or renewable energy.\n\n**Evaluation:**\nWhile expansionary monetary policy can provide immediate relief from cyclical unemployment, it may not be effective in addressing structural unemployment, which requires longer-term solutions. Conversely, retraining programs can enhance workforce adaptability but may take time to implement and may not guarantee immediate job placements. Additionally, the success of these programs depends on accurate forecasting of skill demands in the economy.\n\nIn conclusion, understanding the differences between cyclical and structural unemployment allows for targeted policy responses that can effectively mitigate their impacts on the economy.",
+        "tokens": 607,
+        "latencyMs": 15613,
+        "contextUsed": true,
+        "contextChunks": 5,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 1,
+            "chunkText": "",
+            "score": 0.21638123252629604,
+            "relevant": false
+          },
+          {
+            "sourceId": 6,
+            "chunkText": "",
+            "score": 0.15387025186035685,
+            "relevant": false
+          },
+          {
+            "sourceId": 4,
+            "chunkText": "",
+            "score": 0.08049749319443708,
+            "relevant": false
+          },
+          {
+            "sourceId": 2,
+            "chunkText": "",
+            "score": 0.07989964586216673,
+            "relevant": false
+          },
+          {
+            "sourceId": 3,
+            "chunkText": "",
+            "score": 0.5711038708686829,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 5,
+          "curriculum_alignment": 5,
+          "rationale": "The student accurately distinguishes between cyclical and structural unemployment, provides specific examples and policy responses, and aligns well with IB command term expectations."
+        }
+      }
+    },
+    {
+      "id": "macro_04",
+      "topic": "Fiscal Policy",
+      "paper": "Paper 1",
+      "level": "SL/HL",
+      "command": "Evaluate",
+      "query": "Evaluate the effectiveness of expansionary fiscal policy in achieving economic growth during a recession.",
+      "baseline": {
+        "answer": "Expansionary fiscal policy involves increasing government spending or cutting taxes to stimulate economic activity. In the context of a recession, where economic growth is sluggish and unemployment is high, this policy aims to boost aggregate demand (AD) and, consequently, real GDP.\n\n**Key Definitions:**\n- **Expansionary Fiscal Policy**: A macroeconomic policy that seeks to increase overall demand in the economy through government spending and/or tax reductions.\n- **Aggregate Demand (AD)**: The total demand for goods and services within an economy at a given overall price level and in a given time period.\n- **Recession**: A significant decline in economic activity across the economy, lasting longer than a few months, typically identified by falling GDP and rising unemployment.\n\n**Relevant Theory:**\nAccording to Keynesian economic theory, during a recession, consumer and business confidence declines, leading to reduced spending and investment. Expansionary fiscal policy aims to counteract this by injecting money into the economy. Increased government spending can directly create jobs, increase income, and stimulate consumption, while tax cuts leave households with more disposable income, further boosting consumption.\n\n**Diagram Description:**\nIn the AD-AS model, the AD curve shifts to the right when expansionary fiscal policy is implemented. This shift can lead to an increase in real GDP and a decrease in unemployment. The effectiveness of this policy depends on the economy's position on the AD-AS curve, the multiplier effect, and potential supply-side constraints.\n\n**Evaluation/Analysis:**\nWhile expansionary fiscal policy can be effective in stimulating growth during a recession, several factors influence its effectiveness:\n\n1. **Multiplier Effect**: The degree to which government spending increases overall economic output depends on the multiplier effect. If the economy is underutilized, the multiplier tends to be higher; however, if the economy is near full capacity, the impact may be limited, leading to inflation rather than growth.\n\n2. **Time Lags**: The implementation of fiscal policy can be subject to significant time lags. Recognition lag, decision lag, and implementation lag may delay the effects of the policy, potentially prolonging the recession.\n\n3. **Public Debt**: Increased government spending can lead to higher public debt. If the debt is perceived as unsustainable, it may lead to higher interest rates in the long term, crowding out private investment and reducing future growth.\n\n4. **Supply-Side Constraints**: If a recession is caused by structural issues (e.g., mismatch of skills, declining industries), fiscal policy may not adequately address the underlying problems, limiting its effectiveness in achieving sustainable growth.\n\nIn conclusion, while expansionary fiscal policy can effectively stimulate economic growth during a recession by increasing aggregate demand, its success depends on the circumstances of the economy, the size of the multiplier effect, the timing of implementation, and the structural challenges faced. Therefore, while it is a useful tool, it should be complemented with other policies for maximum effectiveness.",
+        "tokens": 670,
+        "latencyMs": 5623,
+        "sources": [],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 5,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately describes expansionary fiscal policy, provides specific definitions and relevant theory, includes a diagram description, and evaluates the effectiveness in line with IB expectations."
+        }
+      },
+      "rag": {
+        "answer": "**Key Definitions:**\nExpansionary fiscal policy refers to government measures, such as increased public spending and tax cuts, aimed at stimulating economic activity. During a recession, when economic output and consumer spending decline, expansionary fiscal policy is employed to boost aggregate demand (AD) and foster economic growth.\n\n**Relevant Theory:**\nThe Keynesian economic theory supports the use of expansionary fiscal policy during recessions. It posits that increased government spending can directly increase aggregate demand, leading to higher output and employment. The multiplier effect is also significant; initial government spending can lead to further rounds of spending by businesses and consumers, amplifying the impact on the economy.\n\n**Diagram Description:**\nIn a typical AD-AS (Aggregate Demand-Aggregate Supply) model, the AD curve shifts to the right when the government increases its spending. This shift from AD1 to AD2 indicates an increase in total demand in the economy. The equilibrium point moves from E1 to E2, resulting in higher output (from Y1 to Y2) and an increase in the price level (from P1 to P2).\n\n**Evaluation/Analysis:**\nWhile expansionary fiscal policy can be effective in stimulating economic growth during a recession, its effectiveness can be limited by several factors:\n\n1. **Time Lags:** Implementation of fiscal policy can take time due to bureaucratic processes and political hurdles. By the time policies are enacted, the economic conditions may have changed, potentially reducing their impact.\n\n2. **Crowding Out:** Increased government spending can lead to higher interest rates if financed through borrowing, which may discourage private investment. This \"crowding out\" effect can offset the potential gains from increased government spending.\n\n3. **Public Debt Concerns:** Sustained expansionary fiscal policy may lead to increased public debt. If investors begin to doubt the government's ability to manage this debt, it could adversely affect economic confidence and lead to higher borrowing costs.\n\n4. **Inflationary Pressures:** In situations where the economy is near full capacity, expansionary fiscal policy can lead to inflation rather than real growth. This can erode purchasing power and lead to economic instability.\n\n5. **Multiplier Effect Variability:** The effectiveness of the multiplier effect can vary based on the state of the economy, consumer confidence, and the marginal propensity to consume. If consumers save rather than spend, the impact of fiscal stimulus may be diminished.\n\nIn conclusion, while expansionary fiscal policy can be a powerful tool for stimulating economic growth during a recession, its effectiveness is contingent on a range of factors, including implementation speed, economic conditions, and the potential for crowding out. It is crucial for policymakers to consider these factors when designing fiscal interventions to ensure they achieve the desired outcomes.",
+        "tokens": 669,
+        "latencyMs": 10597,
+        "contextUsed": true,
+        "contextChunks": 1,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 6,
+            "chunkText": "",
+            "score": 0.14796350308868936,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately describes expansionary fiscal policy, includes relevant theories and diagrams, and aligns well with the evaluation expectations of the IB curriculum."
+        }
+      }
+    },
+    {
+      "id": "macro_05",
+      "topic": "Economic Growth vs Development",
+      "paper": "Paper 1",
+      "level": "SL/HL",
+      "command": "Discuss",
+      "query": "Discuss the extent to which high rates of economic growth always lead to improvements in living standards.",
+      "baseline": {
+        "answer": "**Key Definitions:**\nEconomic growth refers to an increase in the output of goods and services in an economy over time, typically measured by GDP (Gross Domestic Product). Living standards are often assessed through metrics such as income per capita, access to basic services, and overall quality of life indicators.\n\n**Relevant Theory:**\nThe relationship between economic growth and improvements in living standards is complex. While economic growth can lead to higher incomes and increased availability of goods and services, it does not automatically ensure equitable distribution or improvements in quality of life. Factors such as income inequality, environmental degradation, and social infrastructure play a crucial role in determining whether growth translates into better living standards.\n\n**Diagram Description:**\nA common representation of this relationship is the Lorenz curve, which illustrates income distribution within a population. Economic growth can shift the Lorenz curve outward, indicating a higher total income, but if the curve remains steep, growth may disproportionately benefit the wealthy, leaving the poor behind.\n\n**Evaluation/Analysis:**\n1. **Distribution of Income:** High rates of economic growth can lead to increased income inequality if the benefits of growth are concentrated among the wealthy. For instance, in many developing countries, rapid GDP growth has not been accompanied by significant improvements in the living standards of the poorest segments of society.\n\n2. **Environmental Impact:** Economic growth often comes at the expense of environmental degradation. For example, countries that prioritize industrial growth may experience pollution and resource depletion, which can diminish quality of life and public health, countering any gains from GDP increases.\n\n3. **Quality of Life Indicators:** While GDP growth might lead to increased income, it does not account for non-economic factors that influence living standards, such as health care, education, and social services. Countries like Bhutan prioritize Gross National Happiness over GDP, indicating that well-being is not solely a function of economic output.\n\n4. **Sustainability of Growth:** Long-term economic growth must be sustainable to improve living standards consistently. Nations relying on finite resources may face declines in growth, which can negatively impact living standards in the future.\n\nIn conclusion, while high rates of economic growth can lead to improvements in living standards, the extent of this relationship is contingent upon how growth is managed and distributed. Factors such as income inequality, environmental sustainability, and the quality of social infrastructure significantly influence whether economic growth translates into enhanced living standards for the population as a whole. Thus, growth alone is not a panacea for improving living standards; equitable and sustainable practices are essential to ensure that all individuals benefit from economic progress.",
+        "tokens": 593,
+        "latencyMs": 13138,
+        "sources": [],
+        "judge": {
+          "accuracy": 4,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately discusses the complexities of economic growth and its impact on living standards, using specific concepts and examples, and aligns well with the IB command term expectations."
+        }
+      },
+      "rag": {
+        "answer": "**Key Definitions:**\n\nEconomic growth is defined as the increase in the production of goods and services in an economy over a specific period, usually measured by Gross Domestic Product (GDP). Living standards refer to the quality of life and the economic well-being of individuals, often evaluated through income levels, access to essential services, and overall quality of life indicators.\n\n**Relevant Theory:**\n\nThe relationship between economic growth and living standards can be explained through several economic theories. Traditional growth theory suggests that as an economy grows, incomes rise, leading to improved living standards. This is often illustrated with the \"trickle-down\" effect, where wealth generated at the top eventually benefits lower-income groups. However, this relationship is not always direct or guaranteed.\n\n**Diagram Description:**\n\nA typical diagram may illustrate the relationship between GDP growth and living standards using a downward-sloping curve, demonstrating that while GDP growth can lead to higher average incomes, the distribution of that income is critical to actual living standard improvements. For example, if GDP rises significantly but is concentrated among the wealthy, the average living standard may not improve for the majority.\n\n**Evaluation/Analysis:**\n\nWhile high rates of economic growth can lead to improvements in living standards, this is not a universal outcome. Several factors affect the extent to which growth translates into better living conditions:\n\n1. **Income Distribution:** If economic growth benefits only a small segment of the population, income inequality can worsen, leading to stagnant or declining living standards for the majority. For example, countries like the United States have experienced significant GDP growth while also facing rising income inequality, which can exacerbate social tensions and hinder overall improvements in living standards.\n\n2. **Sustainability of Growth:** High economic growth rates driven by unsustainable practices can lead to environmental degradation and depletion of resources. For instance, rapid industrial growth in developing countries may lead to short-term economic gains but can harm long-term living standards through pollution and health costs.\n\n3. **Quality of Growth:** The nature of the economic growth matters. Growth driven by productive sectors that create jobs and increase incomes (like technology and services) tends to improve living standards more than growth in sectors that do not (like agriculture in subsistence economies).\n\n4. **Government Policies:** Effective government policies can play a crucial role in ensuring that economic growth translates to improved living standards. Investments in education, healthcare, and social safety nets can help distribute the benefits of growth more evenly.\n\nIn conclusion, while high rates of economic growth have the potential to improve living standards, the actual outcome depends on factors such as income distribution, sustainability, quality of growth, and government policies. Thus, the extent to which economic growth leads to improvements in living standards can vary significantly, necessitating a nuanced understanding of the underlying dynamics.",
+        "tokens": 697,
+        "latencyMs": 19183,
+        "contextUsed": true,
+        "contextChunks": 4,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 2,
+            "chunkText": "",
+            "score": 0.13862896273229994,
+            "relevant": false
+          },
+          {
+            "sourceId": 6,
+            "chunkText": "",
+            "score": 0.09008512207481913,
+            "relevant": false
+          },
+          {
+            "sourceId": 4,
+            "chunkText": "",
+            "score": 0.08813143518755442,
+            "relevant": false
+          },
+          {
+            "sourceId": 5,
+            "chunkText": "",
+            "score": 0.0830759575954095,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 4,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately discusses the relationship between economic growth and living standards, uses specific concepts and examples, and aligns well with the IB command term expectations."
+        }
+      }
+    },
+    {
+      "id": "intl_01",
+      "topic": "Comparative Advantage",
+      "paper": "Paper 2",
+      "level": "SL/HL",
+      "command": "Explain",
+      "query": "Explain the theory of comparative advantage and discuss one limitation of using it to justify free trade.",
+      "baseline": {
+        "answer": "**Key Definitions:**\nComparative advantage is an economic theory that describes how countries can benefit from trade by specializing in the production of goods and services in which they have a lower opportunity cost relative to other countries. This concept was introduced by economist David Ricardo in the early 19th century and forms the basis for the argument in favor of free trade.\n\n**Relevant Theory:**\nAccording to the theory of comparative advantage, even if a country is less efficient in producing all goods compared to another country (absolute advantage), it can still benefit from trade by specializing in the production of goods for which it has the lowest opportunity cost. For instance, if Country A can produce wine at a lower opportunity cost than cloth, while Country B can produce cloth at a lower opportunity cost than wine, both countries can increase their overall consumption by specializing and trading with each other.\n\n**Diagram Description:**\nIn a typical production possibilities frontier (PPF) diagram, two countries' PPFs illustrate their production capabilities. The points along the PPF represent maximum production efficiency. The area outside the PPF is unattainable without trade. By specializing according to comparative advantage, both countries can reach a new consumption point outside their individual PPFs through trade, demonstrating the gains from trade.\n\n**Evaluation/Analysis:**\nOne limitation of using comparative advantage to justify free trade is the assumption of perfect mobility of factors of production. The theory presumes that resources (labor, capital, etc.) can easily move between industries and countries without friction or cost. In reality, factors of production are often specific to certain sectors and may not easily transition to others. For example, a skilled worker in the manufacturing sector may not find it easy to shift to the agricultural sector due to a lack of relevant skills or training. This can lead to structural unemployment and regional disparities.\n\nAdditionally, comparative advantage does not account for externalities, such as environmental impacts or social costs associated with production. Countries may exploit comparative advantages in ways that could harm the environment or lead to unsustainable practices, which could be overlooked in a purely theoretical context.\n\nIn conclusion, while the theory of comparative advantage provides a strong rationale for free trade, its limitations, particularly regarding factor mobility and externalities, necessitate a more nuanced view of its application in real-world economic policy.",
+        "tokens": 545,
+        "latencyMs": 5676,
+        "sources": [],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 5,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately explains the theory of comparative advantage, provides a relevant example, includes a diagram description, and discusses a limitation in detail, aligning well with IB expectations."
+        }
+      },
+      "rag": {
+        "answer": "**Key Definitions:**\nComparative advantage refers to the ability of a country or an entity to produce a good or service at a lower opportunity cost than another country or entity. This concept, introduced by economist David Ricardo, suggests that even if one country is less efficient than another in the production of two goods, trade can still be beneficial if they specialize according to their comparative advantages.\n\n**Relevant Theory:**\nUnder the theory of comparative advantage, countries should specialize in the production of goods where they hold a relative efficiency advantage. By doing so, they can trade with each other to obtain goods at a lower opportunity cost than if they produced everything independently. This specialization and subsequent trade lead to increased overall efficiency and greater global output, benefiting all parties involved.\n\n**Diagram Description:**\nA typical production possibility frontier (PPF) diagram can illustrate comparative advantage. On the graph, two axes represent the quantity of two different goods produced by two countries. Each country's PPF shows the maximum possible production combinations. The point at which each country specializes according to its comparative advantage is where they can produce more of one good than the other, leading to a higher total output when trading is considered.\n\n**Evaluation/Analysis:**\nWhile the theory of comparative advantage supports the case for free trade, one significant limitation is the assumption of constant opportunity costs. In reality, opportunity costs may vary as production scales change, leading to diminishing returns. For example, if a country specializes in a particular good, it may face increasing opportunity costs as it reallocates resources from other sectors, potentially negating the benefits of specialization. \n\nAdditionally, the theory assumes perfect mobility of factors of production and does not account for externalities or market imperfections that can arise in real-world scenarios. For example, trade may lead to environmental degradation or harm to domestic industries that cannot compete with cheaper imports, creating social and economic disparities.\n\nIn conclusion, while comparative advantage provides a strong theoretical foundation for advocating free trade, its limitations highlight the complexities of real-world trade dynamics. These nuances must be considered when formulating trade policies to ensure that the benefits of trade are equitably distributed and sustainable in the long run.",
+        "tokens": 582,
+        "latencyMs": 14522,
+        "contextUsed": true,
+        "contextChunks": 5,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 5,
+            "chunkText": "",
+            "score": 0.21237341076046382,
+            "relevant": false
+          },
+          {
+            "sourceId": 1,
+            "chunkText": "",
+            "score": 0.14496216037511195,
+            "relevant": false
+          },
+          {
+            "sourceId": 7,
+            "chunkText": "",
+            "score": 0.14047181431463548,
+            "relevant": false
+          },
+          {
+            "sourceId": 6,
+            "chunkText": "",
+            "score": 0.08245118008170178,
+            "relevant": false
+          },
+          {
+            "sourceId": 4,
+            "chunkText": "",
+            "score": 0.08049749319443708,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 5,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately defines comparative advantage, provides a detailed explanation of the theory, includes a relevant diagram description, and discusses a limitation, aligning well with IB expectations."
+        }
+      }
+    },
+    {
+      "id": "intl_02",
+      "topic": "Exchange Rates",
+      "paper": "Paper 2",
+      "level": "SL/HL",
+      "command": "Explain",
+      "query": "Using a demand and supply diagram, explain the likely effect of a rise in domestic interest rates on the exchange rate.",
+      "baseline": {
+        "answer": "**Key Definitions:**\n\nThe exchange rate is the price of one currency in terms of another currency. Domestic interest rates refer to the rate at which borrowers can obtain funds from lenders within a country, which is influenced by monetary policy decisions made by the central bank.\n\n**Relevant Theory:**\n\nA rise in domestic interest rates typically leads to an increase in the demand for the domestic currency in the foreign exchange market. This occurs due to higher returns on investments denominated in that currency. As interest rates rise, foreign investors are attracted to invest in domestic assets, such as government bonds, stocks, or other financial instruments, which promise higher yields. Consequently, to purchase these assets, foreign investors must exchange their currency for the domestic currency, increasing demand for it.\n\n**Diagram Description:**\n\nIn a demand and supply diagram of the foreign exchange market, the vertical axis represents the exchange rate (price of the domestic currency), and the horizontal axis represents the quantity of the domestic currency. The demand curve for the domestic currency shifts to the right due to increased foreign investment resulting from higher domestic interest rates. \n\n- **Initial Demand (D1)** and **Supply (S)** curves represent the initial equilibrium exchange rate (E1) and quantity (Q1).\n- After the rise in interest rates, the demand curve shifts right to D2, leading to a new equilibrium point (E2) at a higher exchange rate, indicating an appreciation of the domestic currency.\n\n**Evaluation/Analysis:**\n\nWhile the immediate effect of rising interest rates is an appreciation of the domestic currency due to increased demand, several factors can influence this outcome. For instance, if the rise in interest rates leads to concerns about the domestic economy's health (e.g., slowing growth or rising inflation), it may deter foreign investment, offsetting the demand increase. Additionally, if global economic conditions are volatile, investors may prefer safe-haven currencies regardless of domestic interest rates.\n\nIn summary, while a rise in domestic interest rates generally leads to currency appreciation through increased foreign demand, the actual effect on the exchange rate can vary based on broader economic conditions and investor perceptions. This multifaceted relationship underscores the importance of considering external factors alongside monetary policy changes.",
+        "tokens": 529,
+        "latencyMs": 6471,
+        "sources": [],
+        "judge": {
+          "accuracy": 4,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately explains the relationship between domestic interest rates and currency demand, includes a detailed diagram description, and aligns well with the IB command term expectations."
+        }
+      },
+      "rag": {
+        "answer": "To analyze the effect of a rise in domestic interest rates on the exchange rate using a demand and supply diagram, it is important to first define some key concepts.\n\n**Key Definitions:**\n- **Exchange Rate:** The price of one currency in terms of another, which can be influenced by various factors, including interest rates.\n- **Interest Rates:** The cost of borrowing money, typically set by a country's central bank, which can influence capital flows and currency value.\n\n**Relevant Theory:**\nWhen domestic interest rates rise, it typically makes investments in that country more attractive due to higher returns on savings and bonds. This increased attractiveness leads to greater foreign capital inflow, as investors seek higher yields. Consequently, the demand for the domestic currency increases because foreign investors need to exchange their currency for the domestic currency to invest.\n\n**Diagram Description:**\nIn a demand and supply diagram for the foreign exchange market:\n- The vertical axis represents the exchange rate (e.g., domestic currency per foreign currency).\n- The horizontal axis represents the quantity of the domestic currency.\n- The demand curve (D) for the domestic currency shifts to the right (D1 to D2) due to the increased demand from foreign investors seeking to take advantage of higher interest rates.\n- The supply curve (S) remains unchanged in the short run.\n\nAs a result of this shift, the equilibrium exchange rate rises, indicating an appreciation of the domestic currency.\n\n**Evaluation/Analysis:**\nWhile the initial effect of rising interest rates is an appreciation of the domestic currency, it's important to consider potential countervailing factors. A higher exchange rate may make exports more expensive and imports cheaper, potentially affecting the trade balance negatively. If the rise in interest rates is seen as a precursor to an economic slowdown, it may deter investment in the long run, thereby counteracting the initial appreciation.\n\nAdditionally, the sustainability of the appreciation depends on market expectations and other macroeconomic indicators. If the higher interest rates do not lead to inflationary pressures, the appreciation may be more stable. However, if inflation rises, the real interest rates could fall, leading to depreciation.\n\nIn conclusion, a rise in domestic interest rates likely results in an appreciation of the domestic currency due to increased demand from foreign investors, but the long-term effects on the exchange rate can vary based on broader economic conditions.",
+        "tokens": 622,
+        "latencyMs": 13795,
+        "contextUsed": true,
+        "contextChunks": 5,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 5,
+            "chunkText": "",
+            "score": 0.14095433860927975,
+            "relevant": false
+          },
+          {
+            "sourceId": 7,
+            "chunkText": "",
+            "score": 0.14047181431463548,
+            "relevant": false
+          },
+          {
+            "sourceId": 1,
+            "chunkText": "",
+            "score": 0.4727644696831703,
+            "relevant": false
+          },
+          {
+            "sourceId": 4,
+            "chunkText": "",
+            "score": 0.4727644696831703,
+            "relevant": false
+          },
+          {
+            "sourceId": 3,
+            "chunkText": "",
+            "score": 0.10072515166014084,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 5,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately explains the relationship between interest rates and currency appreciation, uses precise concepts and a detailed diagram description, and aligns well with the IB command term expectations."
+        }
+      }
+    },
+    {
+      "id": "intl_03",
+      "topic": "Balance of Payments",
+      "paper": "Paper 2",
+      "level": "HL",
+      "command": "Evaluate",
+      "query": "Evaluate the methods a government might use to reduce a persistent current account deficit.",
+      "baseline": {
+        "answer": "A current account deficit occurs when a country's total imports of goods, services, and transfers exceed its total exports. Persistent deficits can indicate underlying economic problems, such as lack of competitiveness or excessive consumption. Governments have various methods to address this issue, including fiscal policy, monetary policy, trade policies, and structural reforms. \n\n**Key Definitions:**\n- **Current Account Deficit:** A situation where a country's imports exceed its exports, leading to an outflow of domestic currency to foreign markets.\n- **Fiscal Policy:** Government adjustments in spending and taxation to influence the economy.\n- **Monetary Policy:** Central bank actions that manage interest rates and money supply.\n\n**Relevant Theory:**\nTo reduce a current account deficit, a government can adopt contractionary fiscal policy, which involves decreasing government spending or increasing taxes to reduce domestic consumption. This can lower demand for imports. Alternatively, expansionary monetary policy, characterized by lower interest rates, can depreciate the currency, making exports cheaper and imports more expensive, thereby improving the trade balance.\n\n**Methods:**\n1. **Fiscal Policy:** Reducing government expenditure can decrease overall demand, leading to lower imports. For example, cuts in public sector wages or investment can help reduce the deficit.\n   \n2. **Monetary Policy:** Lowering interest rates can depreciate the currency, making exports more competitive and imports more expensive. This can help improve the current account balance.\n\n3. **Trade Policies:** Implementing tariffs on imports can protect domestic industries, encouraging consumers to buy local products. However, this may lead to retaliation from trading partners and could harm international relations.\n\n4. **Structural Reforms:** Investing in education, technology, and infrastructure can enhance productivity and competitiveness in the long term, leading to a more favorable balance of trade.\n\n**Diagram Description:**\nA simple supply and demand diagram can illustrate the effects of currency depreciation on exports and imports. The demand curve for exports shifts rightward as the price of exports falls relative to imports, leading to an increase in quantity demanded, while the supply curve for imports shifts left as imports become more expensive.\n\n**Evaluation/Analysis:**\nWhile contractionary fiscal policies can quickly reduce imports, they may also slow economic growth, leading to higher unemployment and lower living standards if not carefully managed. Similarly, expansionary monetary policy can stimulate growth but may lead to inflationary pressures if the economy is already at or near full capacity. Trade policies such as tariffs can provide short-term relief but may provoke trade wars and negatively impact consumers through higher prices. Structural reforms are beneficial but may take time to bear fruit, making them less effective for addressing immediate deficits. \n\nIn conclusion, a combination of these methods is often necessary. Policymakers must carefully weigh the immediate benefits against potential long-term consequences to effectively manage a persistent current account deficit.",
+        "tokens": 644,
+        "latencyMs": 7794,
+        "sources": [],
+        "judge": {
+          "accuracy": 3,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The answer provides a general overview of methods to address a current account deficit but lacks specific reference to the methods outlined in the reference answer and their limitations."
+        }
+      },
+      "rag": {
+        "answer": "A current account deficit occurs when a country's total imports of goods, services, and transfers exceed its total exports. This situation can arise from various economic factors, such as high domestic consumption, low competitiveness, or structural issues in the economy. Governments often implement several methods to address a persistent current account deficit.\n\n**Key Definitions:**\n- **Current Account Deficit:** A situation where a country's imports exceed its exports, leading to a net outflow of domestic currency to foreign markets.\n- **Exchange Rate:** The price of one currency in terms of another, which can influence the competitiveness of a country's goods and services abroad.\n\n**Relevant Theory:**\nTo reduce a current account deficit, governments can employ a range of strategies, including:\n\n1. **Exchange Rate Adjustment:** By allowing the currency to depreciate, a government can make exports cheaper and imports more expensive. This can help improve the trade balance. For instance, a weaker currency typically leads to increased demand for exports while discouraging imports.\n\n2. **Fiscal Policy Measures:** Governments can reduce aggregate demand through contractionary fiscal policy, such as decreasing public spending or increasing taxes. This can lower domestic consumption and, consequently, imports.\n\n3. **Supply-side Policies:** These policies aim to improve the competitiveness of domestic industries by investing in education, technology, and infrastructure. Enhanced productivity can lead to increased exports and a healthier current account position.\n\n4. **Trade Policies:** Governments might impose tariffs or quotas on imports to protect domestic industries. While this can provide short-term relief to a current account deficit, it may lead to retaliation from trading partners and higher prices for consumers.\n\n**Diagram Description:**\nA supply and demand diagram for exports and imports can illustrate the effects of a depreciation in currency. The demand curve for exports shifts to the right as foreign consumers find cheaper prices, while the supply curve for imports shifts left as domestic consumers reduce foreign purchases.\n\n**Evaluation/Analysis:**\nWhile these methods can effectively address a current account deficit, they come with potential drawbacks. For example, currency depreciation may lead to imported inflation, adversely affecting consumers and businesses reliant on foreign goods. Fiscal contraction can reduce economic growth and lead to unemployment, particularly in sectors dependent on imports. Furthermore, protectionist measures can provoke trade wars, ultimately harming the economy.\n\nIn conclusion, while there are various methods a government can employ to reduce a persistent current account deficit, the effectiveness of these measures depends on the underlying causes of the deficit and the broader economic context. A balanced approach that considers both short-term relief and long-term structural reforms is essential for sustainable improvement in the current account balance.",
+        "tokens": 668,
+        "latencyMs": 17802,
+        "contextUsed": true,
+        "contextChunks": 5,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 2,
+            "chunkText": "",
+            "score": 0.49552893936634057,
+            "relevant": false
+          },
+          {
+            "sourceId": 4,
+            "chunkText": "",
+            "score": 0.49552893936634057,
+            "relevant": false
+          },
+          {
+            "sourceId": 6,
+            "chunkText": "",
+            "score": 0.14796350308868936,
+            "relevant": false
+          },
+          {
+            "sourceId": 1,
+            "chunkText": "",
+            "score": 0.13905541160344448,
+            "relevant": false
+          },
+          {
+            "sourceId": 3,
+            "chunkText": "",
+            "score": 0.12632575171642632,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 4,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately describes methods to address a current account deficit and includes specific examples and concepts, aligning well with IB expectations."
+        }
+      }
+    },
+    {
+      "id": "intl_04",
+      "topic": "Trade Protection",
+      "paper": "Paper 2",
+      "level": "SL/HL",
+      "command": "Explain",
+      "query": "Using an international trade diagram, explain how a tariff on imported goods affects domestic consumers, domestic producers, and government revenue.",
+      "baseline": {
+        "answer": "**Key Definitions:**\n\nA tariff is a tax imposed by a government on imported goods. It is designed to increase the price of foreign products, making domestic goods relatively cheaper. The primary impacts of a tariff involve domestic consumers, domestic producers, and government revenue.\n\n**Relevant Theory:**\n\nWhen a tariff is implemented, it raises the price of imported goods. This leads to several effects:\n\n1. **Domestic Consumers**: As the price of imported goods rises due to the tariff, domestic consumers face higher prices. This results in a decrease in consumer surplus, as consumers either pay more for the same products or switch to potentially more expensive domestic alternatives. Consequently, the quantity demanded of the imported goods decreases.\n\n2. **Domestic Producers**: Tariffs benefit domestic producers by reducing foreign competition. With higher prices for imports, domestic producers can increase their prices and potentially expand their output. This can lead to an increase in producer surplus, as domestic firms may enjoy higher profits and potentially increase employment due to higher production levels.\n\n3. **Government Revenue**: The government collects revenue from tariffs, which is calculated as the tariff rate multiplied by the quantity of imported goods. This revenue can be significant and can be used for public goods or services. However, the overall effect on welfare must be considered, as the revenue generated comes at the cost of higher prices for consumers.\n\n**Diagram Description:**\n\nIn the international trade diagram, the vertical axis represents price, and the horizontal axis represents quantity. The world supply curve intersects the domestic demand and supply curves. When a tariff is imposed, the world supply curve shifts upwards by the amount of the tariff, leading to a new equilibrium price. The area between the domestic supply curve and the new price line represents the increase in producer surplus, while the area under the new price line and above the demand curve represents the decrease in consumer surplus.\n\n**Evaluation/Analysis:**\n\nWhile tariffs can protect domestic industries and generate government revenue, they also lead to market inefficiencies. The higher prices can result in deadweight loss, which reflects the loss of economic efficiency when equilibrium is not achieved. Consumers face higher prices and reduced choices, while domestic producers may become less competitive in the long run if they rely on protectionist measures rather than improving efficiency.\n\nIn conclusion, while tariffs can provide short-term benefits for domestic producers and generate government revenue, they generally lead to higher prices for consumers and can create inefficiencies in the market. Policymakers must weigh these trade-offs carefully when considering tariff implementation.",
+        "tokens": 592,
+        "latencyMs": 8382,
+        "sources": [],
+        "judge": {
+          "accuracy": 4,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The answer accurately describes the effects of tariffs and includes specific concepts and a diagram description, aligning well with IB expectations."
+        }
+      },
+      "rag": {
+        "answer": "**Key Definitions:**\nA tariff is a tax imposed by a government on imported goods. It aims to protect domestic industries from foreign competition by making imported goods more expensive. Tariffs can influence domestic consumers, producers, and government revenue.\n\n**Relevant Theory:**\nWhen a tariff is imposed, the price of imported goods increases, leading to a decrease in the quantity demanded by consumers. This typically results in higher prices for consumers, reduced consumer surplus, and increased domestic production as domestic suppliers can now compete more effectively against the now more expensive imports. The government also collects revenue from the tariff, which can be utilized for public spending.\n\n**Diagram Description:**\nIn an international trade diagram, the world price (Pw) is the price at which goods are available in the international market. When a tariff is applied, the domestic price rises from Pw to Pw + tariff. This shift causes a decline in the quantity of imports and an increase in the quantity supplied by domestic producers. The area between the domestic supply curve and the new price represents the increase in producer surplus for domestic industries.\n\n1. **Domestic Consumers**: The imposition of a tariff leads to higher prices for imported goods, which reduces consumer surplus. Consumers face higher prices and have fewer choices, leading to a welfare loss represented by the area between the demand curve and the new price level.\n\n2. **Domestic Producers**: Domestic producers benefit from the tariff as they can increase their output due to reduced competition from imports. This is illustrated by the increase in producer surplus, represented by the area between the domestic supply curve and the new price level. The tariff effectively protects domestic jobs and industries.\n\n3. **Government Revenue**: The tariff creates government revenue, represented by the rectangle formed between the quantity of imports before and after the tariff and the height of the tariff. This revenue can be significant, particularly if the demand for the imported good is relatively inelastic.\n\n**Evaluation/Analysis:**\nWhile tariffs can protect domestic industries and generate government revenue, they also lead to higher prices for consumers and a potential decrease in overall economic welfare. The loss in consumer surplus often outweighs the benefits gained by producers, particularly if the domestic industry is less efficient than foreign competitors. Moreover, retaliatory tariffs from trading partners can lead to trade wars, which might exacerbate economic issues. In the long run, reliance on tariffs can hinder innovation and efficiency in domestic industries. Thus, while tariffs can offer short-term relief for domestic producers, they may not be the best solution for sustainable economic growth.",
+        "tokens": 664,
+        "latencyMs": 15591,
+        "contextUsed": true,
+        "contextChunks": 5,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 5,
+            "chunkText": "",
+            "score": 0.14095433860927975,
+            "relevant": false
+          },
+          {
+            "sourceId": 7,
+            "chunkText": "",
+            "score": 0.14047181431463548,
+            "relevant": false
+          },
+          {
+            "sourceId": 1,
+            "chunkText": "",
+            "score": 0.13905541160344448,
+            "relevant": false
+          },
+          {
+            "sourceId": 4,
+            "chunkText": "",
+            "score": 0.5333164036273956,
+            "relevant": false
+          },
+          {
+            "sourceId": 1,
+            "chunkText": "",
+            "score": 0.4727644696831703,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately describes the effects of a tariff, uses precise concepts and examples, and aligns well with IB command terms by explaining the impacts on various stakeholders."
+        }
+      }
+    },
+    {
+      "id": "intl_05",
+      "topic": "Free Trade vs Protectionism",
+      "paper": "Paper 1",
+      "level": "HL",
+      "command": "Evaluate",
+      "query": "Evaluate the case for and against a developing country using protectionist policies to promote industrialisation.",
+      "baseline": {
+        "answer": "Protectionist policies, such as tariffs and quotas, are used by countries to shield domestic industries from foreign competition. For developing countries, the debate on whether to employ protectionist measures to promote industrialization involves several key considerations.\n\n**Key Definitions:**\n- **Protectionism:** Economic policy of restricting imports from other countries through tariffs, quotas, and other regulations.\n- **Industrialization:** The process of developing industries in a country, often involving the transition from an agrarian economy to one based on manufacturing.\n\n**Relevant Theory:**\nThe infant industry argument supports protectionism by suggesting that new and emerging industries require temporary protection to develop and become competitive. This approach posits that without protection, domestic industries may be unable to survive against established foreign competitors, leading to lost jobs and economic stagnation.\n\n**Diagram Description:**\nA typical supply and demand diagram can illustrate the impact of a tariff. The domestic supply curve shifts to the right due to increased protection, leading to higher prices for consumers and a potential increase in domestic production. However, this raises the cost of goods and may lead to inefficiencies in resource allocation.\n\n**Case For Protectionist Policies:**\n1. **Development of Infant Industries:** Protection can nurture nascent industries by allowing them to grow without the pressure of international competition, potentially leading to job creation and economic diversification.\n2. **Self-Sufficiency:** By promoting local industries, countries can reduce dependency on imports, which enhances national security and resilience against external economic shocks.\n3. **Revenue Generation:** Tariffs can provide government revenue that can be reinvested in infrastructure and education, further supporting industrial growth.\n\n**Case Against Protectionist Policies:**\n1. **Inefficiency:** Protectionism can lead to a lack of competition, resulting in inefficiencies and higher prices for consumers, as protected industries may become complacent and less innovative.\n2. **Retaliation and Trade Wars:** Other countries may respond with their own protectionist measures, leading to trade wars that can harm all economies involved and reduce overall economic welfare.\n3. **Long-Term Viability:** If industries do not become competitive internationally after protection, they may fail once protection is removed, leading to job losses and economic instability.\n\n**Evaluation/Analysis:**\nWhile protectionist policies may offer short-term benefits for developing countries, the long-term implications often suggest a need for a balanced approach. Developing nations should consider a mix of protectionism and integration into global markets, fostering a competitive environment while gradually opening up to trade. Ultimately, the effectiveness of protectionist policies in promoting industrialization depends on the specific context of the country, including its economic structure, existing industries, and the global economic environment. Thus, while protectionism can help jumpstart industrialization, it must be implemented strategically to mitigate potential drawbacks.",
+        "tokens": 642,
+        "latencyMs": 11876,
+        "sources": [],
+        "judge": {
+          "accuracy": 4,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately discusses the infant industry argument and provides specific examples and definitions, aligning well with IB expectations."
+        }
+      },
+      "rag": {
+        "answer": "**Key Definitions:**\nProtectionist policies refer to government actions that restrict international trade to help local industries. Such measures can include tariffs, quotas, and subsidies. Industrialisation is the process of transforming an economy from primarily agricultural to one based on the manufacturing of goods.\n\n**Relevant Theory:**\nThe infant industry argument is a key theoretical underpinning for protectionist policies in developing countries. It posits that new industries need protection from foreign competition until they become established and can compete on their own. Additionally, protectionism can help create jobs and stimulate domestic investment in key sectors.\n\n**Diagram Description:**\nA typical supply and demand diagram can illustrate the impact of tariffs. The domestic supply curve shifts to the right, reflecting increased production due to protectionist measures, while the price level rises due to the tariff, leading to a decrease in the quantity demanded of imports.\n\n**Evaluation/Analysis:**\nThe case for using protectionist policies to promote industrialisation includes several positive aspects. Firstly, by protecting nascent industries from foreign competition, a developing country can foster local entrepreneurship and innovation, which is crucial for economic growth. Secondly, it can create jobs in the protected sectors, reducing unemployment and increasing local income. Thirdly, by nurturing local industries, the country can achieve greater self-sufficiency and reduce dependence on foreign goods.\n\nHowever, there are significant arguments against such policies. Protectionism can lead to inefficiencies as protected industries may lack the incentive to innovate and improve productivity. Moreover, high tariffs can raise prices for consumers, leading to a decrease in overall welfare. If a developing country excessively relies on protectionism, it risks creating a culture of dependency, where industries fail to compete globally. Additionally, retaliation from trading partners can escalate into trade wars, harming the overall economy.\n\nIn the context of IB Economics, it is crucial to balance short-term protective measures with long-term strategies that include investment in education, infrastructure, and technology. A mixed approach that incorporates some level of protectionism while fostering a competitive environment may be more beneficial than a purely protectionist stance. \n\nIn conclusion, while protectionist policies can provide temporary relief and promote industrialisation in developing countries, the potential drawbacks necessitate careful consideration and a balanced, strategic approach to economic policy.",
+        "tokens": 600,
+        "latencyMs": 12336,
+        "contextUsed": true,
+        "contextChunks": 5,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 1,
+            "chunkText": "",
+            "score": 0.4727644696831703,
+            "relevant": false
+          },
+          {
+            "sourceId": 4,
+            "chunkText": "",
+            "score": 0.4727644696831703,
+            "relevant": false
+          },
+          {
+            "sourceId": 6,
+            "chunkText": "",
+            "score": 0.1615041942260032,
+            "relevant": false
+          },
+          {
+            "sourceId": 7,
+            "chunkText": "",
+            "score": 0.15401250545194933,
+            "relevant": false
+          },
+          {
+            "sourceId": 1,
+            "chunkText": "",
+            "score": 0.10188372089917627,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 4,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately discusses the infant industry argument and provides a balanced evaluation of both pros and cons, aligning well with IB expectations."
+        }
+      }
+    },
+    {
+      "id": "dev_01",
+      "topic": "Poverty",
+      "paper": "Paper 1",
+      "level": "SL/HL",
+      "command": "Explain",
+      "query": "Explain why a country may have a high GDP per capita but still have high levels of absolute poverty.",
+      "baseline": {
+        "answer": "**Key Definitions:**\nGross Domestic Product (GDP) per capita is a measure of a country's economic output that accounts for its number of people. It is calculated by dividing the GDP by the population. Absolute poverty refers to a condition where individuals lack the means to meet basic needs for survival, such as food, shelter, and clothing.\n\n**Relevant Theory:**\nA high GDP per capita typically suggests a higher standard of living and better economic conditions. However, this figure can be misleading as it represents an average and does not account for income distribution within a country. The disparity between the wealthy and the poor can lead to situations where a significant portion of the population lives in absolute poverty, even in a country with a high average income.\n\n**Diagram Description:**\nA Lorenz curve can illustrate income inequality within a country. The curve shows the proportion of total income earned by cumulative percentages of the population. A more bowed Lorenz curve indicates greater inequality, revealing that while the average income (GDP per capita) may be high, the distribution of income is uneven, leading to high levels of poverty among certain groups.\n\n**Evaluation/Analysis:**\nSeveral factors contribute to this paradox of high GDP per capita coexisting with high absolute poverty:\n\n1. **Income Inequality:** A small elite may control a large share of the national wealth, leaving the majority with insufficient resources. Countries like Brazil and South Africa exemplify this, where economic growth has not translated into equitable wealth distribution.\n\n2. **Regional Disparities:** Within countries, certain regions may be economically advanced while others lag significantly. For instance, urban areas may thrive, while rural populations may struggle with poverty, highlighting the geographical divide.\n\n3. **Unemployment and Underemployment:** High GDP can be driven by sectors that do not provide widespread employment. For example, a country reliant on capital-intensive industries may show high GDP per capita while many individuals remain unemployed or underemployed.\n\n4. **Cost of Living:** In some countries, a high GDP per capita may not reflect purchasing power due to high living costs. Thus, even with high income, individuals may find it difficult to afford basic necessities, perpetuating absolute poverty.\n\n5. **Social Safety Nets:** Lack of effective social welfare programs can exacerbate poverty levels, as individuals may fall into poverty due to health issues, unemployment, or other shocks without adequate support systems.\n\nIn conclusion, while GDP per capita is a useful indicator of economic performance, it is essential to consider income distribution, regional disparities, and social policies to fully understand the complexities of poverty in a nation.",
+        "tokens": 602,
+        "latencyMs": 7651,
+        "sources": [],
+        "judge": {
+          "accuracy": 4,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately explains the relationship between GDP per capita and absolute poverty, uses specific concepts like the Lorenz curve, and aligns well with the IB command term expectations."
+        }
+      },
+      "rag": {
+        "answer": "**Key Definitions:**\nGross Domestic Product (GDP) per capita is a measure of a country's economic output that accounts for its number of people, providing an average economic productivity per person. Absolute poverty refers to a condition where individuals lack sufficient income to meet basic needs such as food, shelter, and clothing, often defined as living on less than $1.90 a day (the World Bank's international poverty line).\n\n**Relevant Theory:**\nA high GDP per capita can indicate a prosperous economy; however, it does not necessarily reflect the distribution of income among the population. This disparity can lead to situations where, despite an overall high average income, significant portions of the population may still experience absolute poverty.\n\n**Diagram Description:**\nIn a Lorenz curve diagram, the x-axis represents the cumulative percentage of the population, while the y-axis represents the cumulative percentage of income. A perfectly equal income distribution would produce a 45-degree line. However, if the Lorenz curve is significantly bowed away from this line, it indicates high income inequality, which can coexist with a high GDP per capita.\n\n**Evaluation/Analysis:**\nA country with high GDP per capita may experience absolute poverty due to several factors:\n\n1. **Income Inequality:** Even with a high average income, if wealth is concentrated in the hands of a few, many individuals may not benefit from the economic growth. For example, if a country has a booming technology sector that primarily enriches a small elite, the majority may still live in poverty.\n\n2. **Regional Disparities:** Economic growth can be unevenly distributed geographically. Urban centers may thrive, while rural areas lag behind, leading to pockets of poverty despite overall high GDP figures.\n\n3. **Cost of Living:** A high GDP per capita in a country with a high cost of living may not translate into improved living standards for all. Individuals may still struggle to afford basic necessities even if their nominal incomes are high.\n\n4. **Employment Quality:** High GDP does not guarantee job security or fair wages. Many people may be employed in low-paying, informal jobs that do not provide a living wage, contributing to the persistence of absolute poverty.\n\nIn conclusion, while GDP per capita is a useful indicator of economic health, it is essential to consider income distribution, regional disparities, cost of living, and employment quality to understand the prevalence of absolute poverty within a nation. Thus, policy measures aimed at improving overall welfare must focus not only on increasing GDP but also on ensuring equitable wealth distribution and enhancing the quality of life for all citizens.",
+        "tokens": 657,
+        "latencyMs": 15339,
+        "contextUsed": true,
+        "contextChunks": 4,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 6,
+            "chunkText": "",
+            "score": 0.14796350308868936,
+            "relevant": false
+          },
+          {
+            "sourceId": 4,
+            "chunkText": "",
+            "score": 0.14600981620142467,
+            "relevant": false
+          },
+          {
+            "sourceId": 3,
+            "chunkText": "",
+            "score": 0.19236632126026482,
+            "relevant": false
+          },
+          {
+            "sourceId": 1,
+            "chunkText": "",
+            "score": 0.09971644661019151,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 5,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately defines GDP per capita, discusses income inequality, provides a detailed diagram description, and analyzes multiple relevant factors, aligning well with IB expectations."
+        }
+      }
+    },
+    {
+      "id": "dev_02",
+      "topic": "Development Indicators",
+      "paper": "Paper 2",
+      "level": "SL/HL",
+      "command": "Discuss",
+      "query": "Discuss the strengths and limitations of using GDP per capita as a measure of economic development compared to the Human Development Index (HDI).",
+      "baseline": {
+        "answer": "**Key Definitions:**\nGross Domestic Product (GDP) per capita is the total economic output of a country divided by its population, providing an average economic output per person. It is often used as a primary indicator of economic performance and living standards. The Human Development Index (HDI), on the other hand, is a composite index measuring three key dimensions of human development: health (life expectancy at birth), education (mean years of schooling and expected years of schooling), and standard of living (GNI per capita).\n\n**Relevant Theory:**\nGDP per capita is frequently used in economic analysis due to its straightforward calculation and its ability to provide a quick snapshot of economic activity. It reflects the economic performance of a country, allowing for cross-country comparisons. However, it primarily focuses on economic output and does not account for income distribution, non-market transactions, or environmental factors.\n\nThe HDI addresses some of the limitations of GDP per capita by incorporating social indicators. By including health and education, the HDI provides a broader perspective on human well-being and quality of life, considering that economic wealth does not necessarily equate to improved living standards or life satisfaction.\n\n**Diagram Description:**\nWhile a diagram is not necessary for this question, one could visualize the relationship between GDP and HDI through a scatter plot, illustrating that countries with high GDP per capita do not always have high HDI scores, indicating that economic wealth does not directly translate into human development.\n\n**Evaluation/Analysis:**\nOne of the strengths of GDP per capita is its simplicity and ease of data collection, making it a widely accepted measure for comparing economic productivity across countries. However, it has significant limitations; it does not consider inequalities within a country, nor does it account for environmental sustainability or the informal economy. For instance, a country may have a high GDP per capita while a large portion of its population lives in poverty, highlighting income disparity.\n\nIn contrast, the HDI provides a more holistic view of development, recognizing that economic growth alone does not guarantee improvements in health and education. For instance, countries with similar GDP per capita can have vastly different HDI scores due to differences in social investments.\n\nHowever, the HDI also has limitations. It oversimplifies complex issues by using a limited number of indicators and may overlook other important factors, such as political stability, environmental quality, and cultural aspects.\n\nIn conclusion, while GDP per capita is a useful indicator of economic performance, it is limited in its ability to capture the overall well-being of a population. The HDI offers a more comprehensive view of economic development by incorporating essential social dimensions, though it too has its drawbacks. A balanced approach that considers both GDP per capita and HDI, along with other indicators, may provide a more accurate picture of a country's development status.",
+        "tokens": 650,
+        "latencyMs": 7191,
+        "sources": [],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately discusses the strengths and limitations of GDP per capita and HDI, using precise concepts and examples while aligning well with IB command terms."
+        }
+      },
+      "rag": {
+        "answer": "**Key Definitions:**\nGross Domestic Product (GDP) per capita is the total economic output of a country divided by its population, providing an average economic productivity per person. The Human Development Index (HDI) is a composite index that assesses a country's average achievements in three basic aspects of human development: health (life expectancy), education (mean and expected years of schooling), and standard of living (GNI per capita).\n\n**Relevant Theory:**\nGDP per capita is often used as a primary indicator of economic development, reflecting the economic strength and productivity of a nation. However, it has limitations as it does not account for income distribution, social welfare, or quality of life. Conversely, the HDI provides a broader perspective by incorporating health and education, which are crucial for understanding development beyond mere economic measures.\n\n**Diagram Description:**\nA comparative chart could illustrate the disparity between GDP per capita and HDI rankings among countries. For instance, a country might have a high GDP per capita but a low HDI ranking if wealth is concentrated among a small elite without adequate healthcare or education for the majority. Such a chart emphasizes the multidimensionality of development.\n\n**Evaluation/Analysis:**\nOne strength of GDP per capita is its simplicity and ease of calculation, making it an appealing measure for policymakers and researchers. It provides a quick snapshot of economic productivity. However, it fails to address non-economic factors that significantly impact quality of life. For example, countries like Qatar may exhibit high GDP per capita due to oil revenues but may have low HDI due to limited access to education and healthcare for expatriate workers.\n\nIn contrast, the HDI offers a more comprehensive view of development, recognizing that economic wealth does not automatically translate into improved living standards. However, the HDI also has its limitations; it can oversimplify complex issues and neglect other important dimensions, such as environmental sustainability and cultural factors.\n\nIn conclusion, while GDP per capita can provide a useful gauge of economic activity, it is inadequate as a standalone measure of development. The HDI, with its broader perspective, captures essential elements of human welfare but also has constraints. A holistic approach, incorporating both GDP per capita and HDI alongside other metrics such as inequality indices, would provide a more nuanced understanding of economic development.",
+        "tokens": 615,
+        "latencyMs": 13849,
+        "contextUsed": true,
+        "contextChunks": 5,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 1,
+            "chunkText": "",
+            "score": 0.4727644696831703,
+            "relevant": false
+          },
+          {
+            "sourceId": 4,
+            "chunkText": "",
+            "score": 0.4727644696831703,
+            "relevant": false
+          },
+          {
+            "sourceId": 3,
+            "chunkText": "",
+            "score": 0.17653069036655755,
+            "relevant": false
+          },
+          {
+            "sourceId": 4,
+            "chunkText": "",
+            "score": 0.14600981620142467,
+            "relevant": false
+          },
+          {
+            "sourceId": 7,
+            "chunkText": "",
+            "score": 0.14047181431463548,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately addresses the question with precise definitions, relevant examples, and a clear comparison of GDP per capita and HDI, aligning well with IB expectations."
+        }
+      }
+    },
+    {
+      "id": "dev_03",
+      "topic": "Aid",
+      "paper": "Paper 1",
+      "level": "SL/HL",
+      "command": "Evaluate",
+      "query": "Evaluate the effectiveness of foreign aid as a strategy to promote economic development in low-income countries.",
+      "baseline": {
+        "answer": "**Key Definitions:**\nForeign aid refers to the transfer of resources from one country to another, typically from developed to developing nations, aimed at fostering economic development and alleviating poverty. This aid can be in the form of grants, loans, technical assistance, or food aid.\n\n**Relevant Theory:**\nThe effectiveness of foreign aid is often evaluated through various theoretical frameworks, including the dependency theory and the modernisation theory. Dependency theory suggests that foreign aid can create dependency, hindering self-sustaining growth and development. Conversely, modernization theory posits that foreign aid can provide the necessary capital and resources to stimulate economic growth, technological advancement, and infrastructure development.\n\n**Diagram Description:**\nA potential diagram to illustrate the impact of foreign aid could be a flowchart showing the process of aid distribution: from donor country → aid agencies → recipient country → investment in infrastructure, education, and health → potential economic growth. Additionally, a supply and demand graph could illustrate how foreign aid can shift the aggregate demand curve to the right, leading to increased output and employment in the recipient economy.\n\n**Evaluation/Analysis:**\nThe effectiveness of foreign aid in promoting economic development in low-income countries is debated among economists and policymakers. On the one hand, foreign aid can provide critical financial resources that enable low-income countries to invest in education, health, and infrastructure, which are essential for long-term economic development. For instance, countries that received significant aid post-World War II, such as South Korea, have successfully transitioned to developed economies.\n\nOn the other hand, there are criticisms regarding foreign aid's effectiveness. Critics argue that it can foster dependency, reducing the incentive for governments to implement necessary reforms. Corruption can also siphon off aid funds, limiting their impact. Moreover, poorly targeted aid can lead to inefficiencies, as funds might be allocated to projects that do not align with the actual needs of the population.\n\nFurthermore, the conditionality often attached to foreign aid—where donors impose certain political or economic reforms—can sometimes lead to resentment and social unrest, undermining the potential benefits of the aid provided.\n\nIn conclusion, while foreign aid can be an important tool for promoting economic development in low-income countries, its effectiveness is contingent upon various factors, including governance, the capacity of institutions, and the alignment of aid with local needs. A balanced approach that includes both foreign aid and strategies to enhance self-reliance and institutional capacity may yield better outcomes for sustainable economic development.",
+        "tokens": 576,
+        "latencyMs": 7162,
+        "sources": [],
+        "judge": {
+          "accuracy": 4,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately discusses foreign aid's definitions, theories, and critiques while providing specific examples and a diagram description, aligning well with IB evaluation expectations."
+        }
+      },
+      "rag": {
+        "answer": "**Key Definitions:**\nForeign aid refers to the transfer of resources from one country to another, typically from developed to developing countries, to support economic development and welfare. Economic development encompasses improvements in living standards, reduction of poverty, and enhancement of human capital and infrastructure.\n\n**Relevant Theory:**\nThe effectiveness of foreign aid can be evaluated through several economic theories. The Harrod-Domar model emphasizes investment as a driver of economic growth, suggesting that foreign aid can fill the savings gap in low-income countries, leading to capital accumulation and increased production. Conversely, the dependency theory posits that reliance on foreign aid can foster a cycle of dependency, undermining domestic initiatives and governance.\n\n**Diagram Description:**\nA relevant diagram to illustrate the impact of foreign aid can be the Aggregate Demand (AD) and Aggregate Supply (AS) model. An increase in foreign aid may shift the AD curve to the right (from AD1 to AD2), indicating increased consumption and investment. However, if the economy is already at full capacity (as shown by the vertical AS curve), this could lead to inflation rather than real growth.\n\n**Evaluation/Analysis:**\nThe effectiveness of foreign aid in promoting economic development is mixed. On one hand, foreign aid can provide much-needed resources for infrastructure projects, education, and health services. For instance, initiatives funded by foreign aid have successfully improved access to clean water and education in several Sub-Saharan African countries, contributing to enhanced human capital and productivity.\n\nHowever, the drawbacks are significant. Research indicates that poorly managed aid can lead to corruption, misallocation of resources, and a lack of accountability. The effectiveness of aid is often contingent on the recipient country's governance and institutional frameworks. For example, countries with strong institutions and governance structures have been more successful in utilizing aid effectively compared to those with weak institutions.\n\nMoreover, dependency on foreign aid can stifle local entrepreneurship and innovation. Countries may prioritize short-term aid projects over sustainable economic policies, which can hinder long-term growth. The argument that aid can create a culture of dependency is supported by instances where aid inflows do not translate into sustainable economic growth.\n\nIn conclusion, while foreign aid has the potential to promote economic development in low-income countries by addressing immediate needs and funding essential services, its effectiveness is significantly influenced by governance, institutional capacity, and the nature of the aid provided. Thus, a balanced approach that encourages self-sufficiency and strengthens local capacities may be a more effective strategy for promoting sustainable development.",
+        "tokens": 632,
+        "latencyMs": 9977,
+        "contextUsed": true,
+        "contextChunks": 3,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 6,
+            "chunkText": "",
+            "score": 0.14796350308868936,
+            "relevant": false
+          },
+          {
+            "sourceId": 3,
+            "chunkText": "",
+            "score": 0.12767478364162774,
+            "relevant": false
+          },
+          {
+            "sourceId": 3,
+            "chunkText": "",
+            "score": 0.10072515166014084,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 4,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately discusses foreign aid's potential benefits and drawbacks, uses specific economic theories and examples, and aligns well with the IB command term of evaluation."
+        }
+      }
+    },
+    {
+      "id": "dev_04",
+      "topic": "Poverty Cycle",
+      "paper": "Paper 1",
+      "level": "SL/HL",
+      "command": "Explain",
+      "query": "Using a poverty cycle diagram, explain how low income levels can trap a country in a cycle of poverty.",
+      "baseline": {
+        "answer": "**Key Definitions:**\nThe poverty cycle refers to a self-perpetuating system where low income levels lead to circumstances that perpetuate poverty. It involves a series of interconnected factors, including low income, low education, poor health, and limited access to resources, which together sustain a cycle of deprivation.\n\n**Relevant Theory:**\nLow income levels can trap a country in a cycle of poverty through several interrelated mechanisms. First, low income limits individuals' and families' ability to invest in education and health. Without education, people cannot acquire skills necessary for better-paying jobs, leading to continued low income. Furthermore, poor health due to inadequate nutrition and healthcare services restricts individuals' productivity, contributing to lower economic output.\n\n**Diagram Description:**\nA poverty cycle diagram typically consists of interconnected arrows illustrating the following relationships:\n1. **Low Income** → leads to\n2. **Low Education** → results in\n3. **Limited Skills** → causing\n4. **Low Employment Opportunities** → which reinforces\n5. **Poor Health** → leading to\n6. **Low Productivity** → ultimately cycling back to\n7. **Low Income**.\n\nEach component feeds into the next, creating a continuous loop that is difficult to escape.\n\n**Evaluation/Analysis:**\nThis cycle is particularly pronounced in developing countries where structural issues such as lack of infrastructure, political instability, and limited access to financial services exacerbate the situation. For example, in many African nations, low income levels restrict access to quality education and healthcare, resulting in a workforce that cannot compete globally, hence perpetuating poverty.\n\nHowever, it is essential to recognize that not all low-income countries remain trapped in this cycle. External factors, such as foreign aid, investment in education and health, and economic reforms, can disrupt the cycle. Additionally, government policies aimed at social safety nets and economic diversification can provide pathways for breaking free from poverty.\n\nIn conclusion, while low income levels can trap countries in a cycle of poverty, interventions that enhance education, health care, and economic opportunities can help break this cycle, enabling sustainable development and improved living standards.",
+        "tokens": 511,
+        "latencyMs": 5574,
+        "sources": [],
+        "judge": {
+          "accuracy": 4,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately describes the poverty cycle and includes specific mechanisms and examples, aligning well with the IB command term expectations."
+        }
+      },
+      "rag": {
+        "answer": "**Key Definitions:**\nThe poverty cycle, or poverty trap, is an economic concept that illustrates how low income levels can perpetuate a state of poverty. This occurs when individuals or groups lack the resources necessary to improve their economic situation, thus remaining in a cycle of deprivation. \n\n**Relevant Theory:**\nLow income levels can lead to insufficient investment in critical sectors such as education, healthcare, and infrastructure. This lack of investment results in poor human capital development, which further limits economic productivity and growth. As a result, low income can create a self-reinforcing cycle where the inability to escape poverty leads to continued low income levels.\n\n**Diagram Description:**\nA typical poverty cycle diagram includes several interconnected components:\n1. **Low Income**: The starting point, where individuals or households earn minimal income.\n2. **Low Savings**: Due to insufficient earnings, individuals cannot save, which limits their ability to invest in education or business ventures.\n3. **Poor Health**: Low income often correlates with inadequate healthcare, leading to poor health outcomes that further reduce productivity.\n4. **Low Education**: Families with low income may not afford to invest in education, perpetuating a lack of skills in the workforce.\n5. **Unemployment or Underemployment**: Low levels of education and health result in fewer job opportunities, maintaining low income levels.\n\nThese components are interconnected, creating a loop. For instance, low income leads to poor health, which reduces productivity and subsequently income, thus continuing the cycle.\n\n**Evaluation/Analysis:**\nThe poverty cycle illustrates that low income can create multiple barriers to economic advancement. For instance, a country with a significant portion of its population in poverty may struggle to achieve economic growth due to a lack of skilled labor and innovation. This is particularly relevant in developing nations, where access to education and healthcare is often limited. \n\nHowever, it is essential to recognize that while the poverty cycle is a severe barrier, it is not insurmountable. Policies aimed at breaking this cycle, such as microfinance initiatives, educational programs, and healthcare investments, can provide the necessary resources for individuals to escape poverty. Additionally, external factors such as foreign aid, trade, and economic development programs can also play a crucial role in disrupting the cycle.\n\nIn conclusion, low income levels can trap a country in a cycle of poverty by creating a feedback loop of inadequate resources and opportunities. By understanding this cycle, policymakers can design targeted interventions that address the root causes of poverty, facilitating economic growth and development.",
+        "tokens": 660,
+        "latencyMs": 17070,
+        "contextUsed": true,
+        "contextChunks": 5,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 6,
+            "chunkText": "",
+            "score": 0.14796350308868936,
+            "relevant": false
+          },
+          {
+            "sourceId": 5,
+            "chunkText": "",
+            "score": 0.14095433860927975,
+            "relevant": false
+          },
+          {
+            "sourceId": 7,
+            "chunkText": "",
+            "score": 0.14047181431463548,
+            "relevant": false
+          },
+          {
+            "sourceId": 1,
+            "chunkText": "",
+            "score": 0.4727644696831703,
+            "relevant": false
+          },
+          {
+            "sourceId": 4,
+            "chunkText": "",
+            "score": 0.4727644696831703,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 4,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately describes the poverty cycle and includes specific components and examples, aligning well with the IB command term expectations."
+        }
+      }
+    },
+    {
+      "id": "dev_05",
+      "topic": "Microfinance",
+      "paper": "Paper 1",
+      "level": "SL/HL",
+      "command": "Evaluate",
+      "query": "Evaluate microfinance as a market-based strategy for reducing poverty and promoting economic development.",
+      "baseline": {
+        "answer": "**Key Definitions**  \nMicrofinance refers to the provision of financial services—such as small loans, savings accounts, and insurance—to low-income individuals or those without access to traditional banking systems. Its primary goal is to empower the poor, particularly women, by providing them with the financial means to start or expand small businesses, thereby promoting economic development.\n\n**Relevant Theory**  \nThe theory behind microfinance is rooted in the idea that access to capital can enable entrepreneurship among the poor, leading to increased income, improved living standards, and ultimately poverty reduction. Microfinance institutions (MFIs) operate on the premise that even small loans can have a significant impact on individuals' ability to invest in income-generating activities, thus stimulating local economies.\n\n**Diagram Description**  \nA typical microfinance impact diagram could illustrate the flow from microloans to increased business capital, which in turn leads to higher income levels and improved quality of life. This process can create a feedback loop, where increased income allows for further investment in the business, contributing to sustained economic development.\n\n**Evaluation/Analysis**  \nWhile microfinance has been heralded as an effective tool for poverty alleviation, it is not without its criticisms. One major advantage is that it fosters entrepreneurship among marginalized populations, enabling them to generate income and reduce dependency on informal lending practices, often characterized by exorbitant interest rates. Additionally, microfinance can empower women, who are often the primary beneficiaries, leading to broader social benefits such as improved family health and education.\n\nHowever, there are significant limitations to consider. High-interest rates charged by some MFIs can lead to over-indebtedness, trapping borrowers in a cycle of debt rather than alleviating poverty. Furthermore, not all microfinance initiatives lead to sustainable business growth; many borrowers may struggle to earn enough to repay loans, especially in challenging economic environments. Critics argue that microfinance can sometimes focus too narrowly on financial returns rather than holistic economic development, neglecting other factors such as education, health, and infrastructure that are essential for sustainable growth.\n\nIn conclusion, while microfinance can be an effective market-based strategy for reducing poverty and promoting economic development, its success largely depends on the structure of the lending, the financial literacy of borrowers, and the broader socio-economic context. Therefore, it should be complemented with other development initiatives to ensure that it contributes to meaningful and lasting improvements in the lives of the poor.",
+        "tokens": 562,
+        "latencyMs": 12676,
+        "sources": [],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately defines microfinance, provides specific examples and concepts, and aligns well with the IB command term expectations for evaluation."
+        }
+      },
+      "rag": {
+        "answer": "**Key Definitions:**\nMicrofinance refers to financial services—such as small loans, savings accounts, and insurance—offered primarily to low-income individuals or those without access to traditional banking. It aims to empower the poor by providing them with the financial tools necessary to start or expand small businesses, thereby promoting economic development.\n\n**Relevant Theory:**\nMicrofinance operates on the premise of providing capital to those who are typically excluded from conventional financial systems. The theory of microfinance suggests that by providing small loans, individuals can invest in income-generating activities, leading to improved livelihoods, increased income, and ultimately, poverty reduction. The concept is rooted in the idea of financial inclusion, which posits that access to financial services is a critical component in achieving economic development.\n\n**Diagram Description:**\nA potential diagram could illustrate the microfinance process. On the left, we could depict the microfinance institution (MFI) providing loans to poor individuals. The middle section would show these individuals using the loans to invest in businesses or education, leading to an increase in income. On the right, we could illustrate the outcomes: poverty reduction, enhanced living standards, and economic development.\n\n**Evaluation/Analysis:**\nWhile microfinance has been successful in some contexts, its effectiveness as a market-based strategy for reducing poverty is subject to critique. One advantage is that it fosters entrepreneurship, allowing individuals to create jobs and contribute to economic growth. Studies have shown that access to microfinance can lead to improved household income and consumption levels, thereby aiding in poverty alleviation.\n\nHowever, the impact of microfinance is not universally positive. Critics argue that not all borrowers are able to generate sufficient income to repay loans, leading to cycles of debt and financial distress. Additionally, the focus on individual entrepreneurship may neglect systemic issues that contribute to poverty, such as lack of infrastructure or education. Moreover, some microfinance institutions have been criticized for charging high interest rates, which can perpetuate poverty rather than alleviate it.\n\nFurthermore, while microfinance can empower women and promote gender equality, its benefits may not extend equally across all demographics. The success of microfinance initiatives often depends on local context, including cultural and economic factors, which can vary widely.\n\nIn conclusion, while microfinance presents a promising market-based strategy for poverty reduction and economic development, it is essential to consider its limitations and the broader socio-economic environment in which it operates. A holistic approach that combines microfinance with other development strategies may yield more sustainable outcomes.",
+        "tokens": 631,
+        "latencyMs": 7062,
+        "contextUsed": true,
+        "contextChunks": 3,
+        "retrieval": {
+          "recall5": 0,
+          "mrr": 0
+        },
+        "sources": [
+          {
+            "sourceId": 6,
+            "chunkText": "",
+            "score": 0.21938257523987342,
+            "relevant": false
+          },
+          {
+            "sourceId": 3,
+            "chunkText": "",
+            "score": 0.12767478364162774,
+            "relevant": false
+          },
+          {
+            "sourceId": 3,
+            "chunkText": "",
+            "score": 0.10072515166014084,
+            "relevant": false
+          }
+        ],
+        "judge": {
+          "accuracy": 5,
+          "specificity": 4,
+          "curriculum_alignment": 5,
+          "rationale": "The student answer accurately defines microfinance, provides a detailed evaluation of its advantages and limitations, and aligns well with IB expectations for analysis and evaluation."
+        }
+      }
+    }
+  ]
+}

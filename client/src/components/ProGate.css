@@ -1,0 +1,125 @@
+.pg-gate {
+    position: relative;
+    isolation: isolate;
+}
+
+.pg-blur {
+    filter: blur(4px);
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.4;
+}
+
+.pg-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.pg-card {
+    background: #0f1824;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 2rem 2.5rem;
+    max-width: 380px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+}
+
+.pg-lock {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.pg-title {
+    color: #e2e8f0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.pg-desc {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.pg-plans {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.pg-plan {
+    flex: 1;
+    padding: 0.75rem;
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+}
+
+.pg-plan--active {
+    border-color: #4a90e2;
+    background: rgba(74,144,226,0.1);
+}
+
+.pg-plan-name {
+    color: #94a3b8;
+    font-size: 0.78rem;
+    font-weight: 500;
+}
+
+.pg-plan-price {
+    color: #e2e8f0;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.pg-plan-price span {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    font-weight: 400;
+}
+
+.pg-plan-badge {
+    background: linear-gradient(135deg, #4a90e2, #7b68ee);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 20px;
+}
+
+.pg-btn {
+    width: 100%;
+    padding: 0.85rem;
+    background: linear-gradient(135deg, #4a90e2 0%, #7b68ee 100%);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    margin-bottom: 0.75rem;
+}
+
+.pg-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.pg-btn:hover:not(:disabled) { opacity: 0.9; }
+
+.pg-note {
+    color: #475569;
+    font-size: 0.78rem;
+}

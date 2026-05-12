@@ -3,15 +3,58 @@ import { Link } from 'react-router-dom';
 import api from '../api';
 import './TryAiWidget.css';
 
-const SAMPLES = [
-    'Explain the chain rule with an IB Maths AA HL example.',
-    'Compare oxidation and reduction in the ETC (IB Bio HL).',
-    'What does "evaluate" mean in IB mark schemes?',
+const SUBJECTS = [
+    {
+        label: 'Economics',
+        emoji: '📈',
+        samples: [
+            'Explain why demand for cigarettes is price inelastic and the tax implications.',
+            'Evaluate expansionary fiscal policy during a recession.',
+            'What is the Keynesian multiplier? Give an IB example.',
+        ],
+    },
+    {
+        label: 'Biology',
+        emoji: '🧬',
+        samples: [
+            'Compare oxidation and reduction in the electron transport chain (HL).',
+            'Explain how enzymes lower activation energy with a diagram.',
+            'What is the difference between mitosis and meiosis?',
+        ],
+    },
+    {
+        label: 'Chemistry',
+        emoji: '⚗️',
+        samples: [
+            'Explain the difference between SN1 and SN2 reactions.',
+            'What is Le Chatelier\'s principle? Give an industrial example.',
+            'How do you calculate pH for a weak acid buffer?',
+        ],
+    },
+    {
+        label: 'Physics',
+        emoji: '⚡',
+        samples: [
+            'Explain the photoelectric effect and Einstein\'s equation.',
+            'What is the difference between nuclear fission and fusion?',
+            'Derive the equations of uniform circular motion.',
+        ],
+    },
+    {
+        label: 'Maths',
+        emoji: '∫',
+        samples: [
+            'Explain the chain rule with an IB Maths AA HL example.',
+            'What is the binomial theorem and when do you use it?',
+            'How do you find the area between two curves using integration?',
+        ],
+    },
 ];
 
 const MAX_CHARS = 200;
 
 export const TryAiWidget = () => {
+    const [activeSubject, setActiveSubject] = useState(0);
     const [prompt, setPrompt] = useState('');
     const [answer, setAnswer] = useState(null);
     const [sources, setSources] = useState([]);
@@ -21,7 +64,7 @@ export const TryAiWidget = () => {
 
     const submit = async (text) => {
         const message = (text ?? prompt).trim();
-        if (!message || loading) return;
+        if (!message || loading || rateLimited) return;
 
         setLoading(true);
         setError(null);
@@ -36,7 +79,7 @@ export const TryAiWidget = () => {
             const status = err.response?.status;
             if (status === 429) {
                 setRateLimited(true);
-                setError(err.response?.data?.error || 'Free preview used up — sign up free to keep going.');
+                setError(err.response?.data?.error || 'Free preview limit reached — sign up free to continue.');
             } else {
                 setError(err.response?.data?.error || 'Something went wrong. Try again in a moment.');
             }
@@ -50,23 +93,49 @@ export const TryAiWidget = () => {
         submit(text);
     };
 
+    const onTabChange = (i) => {
+        setActiveSubject(i);
+        setPrompt('');
+        setAnswer(null);
+        setSources([]);
+        setError(null);
+    };
+
+    const subject = SUBJECTS[activeSubject];
+    const isPastPaper = (s) => s.source === 'global_document';
+
     return (
-        <section className="try-ai reveal" id="try-ai">
+        <section className="try-ai" id="try-ai">
             <div className="try-ai-inner">
                 <div className="try-ai-header">
-                    <span className="try-ai-eyebrow">Try it now — no signup</span>
+                    <span className="try-ai-eyebrow">Try it now — no signup needed</span>
                     <h2 className="try-ai-title">
-                        The only AI trained on the <span className="gradient-text">IB curriculum</span>
+                        Ask the AI trained on <span className="gradient-text">real IB past papers.</span>
                     </h2>
                     <p className="try-ai-sub">
-                        IB command terms, HL/SL depth, past-paper conventions. Ask anything — get an
-                        answer cited against real IB study material.
+                        Not generic ChatGPT. Answers grounded in IB past papers, mark schemes, and
+                        curriculum content — with sources cited.
                     </p>
                 </div>
 
                 <div className="try-ai-box">
+                    {/* Subject tabs */}
+                    <div className="try-ai-tabs">
+                        {SUBJECTS.map((s, i) => (
+                            <button
+                                key={s.label}
+                                className={`try-ai-tab ${i === activeSubject ? 'active' : ''}`}
+                                onClick={() => onTabChange(i)}
+                                type="button"
+                            >
+                                <span>{s.emoji}</span> {s.label}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Sample chips */}
                     <div className="try-ai-samples">
-                        {SAMPLES.map((s, i) => (
+                        {subject.samples.map((s, i) => (
                             <button
                                 key={i}
                                 type="button"
@@ -79,14 +148,12 @@ export const TryAiWidget = () => {
                         ))}
                     </div>
 
-                    <form
-                        className="try-ai-form"
-                        onSubmit={(e) => { e.preventDefault(); submit(); }}
-                    >
+                    {/* Input */}
+                    <form className="try-ai-form" onSubmit={(e) => { e.preventDefault(); submit(); }}>
                         <textarea
                             value={prompt}
                             onChange={(e) => setPrompt(e.target.value.slice(0, MAX_CHARS))}
-                            placeholder="Ask about IB Bio HL, Chem SL, Maths AA, History, TOK…"
+                            placeholder={`Ask an IB ${subject.label} question…`}
                             rows={2}
                             disabled={loading || rateLimited}
                             className="try-ai-input"
@@ -98,11 +165,15 @@ export const TryAiWidget = () => {
                                 className="btn-primary"
                                 disabled={loading || rateLimited || !prompt.trim()}
                             >
-                                {loading ? 'Thinking…' : 'Ask the IB AI →'}
+                                {loading
+                                    ? <><span className="try-ai-spinner" /> Searching past papers…</>
+                                    : 'Ask the IB AI →'
+                                }
                             </button>
                         </div>
                     </form>
 
+                    {/* Error */}
                     {error && (
                         <div className={`try-ai-error ${rateLimited ? 'rate-limited' : ''}`}>
                             <span>{error}</span>
@@ -114,24 +185,35 @@ export const TryAiWidget = () => {
                         </div>
                     )}
 
+                    {/* Answer */}
                     {answer && !error && (
                         <div className="try-ai-answer">
-                            <div className="try-ai-answer-label">✨ Answer</div>
+                            <div className="try-ai-answer-label">
+                                <span className="try-ai-answer-dot" />
+                                Answer
+                            </div>
                             <div className="try-ai-answer-body">{answer}</div>
+
                             {sources.length > 0 && (
                                 <div className="try-ai-sources">
                                     <span className="try-ai-sources-label">
-                                        Grounded in {sources.length} source{sources.length === 1 ? '' : 's'}:
+                                        Grounded in {sources.length} IB source{sources.length !== 1 ? 's' : ''}:
                                     </span>
-                                    {sources.map((s, i) => (
-                                        <span key={i} className="try-ai-source-pill">
-                                            {s.source} · {s.title}
-                                        </span>
-                                    ))}
+                                    <div className="try-ai-source-pills">
+                                        {sources.map((s, i) => (
+                                            <span
+                                                key={i}
+                                                className={`try-ai-source-pill ${isPastPaper(s) ? 'past-paper' : ''}`}
+                                            >
+                                                {isPastPaper(s) ? '📄 Past Paper' : '📚'} · {s.title || s.source}
+                                            </span>
+                                        ))}
+                                    </div>
                                 </div>
                             )}
+
                             <div className="try-ai-followup">
-                                Want the full study room, past papers, and alumni Q&amp;A?{' '}
+                                Want unlimited questions, your own notes, study rooms & alumni Q&A?{' '}
                                 <Link to="/registration" className="try-ai-signup-link">
                                     Sign up free →
                                 </Link>
@@ -139,6 +221,8 @@ export const TryAiWidget = () => {
                         </div>
                     )}
                 </div>
+
+                <p className="try-ai-limit-note">3 free questions per day · No credit card needed</p>
             </div>
         </section>
     );

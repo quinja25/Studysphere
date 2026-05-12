@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-12T22:03:00.000Z",
+  "title": "Design System: StudySphere",
+  "extensions": {
+    "colorMeta": {
+      "depth-navy":      { "role": "neutral",   "displayName": "Depth Navy",      "canonical": "oklch(10% 0.03 240)", "tonalRamp": ["#040810", "#080e1a", "#0f1824", "#162438", "#1e3050", "#2a4268", "#3a5a88", "#5a7faa"] },
+      "surface-navy":    { "role": "neutral",   "displayName": "Surface Navy",     "canonical": "oklch(13% 0.025 240)", "tonalRamp": ["#04090f", "#0a1220", "#0f1824", "#182435", "#213050", "#2e4268", "#415a84", "#5c7ba8"] },
+      "focus-blue":      { "role": "primary",   "displayName": "Focus Blue",       "canonical": "oklch(60% 0.14 240)", "tonalRamp": ["#0d1f33", "#1a3d66", "#266099", "#3378cc", "#4a90e2", "#6aaee8", "#8ec3f0", "#c2e0f8"] },
+      "clarity-violet":  { "role": "secondary", "displayName": "Clarity Violet",   "canonical": "oklch(58% 0.15 280)", "tonalRamp": ["#130e2a", "#241a52", "#362878", "#4a38a0", "#7b68ee", "#9688f2", "#b4a8f6", "#d8d4fb"] },
+      "sky-blue":        { "role": "tertiary",  "displayName": "Sky Blue",         "canonical": "oklch(62% 0.17 220)", "tonalRamp": ["#031420", "#073a58", "#0c5c88", "#0e80bb", "#0ea5e9", "#38bcf2", "#7dd3fa", "#bae8fd"] },
+      "go-green":        { "role": "tertiary",  "displayName": "Go Green",         "canonical": "oklch(68% 0.17 160)", "tonalRamp": ["#041a12", "#083d28", "#0c5e3e", "#0d8055", "#10b981", "#34d39e", "#6ee7be", "#a7f3d8"] },
+      "signal-white":    { "role": "neutral",   "displayName": "Signal White",     "canonical": "oklch(91% 0.008 240)", "tonalRamp": ["#2d3a4a", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0", "#f1f5f9", "#f8fafc"] },
+      "dim-slate":       { "role": "neutral",   "displayName": "Dim Slate",        "canonical": "oklch(65% 0.01 240)", "tonalRamp": ["#1e2a38", "#2d3a4a", "#3d4f63", "#536478", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0"] },
+      "alert-red":       { "role": "neutral",   "displayName": "Alert Red",        "canonical": "oklch(72% 0.18 20)",  "tonalRamp": ["#2a0a0a", "#551414", "#882020", "#bb2f2f", "#ef4444", "#f87171", "#fca5a5", "#fee2e2"] },
+      "border-dim":      { "role": "neutral",   "displayName": "Border Dim",       "canonical": "oklch(100% 0 0 / 8%)", "tonalRamp": ["#ffffff05", "#ffffff0a", "#ffffff14", "#ffffff1f", "#ffffff2e", "#ffffff47", "#ffffff70", "#ffffffa0"] }
+    },
+    "typographyMeta": {
+      "display":  { "displayName": "Display",  "purpose": "Hero headline. One per page." },
+      "headline": { "displayName": "Headline", "purpose": "Section titles." },
+      "body":     { "displayName": "Body",     "purpose": "Descriptive copy. Max 65-72ch line length." },
+      "label":    { "displayName": "Label",    "purpose": "Section tags, badge text, countdown labels. Always uppercase." },
+      "code":     { "displayName": "Code",     "purpose": "Source citations, chunk references, monospace content." }
+    },
+    "shadows": [
+      { "name": "hover-lift",     "value": "0 12px 32px rgba(0,0,0,0.3)",                                              "purpose": "Feature cards and interactive surfaces on hover. Signals elevation on interaction." },
+      { "name": "form-elevation", "value": "0 24px 64px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)",        "purpose": "Hero signup card only. Structural elevation to separate form from hero section." }
+    ],
+    "motion": [
+      { "name": "ease-state",    "value": "cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Default easing for state transitions (hover, focus, active). 0.15-0.25s duration." },
+      { "name": "ease-reveal",   "value": "ease",                          "purpose": "Scroll-reveal entrance animations. 0.6s duration. opacity + translateY(24px) → natural." }
+    ],
+    "breakpoints": [
+      { "name": "mobile", "value": "600px",  "note": "Single-column layouts, form rows stack, nav links collapse." },
+      { "name": "tablet", "value": "900px",  "note": "Hero grid collapses to single column, feature grid to 2-col." },
+      { "name": "desktop","value": "1200px", "note": "Max content width. Centered with 24px horizontal padding." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Primary action. Used for 'Join Waitlist', form submit, and hero CTA.",
+      "html": "<button class=\"ds-btn-primary\">Join Waitlist</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; padding: 12px 26px; background: #4a90e2; color: #ffffff; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 0.95rem; border: none; border-radius: 0; cursor: pointer; transition: background 0.2s, transform 0.15s, box-shadow 0.2s; white-space: nowrap; } .ds-btn-primary:hover { background: #357ae8; transform: translateY(-2px); box-shadow: 0 12px 32px rgba(74,144,226,0.4); } .ds-btn-primary:focus-visible { outline: 2px solid #4a90e2; outline-offset: 3px; } .ds-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Secondary action. Used for 'Sign in', nav secondary links.",
+      "html": "<button class=\"ds-btn-ghost\">Sign in</button>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; justify-content: center; padding: 9px 20px; background: transparent; color: #94a3b8; font-family: 'Outfit', sans-serif; font-weight: 500; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 0; cursor: pointer; text-decoration: none; transition: border-color 0.2s, color 0.2s; } .ds-btn-ghost:hover { border-color: rgba(255,255,255,0.2); color: #e2e8f0; } .ds-btn-ghost:focus-visible { outline: 2px solid #4a90e2; outline-offset: 3px; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Signup form fields: name, email, school.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"Your email\" />",
+      "css": ".ds-input { width: 100%; padding: 11px 14px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 0; color: #e2e8f0; font-family: 'Outfit', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s, background 0.2s; } .ds-input::placeholder { color: #94a3b8; } .ds-input:focus { border-color: rgba(74,144,226,0.5); background: rgba(255,255,255,0.08); } .ds-input:invalid { border-color: rgba(248,113,113,0.5); }"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "chip",
+      "refersTo": null,
+      "description": "Live/active status indicator. Used for 'Beta live' on the hero.",
+      "html": "<span class=\"ds-badge-status\"><span class=\"ds-badge-dot\"></span>Beta live</span>",
+      "css": ".ds-badge-status { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); border-radius: 0; font-family: 'Outfit', sans-serif; font-size: 0.8rem; font-weight: 700; color: #10b981; letter-spacing: 0.02em; } .ds-badge-dot { width: 7px; height: 7px; background: #10b981; border-radius: 50%; animation: ds-pulse 2s ease-in-out infinite; } @keyframes ds-pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }"
+    },
+    {
+      "name": "Section Eyebrow",
+      "kind": "chip",
+      "refersTo": null,
+      "description": "Category label above section headlines. Uppercase, Focus Blue tint.",
+      "html": "<span class=\"ds-eyebrow\">Why it works</span>",
+      "css": ".ds-eyebrow { display: inline-block; background: rgba(74,144,226,0.09); border: 1px solid rgba(74,144,226,0.22); color: #4a90e2; font-family: 'Outfit', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 14px; border-radius: 0; }"
+    },
+    {
+      "name": "Feature Card",
+      "kind": "card",
+      "refersTo": null,
+      "description": "Feature grid items. Flat at rest, lifts on hover.",
+      "html": "<div class=\"ds-feature-card\"><span class=\"ds-feature-icon\">🧬</span><h3 class=\"ds-feature-title\">Curriculum-scoped AI</h3><p class=\"ds-feature-desc\">Answers are drawn from your syllabus, not the open web.</p></div>",
+      "css": ".ds-feature-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 0; padding: 28px 24px; transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s; } .ds-feature-card:hover { border-color: rgba(74,144,226,0.3); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.3); } .ds-feature-icon { font-size: 1.8rem; display: block; margin-bottom: 14px; } .ds-feature-title { font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700; color: #f1f5f9; margin-bottom: 8px; } .ds-feature-desc { font-family: 'Outfit', sans-serif; font-size: 0.87rem; color: #94a3b8; line-height: 1.6; }"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": null,
+      "description": "Fixed top nav. Blurred dark background, links at rest in Dim Slate.",
+      "html": "<nav class=\"ds-nav\"><div class=\"ds-nav-inner\"><a class=\"ds-nav-logo\" href=\"/\">StudySphere</a><div class=\"ds-nav-links\"><a href=\"#features\">Features</a><a href=\"#why\">Why us</a></div><div class=\"ds-nav-actions\"><button class=\"ds-btn-ghost\">Sign in</button><button class=\"ds-btn-primary\">Join Waitlist</button></div></div></nav>",
+      "css": ".ds-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(8,14,26,0.85); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.08); } .ds-nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 60px; display: flex; align-items: center; gap: 32px; } .ds-nav-logo { color: #e2e8f0; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1rem; text-decoration: none; } .ds-nav-links { display: flex; gap: 28px; margin-left: auto; } .ds-nav-links a { color: #94a3b8; font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 500; text-decoration: none; transition: color 0.2s; } .ds-nav-links a:hover { color: #e2e8f0; } .ds-nav-actions { display: flex; gap: 10px; margin-left: 24px; }"
+    },
+    {
+      "name": "Form Error",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Inline form validation error. Alert Red tint, 0px radius.",
+      "html": "<div class=\"ds-form-error\">Please enter a valid email address.</div>",
+      "css": ".ds-form-error { font-family: 'Outfit', sans-serif; font-size: 0.82rem; color: #f87171; padding: 8px 12px; background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.2); border-radius: 0; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Instrument Room",
+    "overview": "StudySphere's landing page is a precision instrument for students who already know what they want: an AI tutor that actually knows their curriculum. The design operates like a calibrated workspace — dark surfaces that reduce ambient distraction, deliberate light that marks exactly what matters, and zero ornamentation that doesn't earn its pixel.\n\nThe system is dark by intent: IB and A-Level students study at night, under pressure, in focused sessions. Depth Navy (#080e1a) is the canvas. Surfaces float above it through tonal separation, not drop shadows. Color arrives with precision: blue for action, violet for depth, green for status, never for decoration.\n\nEvery design choice is in service of a single claim: StudySphere knows what it's talking about. Generic = untrustworthy.",
+    "keyCharacteristics": [
+      "Dark-by-default: Depth Navy canvas, tonal layering for hierarchy",
+      "Sharp everywhere: 0px radius is the system doctrine",
+      "Typography-led: Syne owns display, Outfit handles everything else",
+      "Restrained color: Focus Blue marks action, Go Green marks status only",
+      "Flat at rest: shadows signal interaction state, never serve as decoration"
+    ],
+    "rules": [
+      { "name": "The Signal Rule",          "body": "Focus Blue, Clarity Violet, and Go Green together occupy less than 15% of any screen surface. Each has one job. A screen where everything is colored is a screen where nothing is important.",     "section": "colors" },
+      { "name": "The Syne Lock",            "body": "Syne appears only at Display and Headline roles. Outfit handles every other typographic job. Mixing Syne into body copy or button labels dilutes the contrast that makes the hierarchy work.", "section": "typography" },
+      { "name": "The Flat-by-Default Rule", "body": "Surfaces sit flat at rest. A shadow that appears at rest is decorative and forbidden. Elevation responds to interaction, never announces itself unprompted.",                                      "section": "elevation" },
+      { "name": "The Sharp Edge Doctrine",  "body": "Border-radius is 0px everywhere except circular avatars and status dots. The instrument room has no unnecessary curves.",                                                                      "section": "components" }
+    ],
+    "dos": [
+      "Do use Syne at Display and Headline roles only.",
+      "Do apply 0px border-radius to all interactive and container elements.",
+      "Do use Go Green exclusively for live/active/confirmed status.",
+      "Do keep background hero glows at or below 18% opacity with blur radius ≥ 80px.",
+      "Do make Focus Blue appear on ≤15% of any screen surface.",
+      "Do use tonal surface layering (Depth Navy → Surface Navy) for section depth.",
+      "Do treat citations, source chunks, and past paper references as first-class UI elements."
+    ],
+    "donts": [
+      "Don't use glassmorphism — backdrop-filter with translucent card backgrounds. The current signup card is a known violation flagged for removal.",
+      "Don't use gradient text (background-clip: text). The current .wl-grad class is a known violation.",
+      "Don't use bright primary colors, quiz-game aesthetics, or confetti animations.",
+      "Don't place a hero chatbox as the primary landing element.",
+      "Don't add floating neural-net orbs, neon accents, or purple-to-black gradient heroes.",
+      "Don't use border-left or border-right greater than 1px as a colored accent stripe.",
+      "Don't nest cards inside cards.",
+      "Don't animate layout properties (height, top, left, width) — use transform and opacity only."
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1777517696189,
+  "lastScanned": 1778570164029,
   "projectRoot": "C:\\Users\\jaeyo\\Projects\\StudySphere\\server",
   "techStack": {
     "languages": [
@@ -63,7 +63,7 @@
       "path": "config",
       "purpose": "Configuration files",
       "fileCount": 2,
-      "lastAccessed": 1777517696154,
+      "lastAccessed": 1778570163996,
       "keyFiles": [
         "config.js",
         "config.json"
@@ -73,7 +73,7 @@
       "path": "data",
       "purpose": "Data files",
       "fileCount": 1,
-      "lastAccessed": 1777517696155,
+      "lastAccessed": 1778570164002,
       "keyFiles": [
         "ibSubjects.js"
       ]
@@ -82,7 +82,7 @@
       "path": "middlewares",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1777517696164,
+      "lastAccessed": 1778570164003,
       "keyFiles": [
         "AdminMiddleware.js",
         "AuthMiddleware.js"
@@ -92,7 +92,7 @@
       "path": "migrations",
       "purpose": "Database migrations",
       "fileCount": 12,
-      "lastAccessed": 1777517696164,
+      "lastAccessed": 1778570164003,
       "keyFiles": [
         "20260304050000-update-chats-schema.js",
         "20260304060000-add-public-password-to-groups.js",
@@ -105,7 +105,7 @@
       "path": "models",
       "purpose": "Data models",
       "fileCount": 27,
-      "lastAccessed": 1777517696165,
+      "lastAccessed": 1778570164003,
       "keyFiles": [
         "AiFeedback.js",
         "AiMessages.js",
@@ -117,34 +117,34 @@
     "routes": {
       "path": "routes",
       "purpose": "Route handlers",
-      "fileCount": 19,
-      "lastAccessed": 1777517696165,
+      "fileCount": 20,
+      "lastAccessed": 1778570164004,
       "keyFiles": [
         "Admin.js",
         "Ai.js",
         "AiFeedback.js",
-        "Chats.js",
-        "GlobalDocuments.js"
+        "Billing.js",
+        "Chats.js"
       ]
     },
     "scripts": {
       "path": "scripts",
       "purpose": "Build/utility scripts",
-      "fileCount": 5,
-      "lastAccessed": 1777517696166,
+      "fileCount": 9,
+      "lastAccessed": 1778570164004,
       "keyFiles": [
-        "ingest-past-papers.js",
-        "rag-eval-results.json",
-        "rag-eval.js",
-        "test-pdf-extract.js",
-        "test-pdf-raw.js"
+        "ingest-biology.js",
+        "ingest-chemistry.js",
+        "ingest-common.js",
+        "ingest-mathematics.js",
+        "ingest-physics.js"
       ]
     },
     "services": {
       "path": "services",
       "purpose": "Business logic services",
       "fileCount": 12,
-      "lastAccessed": 1777517696166,
+      "lastAccessed": 1778570164004,
       "keyFiles": [
         "adaptiveChunker.js",
         "documentProcessor.js",
@@ -157,7 +157,7 @@
       "path": "socket",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1777517696166,
+      "lastAccessed": 1778570164005,
       "keyFiles": [
         "handlers.js"
       ]
@@ -166,14 +166,14 @@
       "path": "tests",
       "purpose": "Test files",
       "fileCount": 0,
-      "lastAccessed": 1777517696167,
+      "lastAccessed": 1778570164005,
       "keyFiles": []
     },
     "uploads": {
       "path": "uploads",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1777517696167,
+      "lastAccessed": 1778570164006,
       "keyFiles": [
         "all-dp-subjects-list-en.pdf"
       ]
@@ -182,7 +182,7 @@
       "path": "tests\\helpers",
       "purpose": "Helper functions",
       "fileCount": 2,
-      "lastAccessed": 1777517696168,
+      "lastAccessed": 1778570164007,
       "keyFiles": [
         "authHelpers.js",
         "mockModels.js"
@@ -192,7 +192,7 @@
       "path": "tests\\routes",
       "purpose": "Route handlers",
       "fileCount": 17,
-      "lastAccessed": 1777517696168,
+      "lastAccessed": 1778570164008,
       "keyFiles": [
         "admin.test.js",
         "ai.test.js",
@@ -203,7 +203,7 @@
       "path": "tests\\services",
       "purpose": "Business logic services",
       "fileCount": 9,
-      "lastAccessed": 1777517696169,
+      "lastAccessed": 1778570164008,
       "keyFiles": [
         "adaptiveChunker.test.js",
         "embeddingService.test.js",
@@ -213,9 +213,39 @@
   },
   "hotPaths": [
     {
+      "path": "scripts\\ingest-common.js",
+      "accessCount": 23,
+      "lastAccessed": 1778570725228,
+      "type": "file"
+    },
+    {
+      "path": "scripts\\rag-eval.js",
+      "accessCount": 17,
+      "lastAccessed": 1778583365259,
+      "type": "file"
+    },
+    {
+      "path": "services\\ragRetriever.js",
+      "accessCount": 14,
+      "lastAccessed": 1778584769571,
+      "type": "file"
+    },
+    {
+      "path": "services\\embeddingService.js",
+      "accessCount": 12,
+      "lastAccessed": 1778583379844,
+      "type": "file"
+    },
+    {
       "path": "server.js",
+      "accessCount": 11,
+      "lastAccessed": 1778568808849,
+      "type": "file"
+    },
+    {
+      "path": "scripts\\eval-data\\results\\economics-20260512-1935.json",
       "accessCount": 8,
-      "lastAccessed": 1776479369400,
+      "lastAccessed": 1778582773560,
       "type": "file"
     },
     {
@@ -225,9 +255,57 @@
       "type": "file"
     },
     {
+      "path": "services\\embeddingSync.js",
+      "accessCount": 7,
+      "lastAccessed": 1778583188280,
+      "type": "directory"
+    },
+    {
+      "path": "scripts\\eval-data\\results\\economics-latest.json",
+      "accessCount": 7,
+      "lastAccessed": 1778584469873,
+      "type": "file"
+    },
+    {
+      "path": "services\\openai.js",
+      "accessCount": 6,
+      "lastAccessed": 1778583189034,
+      "type": "file"
+    },
+    {
+      "path": "routes\\Public.js",
+      "accessCount": 6,
+      "lastAccessed": 1778585592940,
+      "type": "file"
+    },
+    {
       "path": "scripts\\ingest-past-papers.js",
       "accessCount": 5,
       "lastAccessed": 1777515199976,
+      "type": "file"
+    },
+    {
+      "path": "",
+      "accessCount": 5,
+      "lastAccessed": 1778585554824,
+      "type": "directory"
+    },
+    {
+      "path": "scripts\\check-ingest.js",
+      "accessCount": 4,
+      "lastAccessed": 1778571024971,
+      "type": "file"
+    },
+    {
+      "path": "models\\GlobalDocuments.js",
+      "accessCount": 4,
+      "lastAccessed": 1778583190152,
+      "type": "directory"
+    },
+    {
+      "path": "scripts\\run-reindex.js",
+      "accessCount": 4,
+      "lastAccessed": 1778583408011,
       "type": "file"
     },
     {
@@ -237,15 +315,15 @@
       "type": "file"
     },
     {
-      "path": "services\\embeddingService.js",
+      "path": "models\\ContentEmbeddings.js",
       "accessCount": 3,
-      "lastAccessed": 1776778716567,
+      "lastAccessed": 1778583189483,
       "type": "file"
     },
     {
-      "path": "routes\\Public.js",
+      "path": "scripts\\eval-data\\golden-economics.json",
       "accessCount": 3,
-      "lastAccessed": 1776778726759,
+      "lastAccessed": 1778583205259,
       "type": "file"
     },
     {
@@ -255,21 +333,15 @@
       "type": "directory"
     },
     {
-      "path": "services\\ragRetriever.js",
+      "path": "scripts\\ingest-physics.js",
       "accessCount": 2,
-      "lastAccessed": 1777516491333,
+      "lastAccessed": 1778570742543,
       "type": "file"
     },
     {
-      "path": "scripts\\rag-eval.js",
+      "path": "services",
       "accessCount": 2,
-      "lastAccessed": 1777516573794,
-      "type": "file"
-    },
-    {
-      "path": "",
-      "accessCount": 1,
-      "lastAccessed": 1776430551034,
+      "lastAccessed": 1778580037361,
       "type": "directory"
     },
     {
@@ -339,18 +411,6 @@
       "type": "file"
     },
     {
-      "path": "services",
-      "accessCount": 1,
-      "lastAccessed": 1776778702552,
-      "type": "directory"
-    },
-    {
-      "path": "models\\ContentEmbeddings.js",
-      "accessCount": 1,
-      "lastAccessed": 1776778716335,
-      "type": "file"
-    },
-    {
       "path": "scripts\\test-pdf-extract.js",
       "accessCount": 1,
       "lastAccessed": 1777514378406,
@@ -363,9 +423,45 @@
       "type": "file"
     },
     {
-      "path": "services\\openai.js",
+      "path": "scripts\\eval-data\\golden-chemistry.json",
       "accessCount": 1,
-      "lastAccessed": 1777516490720,
+      "lastAccessed": 1778569905222,
+      "type": "file"
+    },
+    {
+      "path": "scripts\\eval-data\\golden-biology.json",
+      "accessCount": 1,
+      "lastAccessed": 1778569906046,
+      "type": "file"
+    },
+    {
+      "path": "scripts\\eval-data\\golden-physics.json",
+      "accessCount": 1,
+      "lastAccessed": 1778569906783,
+      "type": "file"
+    },
+    {
+      "path": "scripts\\fix-embedding-enum.js",
+      "accessCount": 1,
+      "lastAccessed": 1778572042918,
+      "type": "file"
+    },
+    {
+      "path": "scripts\\debug-rag.js",
+      "accessCount": 1,
+      "lastAccessed": 1778583970238,
+      "type": "file"
+    },
+    {
+      "path": "scripts",
+      "accessCount": 1,
+      "lastAccessed": 1778584733054,
+      "type": "directory"
+    },
+    {
+      "path": "scripts\\ingest-textbook.js",
+      "accessCount": 1,
+      "lastAccessed": 1778584803395,
       "type": "file"
     }
   ],

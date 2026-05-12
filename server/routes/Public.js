@@ -113,9 +113,20 @@ router.post('/ai-try', aiTryLimiter, async (req, res) => {
             return res.status(400).json({ error: 'Preview is limited to 200 characters. Sign up for unlimited.' });
         }
 
+        // Detect subject from query so we pull the right past-paper corpus.
+        const SUBJECT_MAP = [
+            { key: 'Economics', terms: ['econom', 'gdp', 'inflation', 'supply', 'demand', 'market', 'fiscal', 'monetary', 'trade', 'tariff'] },
+            { key: 'Biology',   terms: ['bio', 'cell', 'dna', 'enzyme', 'evolution', 'genetics', 'photosynthesis', 'respiration', 'ecology'] },
+            { key: 'Chemistry', terms: ['chem', 'bond', 'reaction', 'acid', 'base', 'mole', 'oxidation', 'reduction', 'organic', 'titrat'] },
+            { key: 'Physics',   terms: ['physics', 'force', 'momentum', 'wave', 'electric', 'magnetic', 'nuclear', 'quantum', 'circuit', 'thermodynamic'] },
+        ];
+        const lc = message.toLowerCase();
+        const detectedSubject = SUBJECT_MAP.find(s => s.terms.some(t => lc.includes(t)))?.key || null;
+
         const ragChunks = await retrieveContext(message, {
-            subject: null,
+            subject: detectedSubject,
             maxChunks: 3,
+            isPro: true,   // public demo shows Pro-quality RAG — the selling point
         }).catch(() => []);
 
         const systemPrompt =

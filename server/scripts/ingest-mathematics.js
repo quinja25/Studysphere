@@ -28,8 +28,10 @@ const {
     chunkMarkScheme,
 } = require('./ingest-common');
 
+const path = require('path');
+
 const SUBJECT = 'Mathematics';
-const INPUT_DIR = process.env.INGEST_DIR || './past-papers/Mathematics';
+const INPUT_DIR = process.env.INGEST_DIR || path.join(__dirname, '../../past_papers/Mathematics Past Papers');
 
 const CLEANING_RULES = [
     // Remove "Formula booklet" references

@@ -89,7 +89,9 @@ function serializeEmbedding(floatArray) {
  */
 function deserializeEmbedding(buffer) {
     const buf = Buffer.isBuffer(buffer) ? buffer : Buffer.from(buffer);
-    return new Float32Array(buf.buffer, buf.byteOffset, buf.byteLength / 4);
+    // slice() produces a fresh, aligned ArrayBuffer — avoids Float32Array byteOffset alignment error
+    const ab = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
+    return new Float32Array(ab);
 }
 
 // ── Vector math ───────────────────────────────────────────────────────────────
@@ -377,9 +379,9 @@ async function findSimilar(queryEmbedding, options = {}) {
             } else {
                 if (e.userId !== null) continue;
             }
-            // subject filter (case-insensitive substring — matches "Mathematics" when subject="math")
-            if (options.subject && e.subject) {
-                if (!e.subject.toLowerCase().includes(options.subject.toLowerCase())) continue;
+            // subject filter — exclude entries with no subject or non-matching subject
+            if (options.subject) {
+                if (!e.subject || !e.subject.toLowerCase().includes(options.subject.toLowerCase())) continue;
             }
             if (options.excludeSourceTypes?.length && options.excludeSourceTypes.includes(e.sourceType)) continue;
             candidates.push({ entry: e, sim: _dot(queryVec, e.vec) });

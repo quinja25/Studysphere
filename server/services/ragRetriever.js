@@ -455,9 +455,11 @@ async function retrieveContext(query, options = {}) {
         await Promise.all([fulltextPromise, vectorPromise]);
 
     // Merge all FULLTEXT results into one ranked list.
-    // normalizeScore already accounts for quality signals within each list;
-    // cross-list fusion is handled by RRF below.
-    const fulltextAll = [...wikiResults, ...qaResults, ...postResults, ...resourceResults];
+    // When a subject is specified, wiki/qa/post/resource seed content is not subject-tagged
+    // and is almost always irrelevant — exclude it to prevent noise from dominating RRF.
+    const fulltextAll = options.subject
+        ? []
+        : [...wikiResults, ...qaResults, ...postResults, ...resourceResults];
     fulltextAll.sort((a, b) => b.score - a.score);
 
     // Consolidate vector results by document.
@@ -536,6 +538,15 @@ async function retrieveContext(query, options = {}) {
     if (options.userId) {
         for (const r of results) {
             if (r.source === 'document') r.rrfScore += 0.025;
+        }
+    }
+
+    // When a subject is scoped, boost global_document (past papers + textbooks) so they
+    // rank above any remaining generic content. Without this, vector-path wiki results
+    // can outscore curriculum content by 13x due to generic academic phrasing similarity.
+    if (options.subject) {
+        for (const r of results) {
+            if (r.source === 'global_document') r.rrfScore += 0.05;
         }
     }
 

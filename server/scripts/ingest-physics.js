@@ -25,8 +25,10 @@ const {
     chunkMarkScheme,
 } = require('./ingest-common');
 
+const path = require('path');
+
 const SUBJECT = 'Physics';
-const INPUT_DIR = process.env.INGEST_DIR || './past-papers/Physics';
+const INPUT_DIR = process.env.INGEST_DIR || path.join(__dirname, '../../past_papers/Physics Past Papers');
 
 const CLEANING_RULES = [
     // Remove "Data booklet" / "Physics data booklet" references
@@ -46,7 +48,7 @@ const STRUCTURED_PATTERNS = [
 ];
 
 function chunkPaper(cleanedText, title, paperNum) {
-    if (paperNum === 1) {
+    if (paperNum === '1' || paperNum === '1A') {
         return chunkMCQ(cleanedText, title, SUBJECT);
     }
     return chunkByQuestions(cleanedText, title, SUBJECT, {
@@ -69,9 +71,95 @@ function chunkMS(cleanedText, title) {
     });
 }
 
+/**
+ * Physics folders look like:
+ *   2024 Examination Session/
+ *     May 2024 Examination Session/
+ *       PDFs/
+ *         Experimental sciences/
+ *           Physics_paper_1_TZ1_HL.pdf
+ *
+ * Standard scanner expects: 2024/May 2024/Physics_paper_1_TZ1_HL.pdf
+ */
+function scanPhysicsPairs(inputDir, subject, parseFilename, yearFilter) {
+    const fs = require('fs');
+
+    if (!fs.existsSync(inputDir)) {
+        console.error(`Input directory not found: ${inputDir}`);
+        process.exit(1);
+    }
+
+    const pairs = [];
+
+    for (const yearEntry of fs.readdirSync(inputDir)) {
+        const yearMatch = yearEntry.match(/\b(\d{4})\b/);
+        if (!yearMatch) continue;
+        const year = yearMatch[1];
+        if (yearFilter && year !== yearFilter) continue;
+
+        const yearPath = path.join(inputDir, yearEntry);
+        if (!fs.statSync(yearPath).isDirectory()) continue;
+
+        for (const sessionEntry of fs.readdirSync(yearPath)) {
+            const sessionMatch = sessionEntry.match(/^(May|November)\s+\d{4}/i);
+            if (!sessionMatch) continue;
+
+            const sessionPath = path.join(yearPath, sessionEntry);
+            if (!fs.statSync(sessionPath).isDirectory()) continue;
+
+            // PDFs may be directly in sessionPath or nested under PDFs/Experimental sciences/
+            const candidates = [
+                sessionPath,
+                path.join(sessionPath, 'PDFs', 'Experimental sciences'),
+                path.join(sessionPath, 'PDFs'),
+            ];
+            const pdfDir = candidates.find(d => fs.existsSync(d) && fs.readdirSync(d).some(f => f.endsWith('.pdf')));
+            if (!pdfDir) continue;
+
+            const files = fs.readdirSync(pdfDir).filter(f => f.endsWith('.pdf'));
+            const groups = {};
+
+            for (const file of files) {
+                const parsed = parseFilename(file);
+                if (!parsed) {
+                    console.warn(`  [SKIP] ${year}/${sessionEntry}/${file}`);
+                    continue;
+                }
+                const key = `P${parsed.paper}_${parsed.tz || 'noTZ'}_${parsed.level}`;
+                if (!groups[key]) groups[key] = { parsed, question: null, markScheme: null };
+                if (parsed.isMarkScheme) {
+                    groups[key].markScheme = path.join(pdfDir, file);
+                } else {
+                    groups[key].question = path.join(pdfDir, file);
+                }
+            }
+
+            for (const group of Object.values(groups)) {
+                const sessionName = sessionMatch[1]; // "May" or "November"
+                const parts = [`IB ${subject}`, `Paper ${group.parsed.paper}`];
+                if (group.parsed.tz) parts.push(group.parsed.tz);
+                parts.push(group.parsed.level);
+                parts.push(`— ${sessionName} ${year}`);
+
+                pairs.push({
+                    year,
+                    session: sessionName,
+                    title: parts.join(' '),
+                    questionPath: group.question,
+                    markSchemePath: group.markScheme,
+                    parsed: group.parsed,
+                });
+            }
+        }
+    }
+
+    return pairs;
+}
+
 createIngester({
     subject: SUBJECT,
     inputDir: INPUT_DIR,
+    scanPairs: scanPhysicsPairs,
     chunkPaper,
     chunkMS,
     cleaningRules: CLEANING_RULES,

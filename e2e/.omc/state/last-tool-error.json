@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd C:\\\\Users\\\\jaeyo\\\\Projects\\\\StudySphere && node server/scripts/download-past-papers.js --subject Chemistry --year 2024 --dry-run 2>&1\",\"timeout\":60000,\"description\":\"Dry-run test for Ch...",
+  "error": "Exit code 1\n/usr/bin/bash: line 1: cd: C:UsersjaeyoProjectsStudySphere: No such file or directory",
+  "timestamp": "2026-05-11T13:41:39.146Z",
+  "retry_count": 1
+}

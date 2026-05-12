@@ -1,0 +1,167 @@
+{
+  "version": "1.0",
+  "subject": "Economics",
+  "description": "20 golden IB Economics query-answer pairs for RAG evaluation",
+  "pairs": [
+    {
+      "id": "micro_01",
+      "topic": "Elasticity",
+      "paper": "Paper 1", "level": "SL/HL", "command": "Explain",
+      "query": "Explain why the price elasticity of demand for cigarettes tends to be price inelastic, and discuss the implications for government tax policy.",
+      "relevantKeywords": ["price elasticity", "inelastic", "cigarette", "tax", "addictive"],
+      "expectedAnswer": "Cigarettes are addictive and have few substitutes, making demand price inelastic (PED < 1). A tax raises price without greatly reducing quantity demanded, generating large revenue. However, the tax is regressive — it falls harder on low-income consumers who smoke more as a share of income."
+    },
+    {
+      "id": "micro_02",
+      "topic": "Market Structures",
+      "paper": "Paper 1", "level": "HL", "command": "Evaluate",
+      "query": "Evaluate the view that firms in perfect competition are more efficient than firms operating as monopolies.",
+      "relevantKeywords": ["perfect competition", "monopoly", "allocative efficiency", "productive efficiency", "deadweight loss"],
+      "expectedAnswer": "Perfect competition achieves allocative efficiency (P=MC) and productive efficiency (min LRAC) in the long run. Monopoly sets P>MC causing deadweight loss and is productively inefficient. However, monopolies may exploit economies of scale and fund R&D — dynamic efficiency may offset static inefficiency."
+    },
+    {
+      "id": "micro_03",
+      "topic": "Externalities",
+      "paper": "Paper 1", "level": "SL/HL", "command": "Explain",
+      "query": "Using a diagram, explain how a negative externality of production leads to market failure and suggest two government policies to correct it.",
+      "relevantKeywords": ["negative externality", "market failure", "social cost", "overproduction", "tax", "regulation"],
+      "expectedAnswer": "A negative externality means MSC > MPC. The market produces Q_market > Q_optimal, generating a welfare loss. Corrective policies: (1) a Pigouvian tax equal to the externality shifts MPC up to MSC; (2) regulation caps output at Q_optimal."
+    },
+    {
+      "id": "micro_04",
+      "topic": "Market Failure",
+      "paper": "Paper 1", "level": "SL/HL", "command": "Discuss",
+      "query": "Discuss the strengths and limitations of using a maximum price (price ceiling) to make housing more affordable.",
+      "relevantKeywords": ["maximum price", "price ceiling", "shortage", "housing", "black market", "rent control"],
+      "expectedAnswer": "A price ceiling below equilibrium lowers rent for existing tenants (strength). Limitations: creates a shortage (Qd > Qs), reduces housing supply long-run, may lead to black markets, and benefits current tenants but not new entrants seeking housing."
+    },
+    {
+      "id": "micro_05",
+      "topic": "Oligopoly",
+      "paper": "Paper 1", "level": "HL", "command": "Explain",
+      "query": "Explain why firms in an oligopoly tend to engage in non-price competition rather than price competition.",
+      "relevantKeywords": ["oligopoly", "non-price competition", "price war", "interdependence", "kinked demand", "collusion"],
+      "expectedAnswer": "In oligopoly, strategic interdependence means a price cut is matched by rivals (kinked demand — elastic above, inelastic below equilibrium price). Price wars reduce all firms' profits. Non-price competition (advertising, quality, loyalty schemes) avoids this and may build brand loyalty more durably."
+    },
+    {
+      "id": "macro_01",
+      "topic": "Multiplier",
+      "paper": "Paper 1", "level": "SL/HL", "command": "Explain",
+      "query": "Using the Keynesian multiplier, explain how an initial increase in government spending of $500 million can lead to a larger increase in national income.",
+      "relevantKeywords": ["multiplier", "MPC", "government spending", "national income", "injection", "leakages"],
+      "expectedAnswer": "The multiplier = 1/(1-MPC). A $500m injection becomes income for others who spend a fraction (MPC), creating successive rounds of spending. Final increase in Y = 500m × multiplier. If MPC = 0.8, multiplier = 5, so Y rises by $2.5bn."
+    },
+    {
+      "id": "macro_02",
+      "topic": "Inflation",
+      "paper": "Paper 1", "level": "SL/HL", "command": "Evaluate",
+      "query": "Evaluate the use of higher interest rates as a policy to reduce demand-pull inflation.",
+      "relevantKeywords": ["interest rate", "inflation", "aggregate demand", "monetary policy", "demand-pull", "investment"],
+      "expectedAnswer": "Higher interest rates reduce borrowing, consumption, and investment — shifting AD left to reduce demand-pull inflation. Effective when inflation is demand-driven. Limitations: time lags (12–18 months), harms mortgage holders and business investment, may cause recession if overdone."
+    },
+    {
+      "id": "macro_03",
+      "topic": "Unemployment",
+      "paper": "Paper 1", "level": "SL/HL", "command": "Explain",
+      "query": "Explain the difference between cyclical unemployment and structural unemployment, and outline one appropriate policy response for each.",
+      "relevantKeywords": ["cyclical unemployment", "structural unemployment", "fiscal policy", "retraining", "aggregate demand"],
+      "expectedAnswer": "Cyclical unemployment arises from insufficient AD in a recession; policy: expansionary fiscal/monetary policy to boost AD. Structural unemployment results from a mismatch of skills (industry decline); policy: retraining programmes, education subsidies, or regional incentives."
+    },
+    {
+      "id": "macro_04",
+      "topic": "Fiscal Policy",
+      "paper": "Paper 1", "level": "SL/HL", "command": "Evaluate",
+      "query": "Evaluate the effectiveness of expansionary fiscal policy in achieving economic growth during a recession.",
+      "relevantKeywords": ["fiscal policy", "government spending", "multiplier", "crowding out", "budget deficit", "recession"],
+      "expectedAnswer": "Expansionary fiscal policy raises G or cuts T, boosting AD via the multiplier — effective in a recession with spare capacity. Limitations: crowding-out (higher borrowing raises interest rates), time lags, rising debt, and reduced effectiveness if MPC is low or import leakages are high."
+    },
+    {
+      "id": "macro_05",
+      "topic": "Economic Growth vs Development",
+      "paper": "Paper 1", "level": "SL/HL", "command": "Discuss",
+      "query": "Discuss the extent to which high rates of economic growth always lead to improvements in living standards.",
+      "relevantKeywords": ["economic growth", "living standards", "GDP", "inequality", "HDI", "environment"],
+      "expectedAnswer": "High GDP growth can raise incomes, employment, and public services — improving living standards. However, growth may worsen inequality (Kuznets curve), cause environmental degradation, generate inflationary pressures, or be concentrated in capital rather than labour, leaving poverty unchanged. HDI and Gini capture living standards better than GDP alone."
+    },
+    {
+      "id": "intl_01",
+      "topic": "Comparative Advantage",
+      "paper": "Paper 2", "level": "SL/HL", "command": "Explain",
+      "query": "Explain the theory of comparative advantage and discuss one limitation of using it to justify free trade.",
+      "relevantKeywords": ["comparative advantage", "opportunity cost", "specialisation", "free trade", "Ricardo"],
+      "expectedAnswer": "Comparative advantage: a country should specialise in goods with the lowest opportunity cost, even if another country is absolutely better at everything. Gains from trade follow. Limitation: assumes constant costs, ignores economies of scale, factor immobility, and does not account for infant industries or strategic sectors."
+    },
+    {
+      "id": "intl_02",
+      "topic": "Exchange Rates",
+      "paper": "Paper 2", "level": "SL/HL", "command": "Explain",
+      "query": "Using a demand and supply diagram, explain the likely effect of a rise in domestic interest rates on the exchange rate.",
+      "relevantKeywords": ["interest rate", "exchange rate", "hot money", "appreciation", "capital flows", "demand for currency"],
+      "expectedAnswer": "Higher domestic interest rates attract hot money inflows — foreign investors demand the domestic currency to buy assets. Demand for the currency shifts right, causing appreciation. A stronger currency makes exports more expensive and imports cheaper, potentially worsening the current account."
+    },
+    {
+      "id": "intl_03",
+      "topic": "Balance of Payments",
+      "paper": "Paper 2", "level": "HL", "command": "Evaluate",
+      "query": "Evaluate the methods a government might use to reduce a persistent current account deficit.",
+      "relevantKeywords": ["current account deficit", "depreciation", "expenditure switching", "protectionism", "deflation"],
+      "expectedAnswer": "Methods: (1) depreciation — makes exports cheaper and imports dearer (expenditure-switching), effectiveness depends on Marshall-Lerner condition; (2) deflation — reduces import demand; (3) supply-side policies — improve competitiveness long-run. Limitations: J-curve effect, retaliation, and reduced living standards from deflation."
+    },
+    {
+      "id": "intl_04",
+      "topic": "Trade Protection",
+      "paper": "Paper 2", "level": "SL/HL", "command": "Explain",
+      "query": "Using an international trade diagram, explain how a tariff on imported goods affects domestic consumers, domestic producers, and government revenue.",
+      "relevantKeywords": ["tariff", "consumer surplus", "producer surplus", "government revenue", "welfare loss", "imports"],
+      "expectedAnswer": "A tariff raises the domestic price above world price. Domestic producers gain (produce more at higher price). Consumers lose (pay more, buy less) — consumer surplus falls. Government gains tariff revenue. Net welfare loss = two triangles (deadweight loss). Imports fall."
+    },
+    {
+      "id": "intl_05",
+      "topic": "Free Trade vs Protectionism",
+      "paper": "Paper 1", "level": "HL", "command": "Evaluate",
+      "query": "Evaluate the case for and against a developing country using protectionist policies to promote industrialisation.",
+      "relevantKeywords": ["protectionism", "infant industry", "industrialisation", "developing country", "tariff", "comparative advantage"],
+      "expectedAnswer": "For: infant industry argument — protect nascent industries until they achieve scale and compete globally; strategic industries provide security. Against: retaliation risk, inefficiency, consumer cost, rent-seeking by protected firms, and difficulty of removing protection once established."
+    },
+    {
+      "id": "dev_01",
+      "topic": "Poverty",
+      "paper": "Paper 1", "level": "SL/HL", "command": "Explain",
+      "query": "Explain why a country may have a high GDP per capita but still have high levels of absolute poverty.",
+      "relevantKeywords": ["GDP per capita", "absolute poverty", "inequality", "distribution", "Gini", "HDI"],
+      "expectedAnswer": "GDP per capita is an average — high inequality means most income accrues to the wealthy while a large share of the population remains below the poverty line. A high Gini coefficient alongside high GDP per capita is common in countries like South Africa or Brazil. GDP also excludes non-market activity and informal economy."
+    },
+    {
+      "id": "dev_02",
+      "topic": "Development Indicators",
+      "paper": "Paper 2", "level": "SL/HL", "command": "Discuss",
+      "query": "Discuss the strengths and limitations of using GDP per capita as a measure of economic development compared to the Human Development Index (HDI).",
+      "relevantKeywords": ["GDP per capita", "HDI", "Human Development Index", "development", "health", "education"],
+      "expectedAnswer": "GDP per capita: easy to compare, captures income/output. Limitations: ignores distribution, non-market activity, environmental costs, and wellbeing. HDI adds health (life expectancy) and education (schooling years) alongside income — more comprehensive. But HDI still ignores inequality within countries; IHDI adjusts for this."
+    },
+    {
+      "id": "dev_03",
+      "topic": "Aid",
+      "paper": "Paper 1", "level": "SL/HL", "command": "Evaluate",
+      "query": "Evaluate the effectiveness of foreign aid as a strategy to promote economic development in low-income countries.",
+      "relevantKeywords": ["foreign aid", "economic development", "dependency", "tied aid", "infrastructure", "corruption"],
+      "expectedAnswer": "Aid can fund infrastructure, healthcare, education, and emergency relief — promoting development. Limitations: dependency culture, tied aid distorts recipient priorities, potential corruption and misallocation, and short-term relief can crowd out domestic producers. Trade and FDI may be more sustainable long-term."
+    },
+    {
+      "id": "dev_04",
+      "topic": "Poverty Cycle",
+      "paper": "Paper 1", "level": "SL/HL", "command": "Explain",
+      "query": "Using a poverty cycle diagram, explain how low income levels can trap a country in a cycle of poverty.",
+      "relevantKeywords": ["poverty cycle", "low income", "savings", "investment", "capital", "productivity"],
+      "expectedAnswer": "Low income → low savings → low investment → low capital accumulation → low productivity → low output → low income. The cycle is self-reinforcing. Breaking out requires an external injection: foreign aid, FDI, microfinance, or government investment in education/infrastructure."
+    },
+    {
+      "id": "dev_05",
+      "topic": "Microfinance",
+      "paper": "Paper 1", "level": "SL/HL", "command": "Evaluate",
+      "query": "Evaluate microfinance as a market-based strategy for reducing poverty and promoting economic development.",
+      "relevantKeywords": ["microfinance", "poverty", "credit", "entrepreneur", "Grameen", "interest rate"],
+      "expectedAnswer": "Microfinance provides small loans to entrepreneurs excluded from formal banking — enabling investment, business creation, and income generation (Grameen Bank model). Evaluation: empowers women, reduces poverty cycles. Limitations: high interest rates can trap borrowers in debt, limited scale, and does not address structural causes of poverty."
+    }
+  ]
+}

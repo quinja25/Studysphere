@@ -25,8 +25,10 @@ const {
     chunkMarkScheme,
 } = require('./ingest-common');
 
+const path = require('path');
+
 const SUBJECT = 'Biology';
-const INPUT_DIR = process.env.INGEST_DIR || './past-papers/Biology';
+const INPUT_DIR = process.env.INGEST_DIR || path.join(__dirname, '../../past_papers/Biology Past Papers');
 
 const CLEANING_RULES = [
     // Remove "Data booklet" references
@@ -46,7 +48,7 @@ const STRUCTURED_PATTERNS = [
 ];
 
 function chunkPaper(cleanedText, title, paperNum) {
-    if (paperNum === 1) {
+    if (paperNum === '1' || paperNum === '1A') {
         return chunkMCQ(cleanedText, title, SUBJECT);
     }
     return chunkByQuestions(cleanedText, title, SUBJECT, {

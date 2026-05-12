@@ -27,8 +27,10 @@ const {
     chunkMarkScheme,
 } = require('./ingest-common');
 
+const path = require('path');
+
 const SUBJECT = 'Chemistry';
-const INPUT_DIR = process.env.INGEST_DIR || './past-papers/Chemistry';
+const INPUT_DIR = process.env.INGEST_DIR || path.join(__dirname, '../../past_papers/Chemistry Past Papers');
 
 // Chemistry-specific cleaning rules (applied after IB-universal cleaning)
 const CLEANING_RULES = [
@@ -54,7 +56,8 @@ const MCQ_MS_PATTERNS = [
 ];
 
 function chunkPaper(cleanedText, title, paperNum) {
-    if (paperNum === 1) {
+    // '1' = old MCQ Paper 1; '1A' = new-syllabus MCQ; '1B' = new-syllabus structured data questions
+    if (paperNum === '1' || paperNum === '1A') {
         return chunkMCQ(cleanedText, title, SUBJECT);
     }
     return chunkByQuestions(cleanedText, title, SUBJECT, {

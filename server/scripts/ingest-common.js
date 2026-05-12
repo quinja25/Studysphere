@@ -14,6 +14,46 @@ const fs = require('fs');
 const path = require('path');
 const pdfParse = require('pdf-parse');
 
+// ── mupdf (ESM) — lazy import, cached ──────────────────────────
+let _mupdf = null;
+async function getMupdf() {
+    if (!_mupdf) {
+        const m = await import('mupdf');
+        _mupdf = m.default;
+    }
+    return _mupdf;
+}
+
+async function extractFigurePages(pdfBuffer, figuresDir, pageNums) {
+    const mupdf = await getMupdf();
+    fs.mkdirSync(figuresDir, { recursive: true });
+    const doc = mupdf.Document.openDocument(pdfBuffer, 'application/pdf');
+    const total = doc.countPages();
+    const rendered = [];
+    for (const pageNum of [...pageNums].sort((a, b) => a - b)) {
+        if (pageNum < 1 || pageNum > total) continue;
+        const page = doc.loadPage(pageNum - 1);
+        const pixmap = page.toPixmap([1.5, 0, 0, 1.5, 0, 0], mupdf.ColorSpace.DeviceRGB, false, true);
+        const filename = `page-${String(pageNum).padStart(3, '0')}.png`;
+        fs.writeFileSync(path.join(figuresDir, filename), pixmap.asPNG());
+        rendered.push(filename);
+    }
+    return rendered;
+}
+
+function pageNumsFromChunks(chunks) {
+    const nums = new Set();
+    for (const c of chunks) {
+        const m = c.match(/^Page: (\d+)$/m);
+        if (m) {
+            const n = parseInt(m[1]);
+            nums.add(n);
+            nums.add(n + 1); // also render the following page — figures often appear there
+        }
+    }
+    return nums;
+}
+
 // ── IB command terms (shared across all subjects) ───────────────
 
 const IB_COMMAND_TERMS = [
@@ -146,6 +186,8 @@ function chunkByQuestions(cleanedText, title, subject, config) {
     let currentLabel = null;
     let currentLines = [];
     let headerConsumed = !skipHeader;
+    let currentPage = 1;
+    let labelPage = 1;
 
     const isQuestionStart = (line) => {
         const t = line.trim();
@@ -158,6 +200,11 @@ function chunkByQuestions(cleanedText, title, subject, config) {
     });
 
     for (const line of lines) {
+        if (line.trim() === '[PAGE_BREAK]') {
+            currentPage++;
+            continue;
+        }
+
         if (!headerConsumed) {
             if (isTopLevelQuestion(line) || isQuestionStart(line)) {
                 headerConsumed = true;
@@ -169,17 +216,18 @@ function chunkByQuestions(cleanedText, title, subject, config) {
         if (isQuestionStart(line)) {
             const body = currentLines.join('\n').trim();
             if (body || currentLabel) {
-                questions.push({ label: currentLabel, body });
+                questions.push({ label: currentLabel, body, page: labelPage });
             }
             currentLabel = line.trim();
             currentLines = [];
+            labelPage = currentPage;
         } else {
             currentLines.push(line);
         }
     }
     const body = currentLines.join('\n').trim();
     if (body || currentLabel) {
-        questions.push({ label: currentLabel, body });
+        questions.push({ label: currentLabel, body, page: labelPage });
     }
 
     const chunks = [];
@@ -196,6 +244,7 @@ function chunkByQuestions(cleanedText, title, subject, config) {
             q.label ? `Question: ${q.label.slice(0, 120)}` : null,
             marks ? `[${marks} marks]` : null,
             commandTerm ? `Command Term: ${commandTerm}` : null,
+            q.page ? `Page: ${q.page}` : null,
         ].filter(Boolean).join('\n');
 
         if (fullText.length > maxChunkChars) {
@@ -227,42 +276,48 @@ function chunkMCQ(cleanedText, title, subject) {
     const questions = [];
     let currentLines = [];
     let currentNum = null;
+    let currentPage = 1;
+    let startPage = 1;
 
-    // MCQ pattern: line starts with a number followed by period/parenthesis
     const MCQ_START = /^(\d{1,2})\s*[.)]\s+/;
-    // Option pattern: A/B/C/D at start of line
     const OPTION = /^\s*[A-D]\s*[.)]\s+|^\s*[A-D]\.\s+/;
 
     for (const line of lines) {
+        if (line.trim() === '[PAGE_BREAK]') {
+            currentPage++;
+            continue;
+        }
         const match = line.trim().match(MCQ_START);
         if (match && !OPTION.test(line.trim())) {
             if (currentLines.length > 0) {
-                questions.push({ num: currentNum, text: currentLines.join('\n').trim() });
+                questions.push({ num: currentNum, text: currentLines.join('\n').trim(), page: startPage });
             }
             currentNum = match[1];
             currentLines = [line];
+            startPage = currentPage;
         } else {
             currentLines.push(line);
         }
     }
     if (currentLines.length > 0) {
-        questions.push({ num: currentNum, text: currentLines.join('\n').trim() });
+        questions.push({ num: currentNum, text: currentLines.join('\n').trim(), page: startPage });
     }
 
     const chunks = [];
-    // Group MCQs in batches of 5 to avoid too many tiny chunks
     const BATCH_SIZE = 5;
     for (let i = 0; i < questions.length; i += BATCH_SIZE) {
         const batch = questions.slice(i, i + BATCH_SIZE);
         const batchText = batch.map(q => q.text).join('\n\n');
         const firstNum = batch[0].num || '?';
         const lastNum = batch[batch.length - 1].num || '?';
+        const page = batch[0].page;
 
         const prefix = [
             `IB Past Paper: ${title}`,
             `Subject: ${subject}`,
             `Questions: ${firstNum}–${lastNum} (Multiple Choice)`,
-        ].join('\n');
+            page ? `Page: ${page}` : null,
+        ].filter(Boolean).join('\n');
 
         chunks.push(`${prefix}\n\n${batchText}`);
     }
@@ -363,7 +418,7 @@ function chunkMarkScheme(cleanedText, title, subject, config = {}) {
 function createFilenameParser(subject) {
     const subjectUpper = subject.replace(/\s+/g, '_');
     const pattern = new RegExp(
-        `^${subjectUpper}_paper_(\\d)_(?:(TZ\\d)_)?(HL|SL|HLSL)(?:_markscheme)?\\.pdf$`, 'i'
+        `^${subjectUpper}_paper_(\\d[AB]?)_(?:(TZ\\d)_)?(HL|SL|HLSL)(?:_markscheme)?\\.pdf$`, 'i'
     );
 
     return function parseFilename(filename) {
@@ -454,6 +509,7 @@ function createIngester(config) {
         curriculum = 'IB',
         inputDir,
         parseFilename: customParser,
+        scanPairs: customScanPairs,
         chunkPaper,
         chunkMS,
         cleaningRules = [],
@@ -461,12 +517,29 @@ function createIngester(config) {
     } = config;
 
     const parseFile = customParser || createFilenameParser(subject);
+    const doScan = (yearFilter) =>
+        customScanPairs
+            ? customScanPairs(inputDir, subject, parseFile, yearFilter)
+            : scanAndPair(inputDir, subject, parseFile, yearFilter);
 
     const args = process.argv.slice(2);
     const DRY_RUN = args.includes('--dry-run');
     const SKIP_EMBEDDINGS = args.includes('--skip-embeddings');
+    const SKIP_FIGURES = args.includes('--skip-figures');
     const PREVIEW = args.includes('--preview');
     const YEAR_FILTER = args.includes('--year') ? args[args.indexOf('--year') + 1] : null;
+
+    // pdf-parse by default concatenates all pages with no separator.
+    // This pagerender injects \f after each page so we can split by page later.
+    const pageRenderWithBreaks = async (pageData) => {
+        const tc = await pageData.getTextContent();
+        let text = '';
+        for (const item of tc.items) {
+            text += item.str;
+            if (item.hasEOL) text += '\n';
+        }
+        return text + '\f';
+    };
 
     async function processPair(p) {
         let allChunks = [];
@@ -476,11 +549,18 @@ function createIngester(config) {
         if (p.questionPath) {
             const buf = fs.readFileSync(p.questionPath);
             totalSize += buf.length;
-            const data = await pdfParse(buf);
+            const data = await pdfParse(buf, { pagerender: pageRenderWithBreaks });
             totalPages += data.numpages;
 
-            const cleaned = cleanPDFText(data.text, cleaningRules);
-            const chunks = chunkPaper(cleaned, p.title, parseInt(p.parsed.paper));
+            // Clean each page independently then join with PAGE_BREAK sentinels
+            // so chunkers can track which page each question starts on.
+            const cleanedWithBreaks = data.text
+                .split('\f')
+                .filter(pg => pg.trim())
+                .map(pg => cleanPDFText(pg, cleaningRules))
+                .join('\n[PAGE_BREAK]\n');
+
+            const chunks = chunkPaper(cleanedWithBreaks, p.title, p.parsed.paper);
             allChunks.push(...chunks);
         }
 
@@ -499,7 +579,7 @@ function createIngester(config) {
     }
 
     async function preview() {
-        const pairs = scanAndPair(inputDir, subject, parseFile, YEAR_FILTER);
+        const pairs = doScan(YEAR_FILTER);
         if (pairs.length === 0) {
             console.log('No papers found. Check INPUT_DIR and filename format.');
             return;
@@ -530,7 +610,7 @@ function createIngester(config) {
 
     async function ingest() {
         console.log(`Scanning ${subject} past papers...`);
-        const pairs = scanAndPair(inputDir, subject, parseFile, YEAR_FILTER);
+        const pairs = doScan(YEAR_FILTER);
 
         console.log(`Found ${pairs.length} paper groups to ingest.`);
         const paired = pairs.filter(p => p.questionPath && p.markSchemePath).length;
@@ -602,6 +682,16 @@ function createIngester(config) {
                     fs.mkdirSync(uploadsDir, { recursive: true });
                     const slug = p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
                     fs.copyFileSync(p.questionPath, path.join(uploadsDir, `${doc.id}-${slug}.pdf`));
+
+                    if (!SKIP_FIGURES) {
+                        const pageNums = pageNumsFromChunks(chunks);
+                        if (pageNums.size > 0) {
+                            const figuresDir = path.join(uploadsDir, 'figures', String(doc.id));
+                            const buf = fs.readFileSync(p.questionPath);
+                            const rendered = await extractFigurePages(buf, figuresDir, pageNums);
+                            console.log(`  → ${rendered.length} figure pages rendered`);
+                        }
+                    }
                 }
 
                 if (!SKIP_EMBEDDINGS) {
